@@ -15,11 +15,4 @@ are welcome to, but they will confidently give you R that runs and is wrong, so
 you need to be able to check them.
 
 You can find the source files for this website and the lecture materials in
-GitHub
-[here](https://github.com/H-Mateus/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology).
-
-::: {.callout-note}
-The repository is still named for the module's previous incarnation, `MET581 -
-Computing for Bioinformatics and Genetic Epidemiology`. The material is the
-same; only the module has been restructured.
-:::
+GitHub [here](https://github.com/H-Mateus/Data-for-Life-Sciences-in-R).

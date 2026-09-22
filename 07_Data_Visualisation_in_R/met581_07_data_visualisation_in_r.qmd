@@ -20,7 +20,7 @@ affiliations:
 format: 
   revealjs:
     logo: /./10_resources/00_images/combined_logos.png
-    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/)"
+    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     margin: 0.05
@@ -805,7 +805,7 @@ ggstatsplot::ggscatterstats(mtcars, x = hp, y = qsec)
 
 -   If you want to go further, there is an **optional** section on the course
     website — [Working with AI assistants →
-    *wiring an assistant into your R session*](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/00_llm_use/using_ai_assistants.html)
+    *wiring an assistant into your R session*](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/00_llm_use/using_ai_assistants.html)
     — covering `btw` and `mcptools`, which let an assistant see your **real** data
     instead of guessing at it.
 
@@ -834,7 +834,7 @@ ggstatsplot::ggscatterstats(mtcars, x = hp, y = qsec)
 
 ## That's all folks! {.center}
 
--   These slides can be found on the website [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/):
+-   These slides can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
 
 ![](/./10_resources/00_images/website_qrcode.svg){fig-align="center"}
 

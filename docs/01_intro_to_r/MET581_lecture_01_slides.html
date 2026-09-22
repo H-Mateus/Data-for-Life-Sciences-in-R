@@ -879,12 +879,12 @@ Make your own Vector like the one below.</p>
 <span id="cb58-2"><a aria-label="2"></a>numbers <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">size =</span> <span class="dv">10</span>)</span>
 <span id="cb58-3"><a aria-label="3"></a><span class="fu">print</span>(numbers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 28 91 66 74 94 23 76 59 40 67</code></pre>
+<pre><code> [1] 35 11 43 27 54 32 76 45 57 87</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-label="1"></a><span class="co"># How many values are below 50?</span></span>
 <span id="cb60-2"><a aria-label="2"></a>numbers <span class="sc">&lt;</span> <span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE</code></pre>
+<pre><code> [1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -894,7 +894,7 @@ Make your own Vector like the one below.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-label="1"></a><span class="fu">sum</span>(numbers <span class="sc">&lt;</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>[1] 6</code></pre>
 </div>
 </div>
 </div>
@@ -1113,11 +1113,16 @@ function (x)  .Primitive("sin")
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a aria-label="1"></a>here<span class="sc">::</span><span class="fu">here</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a aria-label="1"></a><span class="co"># here() finds the project root, then builds paths down from it,</span></span>
+<span id="cb86-2"><a aria-label="2"></a><span class="co"># so this resolves correctly on any machine, from any working directory</span></span>
+<span id="cb86-3"><a aria-label="3"></a>fs<span class="sc">::</span><span class="fu">path_rel</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"pheno.txt"</span>), here<span class="sc">::</span><span class="fu">here</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "/Users/mpmgb/workspace/github.com/H-Mateus/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology"</code></pre>
+<pre><code>data/pheno.txt</code></pre>
 </div>
 </div>
+<ul>
+<li>Run <code>here::here()</code> on its own in the console and you will see the <em>full</em> absolute path for <strong>your</strong> machine — which is exactly the thing you should never hard-code into a script</li>
+</ul>
 </div>
 </section>
 <section id="importing-data" class="slide level2">
@@ -1181,7 +1186,7 @@ function (x)  .Primitive("sin")
 <li>Cheatsheets for various packages and RStudio itself (by developers of RStudio)</li>
 </ul></li>
 <li><p>Free online book <a href="https://r4ds.hadley.nz/">R for Data Science</a></p></li>
-<li><p>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/">here</a>:</p></li>
+<li><p>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a>:</p></li>
 </ul>
 
 
@@ -1191,7 +1196,7 @@ function (x)  .Primitive("sin")
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="../10_resources/00_images/combined_logos.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p>Data for Life Sciences 1 - Slides and code available <a href="https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/">here</a></p>
+<p>Data for Life Sciences 1 - Slides and code available <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a></p>
 </div>
 </div></div>
 

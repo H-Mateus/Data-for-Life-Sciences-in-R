@@ -20,7 +20,7 @@ affiliations:
 format:
   revealjs:
     logo: /./10_resources/00_images/combined_logos.png
-    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/)"
+    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     margin: 0.05
@@ -572,13 +572,13 @@ cat("Number of flips to get 3 heads in a row: ", numFlips)
 
 ## Workshop time! {.center}
 
--   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/):
+-   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
 
 ```{r}
 #| eval: false
 #| include: false
-qr <- qrcode::qr_code("https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/")
-qrcode::generate_svg(qr, here::here("images/website_qrcode.svg"))
+qr <- qrcode::qr_code("https://h-mateus.github.io/Data-for-Life-Sciences-in-R/")
+qrcode::generate_svg(qr, here::here("10_resources/00_images/website_qrcode.svg"))
 ```
 
 ![](/./10_resources/00_images/website_qrcode.svg){fig-align="center"}

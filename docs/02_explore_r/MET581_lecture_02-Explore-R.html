@@ -295,11 +295,11 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 <div class="cell-output cell-output-stdout">
 <pre><code>  height weight ages
 1     58    115   24
-2     59    117   78
-3     60    120   40
-4     61    123   29
-5     62    126   55
-6     63    129   40</code></pre>
+2     59    117   54
+3     60    120   71
+4     61    123   70
+5     62    126   76
+6     63    129   71</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -313,13 +313,13 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a><span class="fu">sum</span>(women<span class="sc">$</span>ages)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 674</code></pre>
+<pre><code>[1] 871</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a><span class="co"># A more elegant way to apply a function to all columns!</span></span>
 <span id="cb19-2"><a aria-label="2"></a><span class="fu">sapply</span>(women, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        height         weight           ages 
- 65.0000000000 136.7333333333  44.9333333333 </code></pre>
+ 65.0000000000 136.7333333333  58.0666666667 </code></pre>
 </div>
 </div>
 </section>
@@ -853,7 +853,7 @@ R4 13 14 15 16</code></pre>
 <section id="readr-exercises" class="slide level2">
 <h2>Readr exercises</h2>
 <ol type="1">
-<li>Use the base R function <code>read.table()</code> to import the <a href="https://github.com/H-Mateus/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/blob/main/data/pheno.txt">pheno.txt</a> file. Then repeat this with <code>read_tsv()</code> from Readr, what is the difference?</li>
+<li>Use the base R function <code>read.table()</code> to import the <a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno.txt">pheno.txt</a> file. Then repeat this with <code>read_tsv()</code> from Readr, what is the difference?</li>
 </ol>
 <p>You may notice that <code>read_csv</code> automatically assumes your first row is your column headers, you may wish to alter this behaviour is your file comes with a header of information on the top row.</p>
 <ol start="2" type="1">
@@ -935,7 +935,7 @@ R4 13 14 15 16</code></pre>
 <ul>
 <li>Chapter 21-25 (importing data)</li>
 </ul></li>
-<li>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/">here</a>:</li>
+<li>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a>:</li>
 </ul>
 
 
@@ -945,7 +945,7 @@ R4 13 14 15 16</code></pre>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="../10_resources/00_images/combined_logos.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p>Data for Life Sciences 1 - Slides and code available <a href="https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/">here</a></p>
+<p>Data for Life Sciences 1 - Slides and code available <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a></p>
 </div>
 </div></div>
 

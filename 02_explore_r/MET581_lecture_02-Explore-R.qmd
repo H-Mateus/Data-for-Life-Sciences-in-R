@@ -22,7 +22,7 @@ affiliations:
 format:
   revealjs:
     logo: /10_resources/00_images/combined_logos.png
-    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/)"
+    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     margin: 0.05
@@ -518,7 +518,7 @@ df[, "xyz"]
 
 ## Readr exercises
 
-1.    Use the base R function `read.table()` to import the [pheno.txt](https://github.com/H-Mateus/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/blob/main/data/pheno.txt) file. Then repeat this with `read_tsv()` from Readr, what is the difference? 
+1.    Use the base R function `read.table()` to import the [pheno.txt](https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno.txt) file. Then repeat this with `read_tsv()` from Readr, what is the difference? 
 
 You may notice that `read_csv` automatically assumes your first row is your column headers, you may wish to alter this behaviour is your file comes with a header of information on the top row.
 
@@ -588,7 +588,7 @@ my_data <- read_rds("results/cleaned_pheno.rds")
 -   Advanced reading:
     -   Chapter 21-25 (importing data)
 
--   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/):
+-   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
 
 ![](/10_resources/00_images/website_qrcode.svg){fig-align="center"}
 

@@ -6,8 +6,16 @@ Harrington on a Cardiff University bioinformatics MSc. Quarto website, source
 
 ## Module context (important — the course was redesigned for 2026/27)
 
-The repo is named for the **old** module, `MET581 - Computing for Bioinformatics
-and Genetic Epidemiology`, in which this material filled **9 lectures**.
+This material previously filled **9 lectures** of `MET581 - Computing for
+Bioinformatics and Genetic Epidemiology`. That module's final state is preserved
+on the `met581-final` branch and the `met581-final-2025` tag.
+
+The repository is named **`Data-for-Life-Sciences-in-R`** — deliberately *not* after
+the module code. The code is the least stable part of the module's identity (it
+has already changed once, MET581 → MET993, which is what forced the rename), and
+this repo holds only 6 of the module's 14 sessions, so naming it after the whole
+module would misrepresent it. The code lives in `README.md`, the site title and
+the deck footers, all of which are cheap to update.
 
 The new module code is **`MET993`** (confirmed 2026-09; the module description
 PDF's `METXX1` placeholder is superseded).
@@ -273,17 +281,24 @@ Resolved:
 - ~~Homework answers for 03/04/05 source-less~~ — the real `.qmd` sources were
   recovered from the Dropbox copy (no reconstruction from HTML needed) and are
   now linked in the sidebar.
-- ~~Site title/footers say `MET581`~~ — titles and footers now say **Data Science
-  for Life Sciences I**. Lecture 03's footer also had a lower-cased site URL,
-  which was a dead link (github.io paths are case-sensitive).
+- ~~Site title/footers say `MET581`~~ — titles and footers now say **Data for Life
+  Sciences 1**. Lecture 03's footer also had a lower-cased site URL, which was a
+  dead link. **GitHub Pages URLs are case-sensitive** — `github.com` redirects a
+  mis-cased repo path, but `h-mateus.github.io/data-for-life-sciences-in-r/`
+  returns 404 while `.../Data-for-Life-Sciences-in-R/` returns 200. Match the
+  repository's capitalisation exactly in every link.
 - ~~"avilable" typo~~ — fixed in all five footers.
 
 Outstanding:
 
-- The **repo name, repo URL and published site URL still say `MET581`**. Renaming
-  the repository would break every existing link, including the QR code baked
-  into the slides, so this was left deliberately. `README.md` and `index.qmd` both
-  carry a note explaining the mismatch.
+- ~~Repo name, repo URL and site URL say `MET581`~~ — renamed to
+  `Data-for-Life-Sciences-in-R`. The QR code in `10_resources/00_images/` was
+  regenerated for the new URL; it is smaller now (536 modules, down from 691),
+  which scans more reliably from the back of a room. The generator snippet in
+  lecture 06 also had a latent bug — it wrote to `images/website_qrcode.svg`,
+  which does not exist, rather than `10_resources/00_images/` — now fixed. **If
+  you ever change the URL again, regenerate the QR**: nothing checks it, and a
+  stale QR fails silently and embarrassingly, in front of a room.
 - Directory names and `.qmd` **filenames** still use the old `MET581`/lecture-NN
   scheme. Only the rendered titles were changed. Renaming files would churn
   `docs/`, `_freeze/` and every sidebar href for no student-visible gain.

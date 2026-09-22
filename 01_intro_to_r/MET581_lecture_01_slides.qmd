@@ -22,7 +22,7 @@ affiliations:
 format:
   revealjs:
     logo: /10_resources/00_images/combined_logos.png
-    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/)"
+    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
     slide-number: true
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
@@ -654,8 +654,12 @@ setwd("C:/path/to/directory")
     -   It helps figure out the project root based on the presence of a `.Rproj` file and/or a `.git` directory
 
 ```{r}
-here::here()
+# here() finds the project root, then builds paths down from it,
+# so this resolves correctly on any machine, from any working directory
+fs::path_rel(here::here("data", "pheno.txt"), here::here())
 ```
+
+-   Run `here::here()` on its own in the console and you will see the *full* absolute path for **your** machine — which is exactly the thing you should never hard-code into a script
 
 ## Importing Data
 
@@ -715,7 +719,7 @@ write.table(df, here::here("03_data/mydata.tsv"), sep = "\t")
     -   Cheatsheets for various packages and RStudio itself (by developers of RStudio)
 -   Free online book [R for Data Science](https://r4ds.hadley.nz/)
 
--   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/MET581---Computing-for-Bioinformatics-and-Genetic-Epidemiology/):
+-   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
 
 ![](/10_resources/00_images/website_qrcode.svg){fig-align="center"}
 
