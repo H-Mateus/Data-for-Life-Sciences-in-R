@@ -625,18 +625,18 @@ Missing values: 573</code></pre>
 <span id="cb32-2"><a aria-label="2"></a><span class="fu">map_dbl</span>(df, mean) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.59 0.67 0.53 0.62 </code></pre>
+0.53 0.44 0.56 0.47 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(df, sd) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.28 0.36 0.31 0.30 </code></pre>
+0.37 0.39 0.35 0.29 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a><span class="co"># And here's the native R sapply equivalent</span></span>
 <span id="cb36-2"><a aria-label="2"></a><span class="fu">sapply</span>(df, mean) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.59 0.67 0.53 0.62 </code></pre>
+0.53 0.44 0.56 0.47 </code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -647,7 +647,7 @@ Missing values: 573</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(df, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.59 0.67 0.53 0.62 </code></pre>
+0.53 0.44 0.56 0.47 </code></pre>
 </div>
 </div>
 </div>
@@ -753,9 +753,9 @@ Missing values: 573</code></pre>
 <span id="cb49-6"><a aria-label="6"></a>  <span class="fu">str</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num [1:5] 4.45 5.35 2.89 3.55 6.69
- $ : num [1:5] 8.83 2.74 10.46 15.69 9.74
- $ : num [1:5] -0.959 10.33 -4.303 -2.2 12.169</code></pre>
+ $ : num [1:5] 4.62 3.42 3.09 6.4 4.49
+ $ : num [1:5] 7.74 13.34 13.46 3.47 8.5
+ $ : num [1:5] -19.46 -5.87 6.28 10.01 -1.15</code></pre>
 </div>
 </div>
 </section>
@@ -782,9 +782,9 @@ Missing values: 573</code></pre>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num 5.77
- $ : num [1:3] 18.36 11.71 0.63
- $ : num [1:5] -14.9 -3.74 10.9 19.44 -20.96</code></pre>
+ $ : num 3.22
+ $ : num [1:3] 8.44 9.84 6.67
+ $ : num [1:5] 7.55 -5.78 3.9 14.9 -4.45</code></pre>
 </div>
 </div></div>
 <ul>
@@ -798,9 +798,9 @@ Missing values: 573</code></pre>
 <span id="cb53-5"><a aria-label="5"></a>  <span class="fu">str</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num [1:5] -0.665 0.366 0.243 -0.488 -0.892
- $ : num [1:5] -9.076 0.75 -1.002 -6.347 -0.936
- $ : int [1:5] 10 6 11 14 8</code></pre>
+ $ : num [1:5] 0.941 -0.156 -0.574 0.645 -0.475
+ $ : num [1:5] 7.47 -5.99 -7.46 2.01 -5.79
+ $ : int [1:5] 9 7 9 9 9</code></pre>
 </div>
 </div>
 </section>
@@ -863,9 +863,9 @@ Missing values: 573</code></pre>
 <span id="cb58-13"><a aria-label="13"></a>  <span class="fu">select</span>(model, am, mpg) <span class="sc">|&gt;</span></span>
 <span id="cb58-14"><a aria-label="14"></a>  <span class="fu">pwalk</span>(<span class="at">.l =</span> _, <span class="at">.f =</span> foo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The Hornet Sportabout has a auto transmission and gets 18.7 mpgs."
-[1] "The Pontiac Firebird has a auto transmission and gets 19.2 mpgs."
-[1] "The Toyota Corolla has a manual transmission and gets 33.9 mpgs."</code></pre>
+<pre><code>[1] "The Fiat 128 has a manual transmission and gets 32.4 mpgs."
+[1] "The AMC Javelin has a auto transmission and gets 15.2 mpgs."
+[1] "The Fiat X1-9 has a manual transmission and gets 27.3 mpgs."</code></pre>
 </div>
 </div>
 </section>
@@ -893,7 +893,7 @@ Missing values: 573</code></pre>
 <span id="cb60-14"><a aria-label="14"></a><span class="fu">cat</span>(<span class="st">"Number of flips to get 3 heads in a row: "</span>, numFlips)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of flips to get 3 heads in a row:  13</code></pre>
+<pre><code>Number of flips to get 3 heads in a row:  12</code></pre>
 </div>
 </div></div>
 <ul>
@@ -1093,7 +1093,7 @@ Missing values: 573</code></pre>
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1050,
+        width: 1244,
 
         height: 700,
 

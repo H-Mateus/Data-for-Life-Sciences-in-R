@@ -361,6 +361,32 @@ by eye: Cardiff red `#CE0439`, DRI navy `#001F8F`, DRI cyan `#59FFFF`.
   generated Google Fonts `@import` URL. Hence Inter + Fira Code.
 - Brand palette colours are available to `styles.scss` as Sass variables named
   `$brand-<palette-name>`, e.g. `$brand-dri-navy-bright`.
+
+### Slide geometry, and the right order of levers for overflow
+
+- **The canvas is `width: 1244, height: 700` — 16:9 — on every deck.** Quarto's
+  revealjs default is 1050×700, which is **3:2**. On a 16:9 projector or laptop
+  that canvas is scaled to fit the *height*, so it uses only **84% of the width**
+  and leaves empty bars either side. Widening to 16:9 gains ~19% more horizontal
+  room at **exactly the same rendered text size** — both canvas and screen are
+  then 16:9, so the scale factor is unchanged. This is the first lever to reach
+  for, and it fixed the lecture 01 overflows on its own.
+- **`margin` is not a lever for overflow.** It controls how much of the *screen*
+  is left empty around the canvas, not how much room exists *inside* it, so
+  reducing it makes slides bigger on screen without fitting more on them. It is
+  `0.05`, down from reveal's `0.1`.
+- **Font size is the last lever, not the first.**
+  `$presentation-font-size-root` in `styles.scss` is `30px`, reduced from 32px
+  when Inter replaced the reveal dark theme's Source Sans Pro. Prefer the 16:9
+  canvas, then `{.smaller}` on the individual offending slide, before shrinking
+  every deck again.
+- To check a specific slide for overflow, extract it into a throwaway deck with
+  the source deck's YAML and screenshot it — reveal's `#/N` hash navigation
+  clamps to the last horizontal slide, so it cannot reliably address a slide
+  mid-deck. Do **not** name the throwaway file with a leading underscore: Quarto
+  excludes `_`-prefixed files from the project, so `_brand.yml` never applies and
+  `styles.scss` fails to compile on the undefined `$brand-*` variables.
+
 - A document-level `theme:` **array** cannot merge with the project-level
   `theme: {light: …, dark: …}` **object** — Quarto flattens them and then tries to
   read the object as a file path, failing the whole render with
