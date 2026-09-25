@@ -9,6 +9,8 @@ project:
     - "!*.rmd"
     # Retired material from the old MET581 module - see archive/README.md
     - "!archive/"
+    # Assessment papers and marking schemes - must never reach the public site
+    - "!11_marking/"
 
 website:
   title: "Data for Life Sciences 1"
