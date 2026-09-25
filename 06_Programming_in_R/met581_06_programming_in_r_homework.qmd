@@ -1,0 +1,84 @@
+---
+title: "Programming in R Homework"
+author:
+  - "Matthew Bracher-Smith"
+  - "Gabriel Mateus Bernardo Harrington"
+date: "2026-10-13"
+format:
+  html:
+    number-sections: true
+    highlight: tango
+editor: source
+execute:
+  echo: true
+---
+
+This document contains all questions for **Programming in R**. Please create a Quarto document containing all text, code and output used to answer the questions.
+
+## Reading functions
+
+1. Which of the arguments of `myFunction` are mandatory, and which are optional?
+
+```{r}
+#| eval: false
+myFunction <- function(x, y, verbose = FALSE){
+  result <- x ** y
+  if (verbose){
+    print(result)
+  }
+  return(result)
+}
+```
+
+2. What will be the output of the previous function if we type `myFunction(2, 3, TRUE)`? Try to answer without running the code, then check.
+
+## Writing functions
+
+3. Write `any_na()`, a function that takes two vectors of the same length and returns the number of positions that have an `NA` in at least one of the vectors.
+
+    * 3a. Add a check so the function stops with a clear message if the two vectors are *not* the same length. Use `stopifnot()`.
+
+4. Write `complementary()`, a function that takes a DNA strand of variable length and returns its complementary strand.
+
+5. Write a function that transcribes and translates a DNA strand into its corresponding protein sequence. You can assume the length of the input DNA strand is a multiple of 3.
+
+## Writing a cleaning function
+
+The module cohort has a column `obesity` which *should* be a simple yes/no, but is not:
+
+```{r}
+#| eval: false
+library(tidyverse)
+
+base_url <- "https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/"
+baseline <- read_csv(paste0(base_url, "bioinformatics_msc_stats_baseline.csv"))
+
+baseline |> count(obesity)
+```
+
+6. Write `clean_yes_no()`, a function that takes a character vector and returns a logical vector, treating any capitalisation of `"yes"`/`"y"` as `TRUE` and any capitalisation of `"no"`/`"n"` as `FALSE`.
+
+    * 6a. Make it **fail loudly** on anything it does not recognise, rather than silently returning `NA`. Why is that the safer default here?
+    * 6b. Use it on `obesity` and check the resulting prevalence. Does it match the 33.8% quoted in the dataset's README?
+    * 6c. `type2_diabetes` is also stored as text. Does your function work on it unchanged? What does that tell you about writing functions rather than one-off fixes?
+
+7. Write `check_range()`, a function that takes a numeric vector plus a minimum and maximum, and returns the positions of any values outside that range.
+
+    * 7a. Use it on `imd_quintile`, which the codebook says must be 1 to 5. What do you find?
+    * 7b. Use it on `systolic_bp_mmHg` with a plausible physiological range. What do you find, and what do you think happened to those values?
+
+::: {.callout-tip}
+Questions 6 and 7 are the beginning of a reproducible cleaning pipeline — the thing the 50% report is marked on. A function you can point at any column beats a fix you typed once and cannot re-run.
+:::
+
+**Suggested Reading**
+
+- [R for Data Science 2e](https://r4ds.hadley.nz/functions), chapter 25 — Functions
+- [Advanced R](https://adv-r.hadley.nz/functions.html), chapter 6, for what is happening underneath
+- `?stopifnot`, `?match.arg`, `?switch`
+
+::: {.callout-note}
+Factors and `forcats` used to be examined here. They are now [reference
+material](../10_resources/02_reference/factors_with_forcats.qmd), with practice
+questions on that page.
+:::

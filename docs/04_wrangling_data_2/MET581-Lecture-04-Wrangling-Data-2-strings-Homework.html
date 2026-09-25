@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Matthew Bracher-Smith">
-<meta name="dcterms.date" content="2024-10-18">
+<meta name="author" content="Gabriel Mateus Bernardo Harrington">
+<meta name="dcterms.date" content="2026-10-12">
 
-<title>Wrangling Data 2 Homework – Data for Life Sciences 1</title>
+<title>Data Wrangling in R II Homework – Data for Life Sciences 1</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +28,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -436,12 +472,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Lecture notes</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -469,6 +499,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../10_resources/01_workshop_answers/met581_programming_in_r_workshop_answers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workshop answers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06_Programming_in_R/met581_06_programming_in_r_homework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework</span></a>
   </div>
 </li>
       </ul>
@@ -564,8 +600,17 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">1</span> The data</a></li>
+  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins"><span class="header-section-number">2</span> Joins</a></li>
+  <li><a href="#reshaping" id="toc-reshaping" class="nav-link" data-scroll-target="#reshaping"><span class="header-section-number">3</span> Reshaping</a></li>
+  <li><a href="#applying-a-function-across-columns" id="toc-applying-a-function-across-columns" class="nav-link" data-scroll-target="#applying-a-function-across-columns"><span class="header-section-number">4</span> Applying a function across columns</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -573,7 +618,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.html">Wrangling Data 2: tidying, strings and joins</a></li><li class="breadcrumb-item"><a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html">Homework</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Wrangling Data 2 Homework</h1>
+<h1 class="title">Data Wrangling in R II Homework</h1>
 </div>
 
 
@@ -581,16 +626,17 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
              <p>Matthew Bracher-Smith </p>
+             <p>Gabriel Mateus Bernardo Harrington </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 18, 2024</p>
+      <p class="date">October 12, 2026</p>
     </div>
   </div>
   
@@ -602,28 +648,92 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This document contains all questions for lessson 4. Please create a Quarto document containing all text, code and output used to answer the questions.</p>
+<p>This document contains all questions for <strong>Data Wrangling in R II</strong>. Please create a Quarto document containing all text, code and output used to answer the questions.</p>
+<section id="the-data" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">1</span> The data</h2>
+<p>We will use the module cohort — a simulated study of 2,400 older adults, in three linked tables. You can read them straight from the web:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>base_url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>baseline  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(base_url, <span class="st">"bioinformatics_msc_stats_baseline.csv"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>visits    <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(base_url, <span class="st">"bioinformatics_msc_stats_visits.csv"</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mortality <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">paste0</span>(base_url, <span class="st">"bioinformatics_msc_stats_mortality_comorbidity.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>All three share a <code>participant_id</code> column. <code>visits</code> has one row per participant per visit, at 0, 12, 24, 36, 48 and 60 months.</p>
+</section>
+<section id="joins" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="joins"><span class="header-section-number">2</span> Joins</h2>
 <ol type="1">
-<li><p>Explain how escapes work in R with respect to regular expressions</p></li>
 <li><p>List and describe the tidyverse commands used to join two datasets together. What two key arguments can you use to prevent mistakes in your joins?</p></li>
-<li><p>Load the nycflights13 package and join the datasets flights and airlines together, selecting only the columns: <code>year</code>, <code>month</code>, <code>day</code>, <code>hour</code>, <code>origin</code>, <code>tailnum</code> and <code>carrier</code> from flights. Can you do the same but using the <code>mutate()</code> function instead?</p></li>
-<li><p>In the starwars dataset and in one command, add two new columns:</p></li>
-</ol>
+<li><p>Join <code>baseline</code> to <code>mortality</code> by <code>participant_id</code>.</p>
 <ul>
-<li>one column that converts the <code>name</code> column to lower case</li>
-<li>one column that converts the <code>eye_colour</code> to uppercase</li>
+<li>2a. How many columns did each table have, and how many does the result have? It is <em>not</em> the sum — explain the difference.</li>
+<li>2b. How many columns in the result end in <code>.x</code> or <code>.y</code>? What causes that, and what would you do about it?</li>
+</ul></li>
+<li><p><strong>Predict before you run.</strong> Join <code>baseline</code> to only the visit-2 rows of <code>visits</code>, by <code>participant_id</code>:</p>
+<ul>
+<li>3a. How many rows does <code>baseline</code> have? How many do you <em>expect</em> after the join?</li>
+<li>3b. Run it. How many rows do you actually get?</li>
+<li>3c. Find the participants responsible. What is wrong with those rows?</li>
+<li>3d. Re-run the join with <code>relationship = "one-to-one"</code>. What happens? Why is this a better failure than the one in 3b?</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Question 3 is the single most important thing in this homework. A join that silently changes your row count will quietly bias every mean, count and model you calculate afterwards, and nothing will warn you. Get into the habit of checking <code>nrow()</code> before and after <strong>every</strong> join.</p>
+</div>
+</div>
+</section>
+<section id="reshaping" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="reshaping"><span class="header-section-number">3</span> Reshaping</h2>
+<ol start="4" type="1">
+<li>Reshape the weight measurements so there is one row per participant and one column per visit:</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>visits <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(participant_id, visit_number, weight_kg) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> visit_number, <span class="at">values_from =</span> weight_kg, <span class="at">names_prefix =</span> <span class="st">"visit_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>4a. Run it. R gives you a warning and the columns are not the type you would expect. What type are they, and what is the warning telling you?</li>
+<li>4b. What is the underlying cause? Compare your answer with question 3 — <strong>the same two rows are responsible for both</strong>.</li>
+<li>4c. Why is this failure easier to catch than the one in question 3?</li>
+<li>4d. Fix the input so that <code>pivot_wider()</code> produces ordinary numeric columns, and say what you decided to do about the offending rows and why.</li>
 </ul>
 <ol start="5" type="1">
-<li>Download the gene annotation file from the NCBI found <a href="https://cf-my.sharepoint.com/:u:/g/personal/smithmr5_cardiff_ac_uk/Ed6jtKhhKgRGq5R-IoQHTAYBLgO6FC_aJ6u7mydY1mpc_A?e=siJJ4A">here</a></li>
+<li>Take your fixed wide table from 4d and use <code>pivot_longer()</code> to put it back into long format, dropping missing values. How many rows do you get, and why is it fewer than 2,400 × 6?</li>
 </ol>
-<p><strong>unzip the file and load in <code>NCBI37.3.gene.loc</code> into R</strong></p>
+</section>
+<section id="applying-a-function-across-columns" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="applying-a-function-across-columns"><span class="header-section-number">4</span> Applying a function across columns</h2>
+<ol start="6" type="1">
+<li><p>Using <code>baseline</code>:</p>
 <ul>
-<li>5a. add the column headers: <code>Entrez_Gene_ID</code>, <code>CHR</code>, <code>BP_START</code>, <code>BP_END</code>, <code>STRAND</code>, <code>GENE_NAME</code></li>
-<li>5b. How many Genes are on the positive strand?</li>
-<li>5c. How many Genes begin and end with a letter?</li>
+<li>6a. Use <code>across()</code> inside <code>summarise()</code> to get the mean <code>bmi_kg_m2</code> and <code>systolic_bp_mmHg</code> in one command, ignoring missing values.</li>
+<li>6b. Extend it to report both the mean and the median for each.</li>
+<li>6c. Group by <code>imd_quintile</code> first, and add a count of participants per group. Does anything about the groups look wrong to you?</li>
+</ul></li>
+</ol>
+<p><strong>Suggested Reading</strong></p>
+<ul>
+<li><a href="https://r4ds.hadley.nz/">R for Data Science 2e</a>, chapters 5 (data tidying) and 19 (joins)</li>
+<li>The docs for <a href="https://tidyr.tidyverse.org/">tidyr</a> and <a href="https://dplyr.tidyverse.org/">dplyr</a></li>
+<li><a href="https://tidyr.tidyverse.org/articles/pivot.html"><code>vignette("pivot", package = "tidyr")</code></a></li>
+<li>Strings and regular expressions are no longer taught in a session, but there is a <a href="../10_resources/02_reference/strings_and_regex.html">reference page</a> with worked examples and practice if you need them.</li>
 </ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1044,4 +1154,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Matthew Bracher-Smith">
-<meta name="dcterms.date" content="2024-10-18">
+<meta name="author" content="Gabriel Mateus Bernardo Harrington">
+<meta name="dcterms.date" content="2026-10-12">
 
-<title>Wrangling Data 2 Homework Answers – Data for Life Sciences 1</title>
+<title>Data Wrangling in R II Homework Answers – Data for Life Sciences 1</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -326,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Wrangling Data 2 Homework Answers</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Data Wrangling in R II Homework Answers</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -471,12 +472,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Lecture notes</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -504,6 +499,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../10_resources/01_workshop_answers/met581_programming_in_r_workshop_answers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workshop answers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06_Programming_in_R/met581_06_programming_in_r_homework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework</span></a>
   </div>
 </li>
       </ul>
@@ -604,10 +605,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#explain-how-escapes-work-in-r." id="toc-explain-how-escapes-work-in-r." class="nav-link active" data-scroll-target="#explain-how-escapes-work-in-r."><span class="header-section-number">1</span> 1. Explain how escapes work in R.</a></li>
-  <li><a href="#list-and-describe-the-tidyverse-commands-used-to-join-two-datasets-together." id="toc-list-and-describe-the-tidyverse-commands-used-to-join-two-datasets-together." class="nav-link" data-scroll-target="#list-and-describe-the-tidyverse-commands-used-to-join-two-datasets-together."><span class="header-section-number">2</span> 2. List and describe the tidyverse commands used to join two datasets together.</a></li>
-  <li><a href="#load-the-nycflights13-package-and-join-the-datasets-flights-and-airlines-together-selecting-only-the-columns-year-month-day-hour-origin-tailnum-and-carrier-from-flights.-can-you-do-the-same-but-using-the-mutate-function-instead" id="toc-load-the-nycflights13-package-and-join-the-datasets-flights-and-airlines-together-selecting-only-the-columns-year-month-day-hour-origin-tailnum-and-carrier-from-flights.-can-you-do-the-same-but-using-the-mutate-function-instead" class="nav-link" data-scroll-target="#load-the-nycflights13-package-and-join-the-datasets-flights-and-airlines-together-selecting-only-the-columns-year-month-day-hour-origin-tailnum-and-carrier-from-flights.-can-you-do-the-same-but-using-the-mutate-function-instead"><span class="header-section-number">3</span> 3. Load the nycflights13 package and join the datasets flights and airlines together, selecting only the columns: <code>year</code>, <code>month</code>, <code>day</code>, <code>hour</code>, <code>origin</code>, <code>tailnum</code> and <code>carrier</code> from flights. Can you do the same but using the mutate() function instead?</a></li>
-  <li><a href="#in-the-starwars-dataset-and-in-one-command-add-two-new-columns" id="toc-in-the-starwars-dataset-and-in-one-command-add-two-new-columns" class="nav-link" data-scroll-target="#in-the-starwars-dataset-and-in-one-command-add-two-new-columns"><span class="header-section-number">4</span> 4. In the starwars dataset and in one command, add two new columns:</a></li>
+  <li><a href="#the-join-commands-and-the-two-protective-arguments" id="toc-the-join-commands-and-the-two-protective-arguments" class="nav-link active" data-scroll-target="#the-join-commands-and-the-two-protective-arguments"><span class="header-section-number">1</span> 1. The join commands, and the two protective arguments</a></li>
+  <li><a href="#joining-baseline-to-mortality" id="toc-joining-baseline-to-mortality" class="nav-link" data-scroll-target="#joining-baseline-to-mortality"><span class="header-section-number">2</span> 2. Joining baseline to mortality</a>
+  <ul class="collapse">
+  <li><a href="#a." id="toc-a." class="nav-link" data-scroll-target="#a."><span class="header-section-number">2.1</span> 2a.</a></li>
+  <li><a href="#b." id="toc-b." class="nav-link" data-scroll-target="#b."><span class="header-section-number">2.2</span> 2b.</a></li>
+  </ul></li>
+  <li><a href="#the-join-that-changes-your-row-count" id="toc-the-join-that-changes-your-row-count" class="nav-link" data-scroll-target="#the-join-that-changes-your-row-count"><span class="header-section-number">3</span> 3. The join that changes your row count</a>
+  <ul class="collapse">
+  <li><a href="#a-and-3b." id="toc-a-and-3b." class="nav-link" data-scroll-target="#a-and-3b."><span class="header-section-number">3.1</span> 3a and 3b.</a></li>
+  <li><a href="#c." id="toc-c." class="nav-link" data-scroll-target="#c."><span class="header-section-number">3.2</span> 3c.</a></li>
+  <li><a href="#d." id="toc-d." class="nav-link" data-scroll-target="#d."><span class="header-section-number">3.3</span> 3d.</a></li>
+  </ul></li>
+  <li><a href="#reshaping-the-weights" id="toc-reshaping-the-weights" class="nav-link" data-scroll-target="#reshaping-the-weights"><span class="header-section-number">4</span> 4. Reshaping the weights</a>
+  <ul class="collapse">
+  <li><a href="#a.-1" id="toc-a.-1" class="nav-link" data-scroll-target="#a.-1"><span class="header-section-number">4.1</span> 4a.</a></li>
+  <li><a href="#b.-1" id="toc-b.-1" class="nav-link" data-scroll-target="#b.-1"><span class="header-section-number">4.2</span> 4b.</a></li>
+  <li><a href="#c.-1" id="toc-c.-1" class="nav-link" data-scroll-target="#c.-1"><span class="header-section-number">4.3</span> 4c.</a></li>
+  <li><a href="#d.-1" id="toc-d.-1" class="nav-link" data-scroll-target="#d.-1"><span class="header-section-number">4.4</span> 4d.</a></li>
+  </ul></li>
+  <li><a href="#back-to-long-format" id="toc-back-to-long-format" class="nav-link" data-scroll-target="#back-to-long-format"><span class="header-section-number">5</span> 5. Back to long format</a></li>
+  <li><a href="#across" id="toc-across" class="nav-link" data-scroll-target="#across"><span class="header-section-number">6</span> 6. <code>across()</code></a>
+  <ul class="collapse">
+  <li><a href="#a.-2" id="toc-a.-2" class="nav-link" data-scroll-target="#a.-2"><span class="header-section-number">6.1</span> 6a.</a></li>
+  <li><a href="#b.-2" id="toc-b.-2" class="nav-link" data-scroll-target="#b.-2"><span class="header-section-number">6.2</span> 6b.</a></li>
+  <li><a href="#c.-2" id="toc-c.-2" class="nav-link" data-scroll-target="#c.-2"><span class="header-section-number">6.3</span> 6c.</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework-Answers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -617,7 +640,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Wrangling Data 2 Homework Answers</h1>
+<h1 class="title">Data Wrangling in R II Homework Answers</h1>
 </div>
 
 
@@ -625,16 +648,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
              <p>Matthew Bracher-Smith </p>
+             <p>Gabriel Mateus Bernardo Harrington </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 18, 2024</p>
+      <p class="date">October 12, 2026</p>
     </div>
   </div>
   
@@ -646,116 +670,263 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This document contains all questions for lesson 4. Please create a quarto document containing all text, code and output used to answer the questions.</p>
-<section id="explain-how-escapes-work-in-r." class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="explain-how-escapes-work-in-r."><span class="header-section-number">1</span> 1. Explain how escapes work in R.</h2>
-<p>Anything along the lines of:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>base_path <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Simulated_data"</span>, <span class="st">"generated_uk"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>baseline  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(base_path, <span class="st">"bioinformatics_msc_stats_baseline.csv"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>visits    <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(base_path, <span class="st">"bioinformatics_msc_stats_visits.csv"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mortality <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(base_path, <span class="st">"bioinformatics_msc_stats_mortality_comorbidity.csv"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="the-join-commands-and-the-two-protective-arguments" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="the-join-commands-and-the-two-protective-arguments"><span class="header-section-number">1</span> 1. The join commands, and the two protective arguments</h2>
+<p>The mutating joins all take the form <code>*_join(x, y, by = ...)</code>:</p>
 <ul>
-<li>you need to escape the string and the regex within R function. Students may also have written along the lines of ‘You need to use <code>\\</code> for each escape because of the use of special characters (eg a backslash itself <code>\</code>)’.</li>
+<li><code>left_join()</code> — keeps every row of <code>x</code>, fills with <code>NA</code> where <code>y</code> has no match. The default choice.</li>
+<li><code>inner_join()</code> — keeps only rows present in both.</li>
+<li><code>right_join()</code> — keeps every row of <code>y</code>.</li>
+<li><code>full_join()</code> — keeps every row of both.</li>
+</ul>
+<p>The filtering joins do not add columns, they only subset <code>x</code>:</p>
+<ul>
+<li><code>semi_join()</code> — keeps rows of <code>x</code> that <em>have</em> a match in <code>y</code>.</li>
+<li><code>anti_join()</code> — keeps rows of <code>x</code> with <em>no</em> match. Excellent for finding what is missing.</li>
+</ul>
+<p>The two arguments that prevent mistakes:</p>
+<ul>
+<li><strong><code>by</code></strong> — always state the key explicitly. A natural join on every shared column name is rarely what you want, and it changes silently when someone adds a column.</li>
+<li><strong><code>relationship</code></strong> — declare what you expect (<code>"one-to-one"</code>, <code>"many-to-one"</code>, and so on). dplyr then errors if the data disagrees, instead of quietly producing extra rows.</li>
 </ul>
 </section>
-<section id="list-and-describe-the-tidyverse-commands-used-to-join-two-datasets-together." class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="list-and-describe-the-tidyverse-commands-used-to-join-two-datasets-together."><span class="header-section-number">2</span> 2. List and describe the tidyverse commands used to join two datasets together.</h2>
-<p>left_join :</p>
-<ul>
-<li>All rows from dataset1</li>
-<li>All columns from dataset1 and dataset2</li>
-<li>If a row exists only in dataset1, data is retained.</li>
-<li>If a row exists only in dataset2, data is not retained.</li>
-</ul>
-<p>right_join:</p>
-<ul>
-<li>all rows from dataset2</li>
-<li>all columns from dataset1 and dataset2</li>
-<li>If a row exists only in dataset1, data is not retained.</li>
-<li>If a row exists only in dataset2, data is retained.</li>
-</ul>
-<p>inner_join:</p>
-<ul>
-<li>Only rows that exist in dataset1 and dataset2</li>
-</ul>
-<p>full_join:</p>
-<ul>
-<li>All rows in dataset1 and dataset2</li>
-<li>Joining with missing or duplicate keys</li>
-<li>If data is missing from one dataset but is in the other, depending on the type of join you are performing, this can result in missing data (NA values).</li>
-</ul>
-<p>semi_join(x, y):</p>
-<ul>
-<li>keeps all observations in x that have a match in y</li>
-</ul>
-<p>anti_join(x, y):</p>
-<ul>
-<li>drops all observations in x that have a match in y</li>
-</ul>
-</section>
-<section id="load-the-nycflights13-package-and-join-the-datasets-flights-and-airlines-together-selecting-only-the-columns-year-month-day-hour-origin-tailnum-and-carrier-from-flights.-can-you-do-the-same-but-using-the-mutate-function-instead" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="load-the-nycflights13-package-and-join-the-datasets-flights-and-airlines-together-selecting-only-the-columns-year-month-day-hour-origin-tailnum-and-carrier-from-flights.-can-you-do-the-same-but-using-the-mutate-function-instead"><span class="header-section-number">3</span> 3. Load the nycflights13 package and join the datasets flights and airlines together, selecting only the columns: <code>year</code>, <code>month</code>, <code>day</code>, <code>hour</code>, <code>origin</code>, <code>tailnum</code> and <code>carrier</code> from flights. Can you do the same but using the mutate() function instead?</h2>
+<section id="joining-baseline-to-mortality" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="joining-baseline-to-mortality"><span class="header-section-number">2</span> 2. Joining baseline to mortality</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># one example:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day, hour, origin, tailnum, carrier) <span class="sc">%&gt;%</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># part 2</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>flights3 <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day, hour, origin, tailnum, carrier) <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> airlines<span class="sc">$</span>name[<span class="fu">match</span>(carrier, airlines<span class="sc">$</span>carrier)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(baseline, mortality, <span class="at">by =</span> <span class="st">"participant_id"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">baseline =</span> <span class="fu">ncol</span>(baseline), <span class="at">mortality =</span> <span class="fu">ncol</span>(mortality), <span class="at">joined =</span> <span class="fu">ncol</span>(joined))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> baseline mortality    joined 
+       73        22        94 </code></pre>
+</div>
+</div>
+<section id="a." class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="a."><span class="header-section-number">2.1</span> 2a.</h3>
+<p>73 + 22 would be 95, but the result has 94. The key <code>participant_id</code> appears once rather than twice, so we lose one column.</p>
+</section>
+<section id="b." class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="b."><span class="header-section-number">2.2</span> 2b.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.x$|</span><span class="sc">\\</span><span class="st">.y$"</span>, <span class="fu">names</span>(joined)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+</div>
+<p>The two tables share 20 column names besides the key — <code>age_years</code>, <code>sex_at_birth</code>, <code>frailty_category</code> and so on. dplyr cannot have two columns with the same name, so it suffixes both copies.</p>
+<p>What to do about it: <code>select()</code> only the columns you actually need from the second table before joining. Carrying 20 duplicated columns around is how you end up analysing <code>age_years.y</code> by accident.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tidy_join <span class="ot">&lt;-</span> baseline <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(mortality, participant_id, died_during_followup, age_at_death),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"participant_id"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(tidy_join)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 75</code></pre>
+</div>
 </div>
 </section>
-<section id="in-the-starwars-dataset-and-in-one-command-add-two-new-columns" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="in-the-starwars-dataset-and-in-one-command-add-two-new-columns"><span class="header-section-number">4</span> 4. In the starwars dataset and in one command, add two new columns:</h2>
-<ul>
-<li>one column that converts the <code>name</code> column to lower case</li>
-<li>one column that converts the <code>eye_colour</code> to uppercase</li>
-</ul>
+</section>
+<section id="the-join-that-changes-your-row-count" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="the-join-that-changes-your-row-count"><span class="header-section-number">3</span> 3. The join that changes your row count</h2>
+<section id="a-and-3b." class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="a-and-3b."><span class="header-section-number">3.1</span> 3a and 3b.</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># one example:</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>starwars_mutated <span class="ot">&lt;-</span> starwars <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name_lower =</span> <span class="fu">str_to_lower</span>(name),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">eye_color_upper =</span> <span class="fu">str_to_upper</span>(eye_color))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>visit2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(visits, visit_number <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>joined_v2 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(baseline, visit2, <span class="at">by =</span> <span class="st">"participant_id"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">before =</span> <span class="fu">nrow</span>(baseline), <span class="at">after =</span> <span class="fu">nrow</span>(joined_v2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>before  after 
+  2400   2402 </code></pre>
 </div>
-<ol start="5" type="1">
-<li>Download the gene annotation file from the NCBI found <a href="https://cf-my.sharepoint.com/:u:/g/personal/smithmr5_cardiff_ac_uk/Ed6jtKhhKgRGq5R-IoQHTAYBLgO6FC_aJ6u7mydY1mpc_A?e=siJJ4A">here</a></li>
-</ol>
-<p><strong>unzip the file and load in <code>NCBI37.3.gene.loc</code> into R</strong></p>
-<ul>
-<li>add the column headers: <code>Entrez_Gene_ID</code>, <code>CHR</code>, <code>BP_START</code>, <code>BP_END</code>, <code>STRAND</code>, <code>GENE_NAME</code></li>
-<li>How many Genes are on the positive strand?</li>
-<li>How many Genes begin and end with a letter?</li>
-</ul>
+</div>
+<p>You would expect 2,400 — one row per participant. You get <strong>2,402</strong>.</p>
+</section>
+<section id="c." class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="c."><span class="header-section-number">3.2</span> 3c.</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using readr to read the file</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># note that we haven't correctly handled chromosomes, which needs to be specified in col_types</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_tsv</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/NCBI37.3/NCBI37.3.gene.loc"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"Entrez_Gene_ID"</span>, <span class="st">"CHR"</span>, <span class="st">"BP_START"</span> ,<span class="st">"BP_END"</span>, <span class="st">"STRAND"</span>, <span class="st">"GENE_NAME"</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># using data.table to read the file</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"./data/NCBI37.3/NCBI37.3.gene.loc"</span>,<span class="at">header=</span> F)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(test,<span class="fu">c</span>(<span class="st">"Entrez_Gene_ID"</span>, <span class="st">"CHR"</span>, <span class="st">"BP_START"</span> ,<span class="st">"BP_END"</span>, <span class="st">"STRAND"</span>, <span class="st">"GENE_NAME"</span> ))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(test)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># How many Genes are on the positive strand? 9819</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_count</span>(<span class="at">string =</span> test<span class="sc">$</span>STRAND, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">+"</span>))</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># or with pipes</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>test <span class="sc">%&gt;%</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(STRAND) <span class="sc">%&gt;%</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  stringr<span class="sc">::</span><span class="fu">str_count</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">+"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>()</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># How many genes begin and end with a letter?: 5016</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">str_count</span>(<span class="at">string =</span> test<span class="sc">$</span>GENE_NAME, <span class="at">pattern =</span> <span class="st">"^[a-zA-Z].*[a-zA-Z]$"</span>))</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># or with pipes again</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>test <span class="sc">%&gt;%</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(GENE_NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  stringr<span class="sc">::</span><span class="fu">str_count</span>(<span class="at">pattern =</span> <span class="st">"^[a-zA-Z].*[a-zA-Z]$"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>visit2 <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(participant_id) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  participant_id     n
+  &lt;chr&gt;          &lt;int&gt;
+1 BIO00010           2
+2 BIO00018           2</code></pre>
 </div>
+</div>
+<p>Two participants have their visit-2 record entered <strong>twice</strong>. They are exact duplicates:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dupes <span class="ot">&lt;-</span> visits <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(participant_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BIO00010"</span>, <span class="st">"BIO00018"</span>), visit_number <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(dupes), <span class="at">distinct_rows =</span> <span class="fu">nrow</span>(<span class="fu">distinct</span>(dupes)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         rows distinct_rows 
+            4             2 </code></pre>
+</div>
+</div>
+<p>Each of those two participants therefore matches two rows in <code>visit2</code>, and <code>left_join()</code> duly returns both.</p>
+</section>
+<section id="d." class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="d."><span class="header-section-number">3.3</span> 3d.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(baseline, visit2, <span class="at">by =</span> <span class="st">"participant_id"</span>, <span class="at">relationship =</span> <span class="st">"one-to-one"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `left_join()`:
+! Each row in `x` must match at most 1 row in `y`.
+ℹ Row 10 of `x` matches multiple rows in `y`.</code></pre>
+</div>
+</div>
+<p>It errors immediately and names the offending row. This is a better failure because it happens <strong>at the join</strong>, where the cause is obvious, rather than surfacing three steps later as a mean that is slightly wrong in a way nobody can explain. Two extra rows in 2,400 will not look wrong in any summary you produce.</p>
+</section>
+</section>
+<section id="reshaping-the-weights" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="reshaping-the-weights"><span class="header-section-number">4</span> 4. Reshaping the weights</h2>
+<section id="a.-1" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="a.-1"><span class="header-section-number">4.1</span> 4a.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>wide_bad <span class="ot">&lt;-</span> visits <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(participant_id, visit_number, weight_kg) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> visit_number, <span class="at">values_from =</span> weight_kg, <span class="at">names_prefix =</span> <span class="st">"visit_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Values from `weight_kg` are not uniquely identified; output will contain
+list-cols.
+• Use `values_fn = list` to suppress this warning.
+• Use `values_fn = {summary_fun}` to summarise duplicates.
+• Use the following dplyr code to identify duplicates.
+  {data} |&gt;
+  dplyr::summarise(n = dplyr::n(), .by = c(participant_id, visit_number)) |&gt;
+  dplyr::filter(n &gt; 1L)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wide_bad<span class="sc">$</span>visit_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "list"</code></pre>
+</div>
+</div>
+<p>The columns are <strong>list-columns</strong>, not numeric, and <code>pivot_wider()</code> warns that values are “not uniquely identified”.</p>
+</section>
+<section id="b.-1" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="b.-1"><span class="header-section-number">4.2</span> 4b.</h3>
+<p>The same two duplicated rows from question 3. <code>pivot_wider()</code> expects one value per participant per visit; for <code>BIO00010</code> and <code>BIO00018</code> at visit 2 it finds two, and rather than guess it wraps every cell in a list.</p>
+</section>
+<section id="c.-1" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="c.-1"><span class="header-section-number">4.3</span> 4c.</h3>
+<p>Because it is <strong>loud</strong>. <code>pivot_wider()</code> warns and hands back an obviously wrong data type, so you find out within seconds. <code>left_join()</code> said nothing at all. The same data problem, discovered immediately in one case and potentially never in the other — which is the whole argument for checking row counts yourself rather than relying on the function to tell you.</p>
+</section>
+<section id="d.-1" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="d.-1"><span class="header-section-number">4.4</span> 4d.</h3>
+<p>Since the duplicates are exact, <code>distinct()</code> is a defensible fix — we are removing a double-entered record, not choosing between two conflicting measurements:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>wide <span class="ot">&lt;-</span> visits <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(participant_id, visit_number, weight_kg) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> visit_number, <span class="at">values_from =</span> weight_kg, <span class="at">names_prefix =</span> <span class="st">"visit_"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(wide), <span class="at">cols =</span> <span class="fu">ncol</span>(wide))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>rows cols 
+2400    7 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wide<span class="sc">$</span>visit_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<p>Had the two rows <em>disagreed</em> on weight, <code>distinct()</code> would not have helped and the right answer would have been to go back to the source and ask which is correct. Record whichever you did, and why.</p>
+</section>
+</section>
+<section id="back-to-long-format" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="back-to-long-format"><span class="header-section-number">5</span> 5. Back to long format</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> wide <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>participant_id,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"visit"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"weight_kg"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_drop_na =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(long), <span class="at">if_complete =</span> <span class="dv">2400</span> <span class="sc">*</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       rows if_complete 
+      10730       14400 </code></pre>
+</div>
+</div>
+<p>10,730 rather than 14,400, because the study has attrition: participants miss visits, withdraw, or die, so most people do not have all six measurements. <code>values_drop_na = TRUE</code> discards those empty cells.</p>
+</section>
+<section id="across" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="across"><span class="header-section-number">6</span> 6. <code>across()</code></h2>
+<section id="a.-2" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="a.-2"><span class="header-section-number">6.1</span> 6a.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg), <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  bmi_kg_m2 systolic_bp_mmHg
+      &lt;dbl&gt;            &lt;dbl&gt;
+1      28.3             140.</code></pre>
+</div>
+</div>
+</section>
+<section id="b.-2" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="b.-2"><span class="header-section-number">6.2</span> 6b.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  bmi_kg_m2_mean bmi_kg_m2_median systolic_bp_mmHg_mean systolic_bp_mmHg_median
+           &lt;dbl&gt;            &lt;dbl&gt;                 &lt;dbl&gt;                   &lt;dbl&gt;
+1           28.3             28.1                  140.                     139</code></pre>
+</div>
+</div>
+</section>
+<section id="c.-2" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="c.-2"><span class="header-section-number">6.3</span> 6c.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(imd_quintile) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg), <span class="sc">~</span> <span class="fu">round</span>(<span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>)),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  imd_quintile bmi_kg_m2 systolic_bp_mmHg     n
+         &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt; &lt;int&gt;
+1            1      27.4             140.   460
+2            2      28.1             138.   486
+3            3      28.2             142.   476
+4            4      28.8             140.   492
+5            5      28.9             141.   485
+6            9      25.3             129      1</code></pre>
+</div>
+</div>
+<p>There are <strong>six</strong> groups, not five. IMD quintiles run 1 to 5, so the single participant coded <code>9</code> is an invalid value — most likely a data entry error or a missing-value code that was never translated.</p>
+<p>Grouping is a good way to find these: an unexpected group with a tiny <code>n</code> almost always means a coding problem rather than a real subgroup. Note also that a group of one gives you a “mean” with no spread at all, which will look perfectly reasonable in a summary table.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

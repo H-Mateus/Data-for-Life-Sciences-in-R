@@ -286,6 +286,40 @@ diamonds |>
   geom_line(alpha = 0.6)
 ```
 
+## Going further
+
+These came from the old assessed homework for this topic. They are no longer
+marked, but they are the questions worth being able to answer.
+
+**Using `gss_cat`**
+
+- When does `fct_lump()` stop adding levels into "other"?
+- Summarise whether the number of TV hours per day differs by political party.
+- Repeat it, but first collapse all the "other party" levels into one with
+  `fct_collapse()`, and reorder by average TV hours with `fct_reorder()`.
+
+**Ordered factors and regression baselines**
+
+```{r}
+#| eval: false
+exercise <- factor(
+  c("None", "Some", "A lot", "All"),
+  levels = c("None", "Some", "A lot", "All")
+)
+```
+
+- Check the coding R would use in a regression with `contrasts()`. Which level is
+  the baseline?
+- If you had created that factor *without* specifying `levels`, what order would
+  they be in, and why?
+- Reorder the levels to run from "None" to "All" in increasing amount.
+
+::: {.callout-tip appearance="simple"}
+The baseline level matters: in a regression every other level is reported
+*relative* to it, so an alphabetical baseline you did not choose makes the output
+much harder to interpret.
+:::
+
 ## Further reading
 
 - [R for Data Science 2e, chapter 17 — Factors](https://r4ds.hadley.nz/factors)

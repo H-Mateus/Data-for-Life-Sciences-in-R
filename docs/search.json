@@ -91,6 +91,18 @@
     ]
   },
   {
+    "objectID": "10_resources/02_reference/factors_with_forcats.html#going-further",
+    "href": "10_resources/02_reference/factors_with_forcats.html#going-further",
+    "title": "Factors with forcats",
+    "section": "Going further",
+    "text": "Going further\nThese came from the old assessed homework for this topic. They are no longer marked, but they are the questions worth being able to answer.\nUsing gss_cat\n\nWhen does fct_lump() stop adding levels into “other”?\nSummarise whether the number of TV hours per day differs by political party.\nRepeat it, but first collapse all the “other party” levels into one with fct_collapse(), and reorder by average TV hours with fct_reorder().\n\nOrdered factors and regression baselines\n\nexercise &lt;- factor(\n  c(\"None\", \"Some\", \"A lot\", \"All\"),\n  levels = c(\"None\", \"Some\", \"A lot\", \"All\")\n)\n\n\nCheck the coding R would use in a regression with contrasts(). Which level is the baseline?\nIf you had created that factor without specifying levels, what order would they be in, and why?\nReorder the levels to run from “None” to “All” in increasing amount.\n\n\n\n\n\n\n\nThe baseline level matters: in a regression every other level is reported relative to it, so an alphabetical baseline you did not choose makes the output much harder to interpret.",
+    "crumbs": [
+      "Home",
+      "Reference",
+      "Factors with forcats"
+    ]
+  },
+  {
     "objectID": "10_resources/02_reference/factors_with_forcats.html#further-reading",
     "href": "10_resources/02_reference/factors_with_forcats.html#further-reading",
     "title": "Factors with forcats",
@@ -4269,9 +4281,57 @@
   {
     "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html",
     "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html",
-    "title": "Wrangling Data 2 Homework",
+    "title": "Data Wrangling in R II Homework",
     "section": "",
-    "text": "This document contains all questions for lessson 4. Please create a Quarto document containing all text, code and output used to answer the questions.\n\nExplain how escapes work in R with respect to regular expressions\nList and describe the tidyverse commands used to join two datasets together. What two key arguments can you use to prevent mistakes in your joins?\nLoad the nycflights13 package and join the datasets flights and airlines together, selecting only the columns: year, month, day, hour, origin, tailnum and carrier from flights. Can you do the same but using the mutate() function instead?\nIn the starwars dataset and in one command, add two new columns:\n\n\none column that converts the name column to lower case\none column that converts the eye_colour to uppercase\n\n\nDownload the gene annotation file from the NCBI found here\n\nunzip the file and load in NCBI37.3.gene.loc into R\n\n5a. add the column headers: Entrez_Gene_ID, CHR, BP_START, BP_END, STRAND, GENE_NAME\n5b. How many Genes are on the positive strand?\n5c. How many Genes begin and end with a letter?",
+    "text": "This document contains all questions for Data Wrangling in R II. Please create a Quarto document containing all text, code and output used to answer the questions.",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 2: tidying, strings and joins",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#the-data",
+    "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#the-data",
+    "title": "Data Wrangling in R II Homework",
+    "section": "1 The data",
+    "text": "1 The data\nWe will use the module cohort — a simulated study of 2,400 older adults, in three linked tables. You can read them straight from the web:\n\nlibrary(tidyverse)\n\nbase_url &lt;- \"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/\"\n\nbaseline  &lt;- read_csv(paste0(base_url, \"bioinformatics_msc_stats_baseline.csv\"))\nvisits    &lt;- read_csv(paste0(base_url, \"bioinformatics_msc_stats_visits.csv\"))\nmortality &lt;- read_csv(paste0(base_url, \"bioinformatics_msc_stats_mortality_comorbidity.csv\"))\n\nAll three share a participant_id column. visits has one row per participant per visit, at 0, 12, 24, 36, 48 and 60 months.",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 2: tidying, strings and joins",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#joins",
+    "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#joins",
+    "title": "Data Wrangling in R II Homework",
+    "section": "2 Joins",
+    "text": "2 Joins\n\nList and describe the tidyverse commands used to join two datasets together. What two key arguments can you use to prevent mistakes in your joins?\nJoin baseline to mortality by participant_id.\n\n2a. How many columns did each table have, and how many does the result have? It is not the sum — explain the difference.\n2b. How many columns in the result end in .x or .y? What causes that, and what would you do about it?\n\nPredict before you run. Join baseline to only the visit-2 rows of visits, by participant_id:\n\n3a. How many rows does baseline have? How many do you expect after the join?\n3b. Run it. How many rows do you actually get?\n3c. Find the participants responsible. What is wrong with those rows?\n3d. Re-run the join with relationship = \"one-to-one\". What happens? Why is this a better failure than the one in 3b?\n\n\n\n\n\n\n\n\nImportant\n\n\n\nQuestion 3 is the single most important thing in this homework. A join that silently changes your row count will quietly bias every mean, count and model you calculate afterwards, and nothing will warn you. Get into the habit of checking nrow() before and after every join.",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 2: tidying, strings and joins",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#reshaping",
+    "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#reshaping",
+    "title": "Data Wrangling in R II Homework",
+    "section": "3 Reshaping",
+    "text": "3 Reshaping\n\nReshape the weight measurements so there is one row per participant and one column per visit:\n\n\nvisits |&gt;\n  select(participant_id, visit_number, weight_kg) |&gt;\n  pivot_wider(names_from = visit_number, values_from = weight_kg, names_prefix = \"visit_\")\n\n\n4a. Run it. R gives you a warning and the columns are not the type you would expect. What type are they, and what is the warning telling you?\n4b. What is the underlying cause? Compare your answer with question 3 — the same two rows are responsible for both.\n4c. Why is this failure easier to catch than the one in question 3?\n4d. Fix the input so that pivot_wider() produces ordinary numeric columns, and say what you decided to do about the offending rows and why.\n\n\nTake your fixed wide table from 4d and use pivot_longer() to put it back into long format, dropping missing values. How many rows do you get, and why is it fewer than 2,400 × 6?",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 2: tidying, strings and joins",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#applying-a-function-across-columns",
+    "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.html#applying-a-function-across-columns",
+    "title": "Data Wrangling in R II Homework",
+    "section": "4 Applying a function across columns",
+    "text": "4 Applying a function across columns\n\nUsing baseline:\n\n6a. Use across() inside summarise() to get the mean bmi_kg_m2 and systolic_bp_mmHg in one command, ignoring missing values.\n6b. Extend it to report both the mean and the median for each.\n6c. Group by imd_quintile first, and add a count of participants per group. Does anything about the groups look wrong to you?\n\n\nSuggested Reading\n\nR for Data Science 2e, chapters 5 (data tidying) and 19 (joins)\nThe docs for tidyr and dplyr\nvignette(\"pivot\", package = \"tidyr\")\nStrings and regular expressions are no longer taught in a session, but there is a reference page with worked examples and practice if you need them.",
     "crumbs": [
       "Home",
       "Wrangling Data 2: tidying, strings and joins",
@@ -4900,42 +4960,6 @@
       "Home",
       "Wrangling Data 2: tidying, strings and joins",
       "Slides"
-    ]
-  },
-  {
-    "objectID": "05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html",
-    "href": "05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html",
-    "title": "Wrangling Data 3 Homework",
-    "section": "",
-    "text": "This document contains all questions for the lecture ‘Wrangling Data 3’. Please create a Quarto document containing all text, code and output used to answer the questions.",
-    "crumbs": [
-      "Home",
-      "Wrangling Data 3: factors, dates and functions",
-      "Homework"
-    ]
-  },
-  {
-    "objectID": "05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html#factors",
-    "href": "05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html#factors",
-    "title": "Wrangling Data 3 Homework",
-    "section": "1 Factors",
-    "text": "1 Factors\n\nWhen does fct_lump() stop adding levels into “other”?\nLoad the gss_cat dataframe and get a summary to see if the amount of tv hours per day affects the political party a person belongs to.\nRepeat the previous exercise, but this time merge all the “other party” levels into a single option and reorder the factor by the average tv hours per day.\n\nYou have a vector of categorical data that has a natural order to it, and you want to use in a regression model. The vector is c(‘Some’, ‘All’, ‘None’, ‘Half’, ‘Most’, ‘Most’, ‘Most’, ‘All’, ‘Some’, ‘None’). Create a factor from this vector by pasting it into the factor() function and assign to a variable.\n\nYou’re concerned to make sure that ‘None’ is set as the baseline. Check the coding for regression problems with contrasts() and print the output.\nWhy are the levels in this order by default?\nRe-order the levels of this factor to go from ‘None’ to ‘All’ in increasing amount",
-    "crumbs": [
-      "Home",
-      "Wrangling Data 3: factors, dates and functions",
-      "Homework"
-    ]
-  },
-  {
-    "objectID": "05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html#functions",
-    "href": "05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html#functions",
-    "title": "Wrangling Data 3 Homework",
-    "section": "2 Functions",
-    "text": "2 Functions\n\nCan you tell which of the arguments of myFunction are mandatory and which are optional?\n\n\nmyFunction &lt;- function(x, y, verbose = FALSE){\n  result &lt;- x ** y\n  if (verbose){\n    print(result)\n  }\n  return(result)\n}\n\n\nWhat will be the output of the previous function if we type the following command myFunction(2, 3, TRUE)? Try to do it without running the code.\nWrite any_na(), a function that takes two vectors of the same length and returns the number of positions that have an NA in, at least, one of the vectors.\nWrite complementary(), a function that takes a DNA strand of variable length and returns its complementary strand.\nWrite a function that transcribes and translates a DNA strand into its corresponding protein sequence. You can assume that the length of the input DNA strand is a multiple of 3.",
-    "crumbs": [
-      "Home",
-      "Wrangling Data 3: factors, dates and functions",
-      "Homework"
     ]
   },
   {
@@ -5668,6 +5692,54 @@
       "Home",
       "Wrangling Data 3: factors, dates and functions",
       "Slides"
+    ]
+  },
+  {
+    "objectID": "06_Programming_in_R/met581_06_programming_in_r_homework.html",
+    "href": "06_Programming_in_R/met581_06_programming_in_r_homework.html",
+    "title": "Programming in R Homework",
+    "section": "",
+    "text": "This document contains all questions for Programming in R. Please create a Quarto document containing all text, code and output used to answer the questions.",
+    "crumbs": [
+      "Home",
+      "Programming in R",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "06_Programming_in_R/met581_06_programming_in_r_homework.html#reading-functions",
+    "href": "06_Programming_in_R/met581_06_programming_in_r_homework.html#reading-functions",
+    "title": "Programming in R Homework",
+    "section": "1 Reading functions",
+    "text": "1 Reading functions\n\nWhich of the arguments of myFunction are mandatory, and which are optional?\n\n\nmyFunction &lt;- function(x, y, verbose = FALSE){\n  result &lt;- x ** y\n  if (verbose){\n    print(result)\n  }\n  return(result)\n}\n\n\nWhat will be the output of the previous function if we type myFunction(2, 3, TRUE)? Try to answer without running the code, then check.",
+    "crumbs": [
+      "Home",
+      "Programming in R",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "06_Programming_in_R/met581_06_programming_in_r_homework.html#writing-functions",
+    "href": "06_Programming_in_R/met581_06_programming_in_r_homework.html#writing-functions",
+    "title": "Programming in R Homework",
+    "section": "2 Writing functions",
+    "text": "2 Writing functions\n\nWrite any_na(), a function that takes two vectors of the same length and returns the number of positions that have an NA in at least one of the vectors.\n\n3a. Add a check so the function stops with a clear message if the two vectors are not the same length. Use stopifnot().\n\nWrite complementary(), a function that takes a DNA strand of variable length and returns its complementary strand.\nWrite a function that transcribes and translates a DNA strand into its corresponding protein sequence. You can assume the length of the input DNA strand is a multiple of 3.",
+    "crumbs": [
+      "Home",
+      "Programming in R",
+      "Homework"
+    ]
+  },
+  {
+    "objectID": "06_Programming_in_R/met581_06_programming_in_r_homework.html#writing-a-cleaning-function",
+    "href": "06_Programming_in_R/met581_06_programming_in_r_homework.html#writing-a-cleaning-function",
+    "title": "Programming in R Homework",
+    "section": "3 Writing a cleaning function",
+    "text": "3 Writing a cleaning function\nThe module cohort has a column obesity which should be a simple yes/no, but is not:\n\nlibrary(tidyverse)\n\nbase_url &lt;- \"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/\"\nbaseline &lt;- read_csv(paste0(base_url, \"bioinformatics_msc_stats_baseline.csv\"))\n\nbaseline |&gt; count(obesity)\n\n\nWrite clean_yes_no(), a function that takes a character vector and returns a logical vector, treating any capitalisation of \"yes\"/\"y\" as TRUE and any capitalisation of \"no\"/\"n\" as FALSE.\n\n6a. Make it fail loudly on anything it does not recognise, rather than silently returning NA. Why is that the safer default here?\n6b. Use it on obesity and check the resulting prevalence. Does it match the 33.8% quoted in the dataset’s README?\n6c. type2_diabetes is also stored as text. Does your function work on it unchanged? What does that tell you about writing functions rather than one-off fixes?\n\nWrite check_range(), a function that takes a numeric vector plus a minimum and maximum, and returns the positions of any values outside that range.\n\n7a. Use it on imd_quintile, which the codebook says must be 1 to 5. What do you find?\n7b. Use it on systolic_bp_mmHg with a plausible physiological range. What do you find, and what do you think happened to those values?\n\n\n\n\n\n\n\n\nTip\n\n\n\nQuestions 6 and 7 are the beginning of a reproducible cleaning pipeline — the thing the 50% report is marked on. A function you can point at any column beats a fix you typed once and cannot re-run.\n\n\nSuggested Reading\n\nR for Data Science 2e, chapter 25 — Functions\nAdvanced R, chapter 6, for what is happening underneath\n?stopifnot, ?match.arg, ?switch\n\n\n\n\n\n\n\nNote\n\n\n\nFactors and forcats used to be examined here. They are now reference material, with practice questions on that page.",
+    "crumbs": [
+      "Home",
+      "Programming in R",
+      "Homework"
     ]
   },
   {

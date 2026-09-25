@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Matthew Bracher-Smith">
-<meta name="dcterms.date" content="2024-10-21">
+<meta name="author" content="Gabriel Mateus Bernardo Harrington">
+<meta name="dcterms.date" content="2026-10-13">
 
-<title>Wrangling Data 3 Homework – Data for Life Sciences 1</title>
+<title>Programming in R Homework Answers – Data for Life Sciences 1</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -326,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Slides.html">Wrangling Data 3: factors, dates and functions</a></li><li class="breadcrumb-item"><a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html">Homework</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Programming in R Homework Answers</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -471,12 +472,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Lecture notes</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Homework</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -504,6 +499,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../10_resources/01_workshop_answers/met581_programming_in_r_workshop_answers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Workshop answers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06_Programming_in_R/met581_06_programming_in_r_homework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework</span></a>
   </div>
 </li>
       </ul>
@@ -604,18 +605,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#factors" id="toc-factors" class="nav-link active" data-scroll-target="#factors"><span class="header-section-number">1</span> Factors</a></li>
-  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">2</span> Functions</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link active" data-scroll-target="#functions"><span class="header-section-number">1</span> Functions</a>
+  <ul class="collapse">
+  <li><a href="#a.-failing-loudly" id="toc-a.-failing-loudly" class="nav-link" data-scroll-target="#a.-failing-loudly"><span class="header-section-number">1.1</span> 6a. Failing loudly</a></li>
+  <li><a href="#b.-prevalence" id="toc-b.-prevalence" class="nav-link" data-scroll-target="#b.-prevalence"><span class="header-section-number">1.2</span> 6b. Prevalence</a></li>
+  <li><a href="#c.-reuse" id="toc-c.-reuse" class="nav-link" data-scroll-target="#c.-reuse"><span class="header-section-number">1.3</span> 6c. Reuse</a></li>
+  <li><a href="#a.-imd_quintile" id="toc-a.-imd_quintile" class="nav-link" data-scroll-target="#a.-imd_quintile"><span class="header-section-number">1.4</span> 7a. <code>imd_quintile</code></a></li>
+  <li><a href="#b.-systolic_bp_mmhg" id="toc-b.-systolic_bp_mmhg" class="nav-link" data-scroll-target="#b.-systolic_bp_mmhg"><span class="header-section-number">1.5</span> 7b. <code>systolic_bp_mmHg</code></a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/06_Programming_in_R/met581_06_programming_in_r_homework_answers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Slides.html">Wrangling Data 3: factors, dates and functions</a></li><li class="breadcrumb-item"><a href="../05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.html">Homework</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Wrangling Data 3 Homework</h1>
+<h1 class="title">Programming in R Homework Answers</h1>
 </div>
 
 
@@ -623,16 +630,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
              <p>Matthew Bracher-Smith </p>
+             <p>Gabriel Mateus Bernardo Harrington </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 21, 2024</p>
+      <p class="date">October 13, 2026</p>
     </div>
   </div>
   
@@ -644,43 +652,247 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This document contains all questions for the lecture ‘Wrangling Data 3’. Please create a Quarto document containing all text, code and output used to answer the questions.</p>
-<section id="factors" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="factors"><span class="header-section-number">1</span> Factors</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">conflicts_prefer</span>(dplyr<span class="sc">::</span>filter)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This document contains all questions and answers for <strong>Programming in R</strong>. Please create a Quarto document containing all text, code and output used to answer the questions.</p>
+<section id="functions" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="functions"><span class="header-section-number">1</span> Functions</h2>
 <ol type="1">
-<li><p>When does <code>fct_lump()</code> stop adding levels into “other”?</p></li>
-<li><p>Load the <code>gss_cat</code> dataframe and get a summary to see if the amount of tv hours per day affects the political party a person belongs to.</p></li>
-<li><p>Repeat the previous exercise, but this time merge all the “other party” levels into a single option and reorder the factor by the average tv hours per day.</p></li>
-</ol>
-<p><em>You have a vector of categorical data that has a natural order to it, and you want to use in a regression model. The vector is c(‘Some’, ‘All’, ‘None’, ‘Half’, ‘Most’, ‘Most’, ‘Most’, ‘All’, ‘Some’, ‘None’). Create a factor from this vector by pasting it into the <code>factor()</code> function and assign to a variable.</em></p>
-<ol start="4" type="1">
-<li><p>You’re concerned to make sure that ‘None’ is set as the baseline. Check the coding for regression problems with <code>contrasts()</code> and print the output.</p></li>
-<li><p>Why are the levels in this order by default?</p></li>
-<li><p>Re-order the levels of this factor to go from ‘None’ to ‘All’ in increasing amount</p></li>
-</ol>
-</section>
-<section id="functions" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="functions"><span class="header-section-number">2</span> Functions</h2>
-<ol start="7" type="1">
 <li>Can you tell which of the arguments of myFunction are mandatory and which are optional?</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">verbose =</span> <span class="cn">FALSE</span>){</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> x <span class="sc">**</span> y</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (verbose){</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(result)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">verbose =</span> <span class="cn">FALSE</span>){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> x <span class="sc">**</span> y</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (verbose){</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(result)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<ol start="8" type="1">
-<li><p>What will be the output of the previous function if we type the following command myFunction(2, 3, TRUE)? Try to do it without running the code.</p></li>
-<li><p>Write <code>any_na()</code>, a function that takes two vectors of the same length and returns the number of positions that have an NA in, at least, one of the vectors.</p></li>
-<li><p>Write <code>complementary()</code>, a function that takes a DNA strand of variable length and returns its complementary strand.</p></li>
-<li><p>Write a function that transcribes and translates a DNA strand into its corresponding protein sequence. You can assume that the length of the input DNA strand is a multiple of 3.</p></li>
+<p><em><strong>x</strong> and <strong>y</strong> are mandatory, but <strong>verbose</strong> is optional because a default value has already been assigned in the function definition.</em></p>
+<ol start="2" type="1">
+<li>What will be the output of the previous function if we type the following command myFunction(2, 3, TRUE)? Try to do it without running the code.</li>
 </ol>
+<p><em>There will be two outputs of 8. One is printed, because verbose is set to TRUE. The other is the return value of the function, which is automatically printed if we do not assign the output of a function to a variable.</em></p>
+<ol start="3" type="1">
+<li>Write <code>any_na()</code>, a function that takes two vectors of the same length and returns the number of positions that have an NA in, at least, one of the vectors.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multiple options are available for ensuring the function takes arguments that are</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the same length. Extra points if they used a package like `assertthat`</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># code below is what students might write to count all the NAs across both vectors</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>any_na <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y){</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(<span class="fu">c</span>(<span class="fu">is.na</span>(x), <span class="fu">is.na</span>(y))))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># however, we want the number of positions, not number of total NAs</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># again. There are many possible solutions. A simple one is to make a quick</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># dataframe, as they have many functions available for NA operations</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>any_na <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y){</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns the number of positions that have an NA in at least one of the vectors</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(<span class="sc">!</span><span class="fu">complete.cases</span>(<span class="fu">data.frame</span>(x, y))))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><em>If any intermediate variables were created, they should have sensible names. A comment explaining what the function does is also welcome! Because we know nothing about the problem application for this question, something like x and y can be reluctantly accepted as names for input variables.</em></p>
+<ol start="4" type="1">
+<li>Write <code>complementary()</code>, a function that takes a DNA strand of variable length and returns its complementary strand.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># one option is using chartr, a function from base R built for character translation</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>complementary <span class="ot">&lt;-</span> <span class="cf">function</span>(dna_seq){</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns complimentary strand for variable-length DNA strands</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">chartr</span>(<span class="st">"ATGC"</span>,<span class="st">"TACG"</span>, dna_seq))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># it wasn't specified what the strand would be in</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># if we supplied the sequence as a vector, vectorised ifelse</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># statement may be handy</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>complementary <span class="ot">&lt;-</span> <span class="cf">function</span>(dna_seq){</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># returns complimentary strand for variable-length DNA strands</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(dplyr<span class="sc">::</span><span class="fu">case_when</span>(dna_seq <span class="sc">==</span> <span class="st">'A'</span> <span class="sc">~</span> <span class="st">'T'</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                          dna_seq <span class="sc">==</span> <span class="st">'T'</span> <span class="sc">~</span> <span class="st">'A'</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                          dna_seq <span class="sc">==</span> <span class="st">'C'</span> <span class="sc">~</span> <span class="st">'G'</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                          dna_seq <span class="sc">==</span> <span class="st">'G'</span> <span class="sc">~</span> <span class="st">'C'</span>))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><em>Whatever was used, variable and argument names should be appropriate. X or y are no longer acceptable, as we know something about the problem for this question.</em></p>
+<ol start="5" type="1">
+<li>Write a function that transcribes and translates a DNA strand into its corresponding protein sequence. You can assume that the length of the input DNA strand is a multiple of 3.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># students may have broken the problem into sub functions</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if this is the case, they should not be nested (they should</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># not be defined within another function's body)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>transcribe <span class="ot">&lt;-</span> <span class="cf">function</span>(dna_seq){</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># converts from dna to rna</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  rna_seq <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(dna_seq, <span class="st">'T'</span>, <span class="st">'U'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rna_seq)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># even better than the option below would be putting the RNA codon table</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># into a separate file which is loaded, so we can easily update it</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>translate <span class="ot">&lt;-</span> <span class="cf">function</span>(rna_seq){</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># converts from RNA to protein</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># define an RNA codon table</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  rna_codons <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"L"</span>, <span class="st">"I"</span>, <span class="st">"V"</span>, <span class="st">"F"</span>, <span class="st">"L"</span>, <span class="st">"I"</span>, <span class="st">"V"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"L"</span>, <span class="st">"L"</span>, <span class="st">"I"</span>, <span class="st">"V"</span>, <span class="st">"L"</span>, <span class="st">"L"</span>, <span class="st">"M"</span>, <span class="st">"V"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"S"</span>, <span class="st">"P"</span>, <span class="st">"T"</span>, <span class="st">"A"</span>, <span class="st">"S"</span>, <span class="st">"P"</span>, <span class="st">"T"</span>, <span class="st">"A"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"S"</span>, <span class="st">"P"</span>, <span class="st">"T"</span>, <span class="st">"A"</span>, <span class="st">"S"</span>, <span class="st">"P"</span>, <span class="st">"T"</span>, <span class="st">"A"</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Y"</span>, <span class="st">"H"</span>, <span class="st">"N"</span>, <span class="st">"D"</span>, <span class="st">"Y"</span>, <span class="st">"H"</span>, <span class="st">"N"</span>, <span class="st">"D"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"STOP"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>, <span class="st">"E"</span>, <span class="st">"STOP"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>, <span class="st">"E"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"C"</span>, <span class="st">"R"</span>, <span class="st">"S"</span>, <span class="st">"G"</span>, <span class="st">"C"</span>, <span class="st">"R"</span>, <span class="st">"S"</span>, <span class="st">"G"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"STOP"</span>, <span class="st">"R"</span>, <span class="st">"R"</span>, <span class="st">"G"</span>, <span class="st">"W"</span>, <span class="st">"R"</span>, <span class="st">"R"</span>, <span class="st">"G"</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(rna_codons) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"UUU"</span>, <span class="st">"CUU"</span>, <span class="st">"AUU"</span>, <span class="st">"GUU"</span>, <span class="st">"UUC"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"CUC"</span>, <span class="st">"AUC"</span>, <span class="st">"GUC"</span>, <span class="st">"UUA"</span>, <span class="st">"CUA"</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"AUA"</span>, <span class="st">"GUA"</span>, <span class="st">"UUG"</span>, <span class="st">"CUG"</span>, <span class="st">"AUG"</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"GUG"</span>, <span class="st">"UCU"</span>, <span class="st">"CCU"</span>, <span class="st">"ACU"</span>, <span class="st">"GCU"</span>,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"UCC"</span>, <span class="st">"CCC"</span>, <span class="st">"ACC"</span>, <span class="st">"GCC"</span>, <span class="st">"UCA"</span>,</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"CCA"</span>, <span class="st">"ACA"</span>, <span class="st">"GCA"</span>, <span class="st">"UCG"</span>, <span class="st">"CCG"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"ACG"</span>, <span class="st">"GCG"</span>, <span class="st">"UAU"</span>, <span class="st">"CAU"</span>, <span class="st">"AAU"</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"GAU"</span>, <span class="st">"UAC"</span>, <span class="st">"CAC"</span>, <span class="st">"AAC"</span>, <span class="st">"GAC"</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"UAA"</span>, <span class="st">"CAA"</span>, <span class="st">"AAA"</span>, <span class="st">"GAA"</span>, <span class="st">"UAG"</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"CAG"</span>, <span class="st">"AAG"</span>, <span class="st">"GAG"</span>, <span class="st">"UGU"</span>, <span class="st">"CGU"</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"AGU"</span>, <span class="st">"GGU"</span>, <span class="st">"UGC"</span>, <span class="st">"CGC"</span>, <span class="st">"AGC"</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"GGC"</span>, <span class="st">"UGA"</span>, <span class="st">"CGA"</span>, <span class="st">"AGA"</span>, <span class="st">"GGA"</span>,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"UGG"</span>, <span class="st">"CGG"</span>, <span class="st">"AGG"</span>, <span class="st">"GGG"</span> )</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># optionally check length is multiple of 3</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>((<span class="fu">nchar</span>(rna_seq) <span class="sc">%%</span> <span class="dv">3</span>) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># lookup one-letter amino acid code for each codon</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  amino_acids <span class="ot">&lt;-</span> <span class="st">''</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nchar</span>(rna_seq), <span class="at">by=</span><span class="dv">3</span>)){</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    codon <span class="ot">&lt;-</span> <span class="fu">substr</span>(rna_seq, i, i<span class="sc">+</span><span class="dv">2</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    amino_acids <span class="ot">&lt;-</span> <span class="fu">paste</span>(amino_acids, <span class="fu">as.character</span>(rna_codon[codon]), <span class="at">sep =</span> <span class="st">''</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(amino_acids)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>dna_to_protein <span class="ot">&lt;-</span> <span class="cf">function</span>(dna_seq) {</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># convert from dna to protein</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  rna_seq <span class="ot">&lt;-</span> <span class="fu">transcribe</span>(dna_seq)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  protein_seq <span class="ot">&lt;-</span> <span class="fu">translate</span>(rna_seq)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(protein_seq)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><em>As before, variable names and function names should be appropriate. Comments are probably needed to make parts clear. It makes sense for separate operations to be broken into separate functions like above. This format is much-preferred. If anyone did the whole thing in a single function, some effort should be made to clearly separate-out the different sections.</em> ## Writing a cleaning function</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Simulated_data"</span>, <span class="st">"generated_uk"</span>, <span class="st">"bioinformatics_msc_stats_baseline.csv"</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span> <span class="fu">count</span>(obesity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  obesity     n
+  &lt;chr&gt;   &lt;int&gt;
+1 No       1590
+2 Y           1
+3 YES         1
+4 Yes       808</code></pre>
+</div>
+</div>
+<ol start="6" type="1">
+<li>Write <code>clean_yes_no()</code>, returning a logical vector.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>clean_yes_no <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(<span class="fu">str_trim</span>(x))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  unrecognised <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(v[<span class="sc">!</span><span class="fu">is.na</span>(v)]), <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"y"</span>, <span class="st">"no"</span>, <span class="st">"n"</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(unrecognised) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unrecognised value(s): "</span>, <span class="fu">paste</span>(unrecognised, <span class="at">collapse =</span> <span class="st">", "</span>), <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">case_when</span>(v <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"y"</span>) <span class="sc">~</span> <span class="cn">TRUE</span>, v <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"no"</span>, <span class="st">"n"</span>) <span class="sc">~</span> <span class="cn">FALSE</span>, <span class="at">.default =</span> <span class="cn">NA</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note what the function does <em>not</em> do: it does not guess. <code>str_to_lower()</code> and <code>str_trim()</code> handle the variation we expect — case and stray whitespace — and anything else is an error rather than a silent <code>NA</code>.</p>
+<section id="a.-failing-loudly" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="a.-failing-loudly"><span class="header-section-number">1.1</span> 6a. Failing loudly</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clean_yes_no</span>(<span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>, <span class="st">"maybe"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error:
+! Unrecognised value(s): maybe</code></pre>
+</div>
+</div>
+<p>Returning <code>NA</code> for unrecognised input would mean a new coding error — a <code>"Y "</code>, a <code>"1"</code>, a <code>"Unknown"</code> — silently becomes missing data. The row count stays the same, nothing warns you, and your prevalence is quietly wrong. Erring forces somebody to look at it and decide.</p>
+</section>
+<section id="b.-prevalence" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="b.-prevalence"><span class="header-section-number">1.2</span> 6b. Prevalence</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>obese <span class="ot">&lt;-</span> <span class="fu">clean_yes_no</span>(baseline<span class="sc">$</span>obesity)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(obese), <span class="at">n_obese =</span> <span class="fu">sum</span>(obese), <span class="at">prevalence =</span> <span class="fu">round</span>(<span class="fu">mean</span>(obese), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         n    n_obese prevalence 
+  2400.000    810.000      0.338 </code></pre>
+</div>
+</div>
+<p>33.8%, which matches the figure quoted in the dataset README — a useful check that the cleaning did what we intended rather than something plausible-looking.</p>
+</section>
+<section id="c.-reuse" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="c.-reuse"><span class="header-section-number">1.3</span> 6c. Reuse</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>t2d <span class="ot">&lt;-</span> <span class="fu">clean_yes_no</span>(baseline<span class="sc">$</span>type2_diabetes)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(t2d), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.082</code></pre>
+</div>
+</div>
+<p>It works unchanged, and gives 8.2% — again matching the README. That is the argument for a function over a one-off fix: the same rule now applies to every yes/no column in the dataset, it is testable, and if the rule turns out to be wrong you change it in one place.</p>
+<ol start="7" type="1">
+<li><code>check_range()</code></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>check_range <span class="ot">&lt;-</span> <span class="cf">function</span>(x, min, max) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">which</span>(<span class="sc">!</span><span class="fu">is.na</span>(x) <span class="sc">&amp;</span> (x <span class="sc">&lt;</span> min <span class="sc">|</span> x <span class="sc">&gt;</span> max))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="a.-imd_quintile" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="a.-imd_quintile"><span class="header-section-number">1.4</span> 7a. <code>imd_quintile</code></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>bad_imd <span class="ot">&lt;-</span> <span class="fu">check_range</span>(baseline<span class="sc">$</span>imd_quintile, <span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>baseline[bad_imd, <span class="fu">c</span>(<span class="st">"participant_id"</span>, <span class="st">"imd_quintile"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  participant_id imd_quintile
+  &lt;chr&gt;                 &lt;dbl&gt;
+1 BIO00013                  9</code></pre>
+</div>
+</div>
+<p>One participant is coded <code>9</code>, which is not a valid quintile. Most likely a missing-value code that was never translated on import — <code>9</code> and <code>99</code> are conventional “not known” codes in older clinical datasets.</p>
+</section>
+<section id="b.-systolic_bp_mmhg" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="b.-systolic_bp_mmhg"><span class="header-section-number">1.5</span> 7b. <code>systolic_bp_mmHg</code></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bad_bp <span class="ot">&lt;-</span> <span class="fu">check_range</span>(baseline<span class="sc">$</span>systolic_bp_mmHg, <span class="dv">60</span>, <span class="dv">250</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>baseline[bad_bp, <span class="fu">c</span>(<span class="st">"participant_id"</span>, <span class="st">"age_years"</span>, <span class="st">"systolic_bp_mmHg"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  participant_id age_years systolic_bp_mmHg
+  &lt;chr&gt;              &lt;dbl&gt;            &lt;dbl&gt;
+1 BIO00001              68             1330
+2 BIO00002              74             1620</code></pre>
+</div>
+</div>
+<p><code>1330</code> and <code>1620</code> are <code>133.0</code> and <code>162.0</code> with a misplaced decimal point — both entirely plausible blood pressures, recorded ten times too large. Note that the range you choose is a judgement: too wide and you miss them, too narrow and you flag real outliers. State the range you used and why.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1102,4 +1314,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/06_Programming_in_R/met581_06_programming_in_r_homework_answers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

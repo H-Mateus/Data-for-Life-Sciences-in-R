@@ -1,8 +1,10 @@
 ---
-title: "Wrangling Data 2 Homework"
-author: "Matthew Bracher-Smith"
-date: "2024-10-18"
-format: 
+title: "Data Wrangling in R II Homework"
+author:
+  - "Matthew Bracher-Smith"
+  - "Gabriel Mateus Bernardo Harrington"
+date: "2026-10-12"
+format:
   html:
     number-sections: true
     highlight: tango
@@ -11,23 +13,74 @@ execute:
   echo: true
 ---
 
-This document contains all questions for lessson 4. Please create a Quarto document containing all text, code and output used to answer the questions.
+This document contains all questions for **Data Wrangling in R II**. Please create a Quarto document containing all text, code and output used to answer the questions.
 
-1. Explain how escapes work in R with respect to regular expressions
+## The data
 
-2. List and describe the tidyverse commands used to join two datasets together. What two key arguments can you use to prevent mistakes in your joins?  
+We will use the module cohort — a simulated study of 2,400 older adults, in three linked tables. You can read them straight from the web:
 
-3. Load the nycflights13 package and join the datasets flights and airlines together, selecting only the columns: `year`, `month`, `day`, `hour`, `origin`, `tailnum` and `carrier` from flights. Can you do the same but using the `mutate()` function instead?
+```{r}
+#| eval: false
+library(tidyverse)
 
-4. In the starwars dataset and in one command, add two new columns:
+base_url <- "https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/"
 
-* one column that converts the `name` column to lower case
-* one column that converts the `eye_colour` to uppercase
+baseline  <- read_csv(paste0(base_url, "bioinformatics_msc_stats_baseline.csv"))
+visits    <- read_csv(paste0(base_url, "bioinformatics_msc_stats_visits.csv"))
+mortality <- read_csv(paste0(base_url, "bioinformatics_msc_stats_mortality_comorbidity.csv"))
+```
 
-5. Download the gene annotation file from the NCBI found [here](https://cf-my.sharepoint.com/:u:/g/personal/smithmr5_cardiff_ac_uk/Ed6jtKhhKgRGq5R-IoQHTAYBLgO6FC_aJ6u7mydY1mpc_A?e=siJJ4A)
+All three share a `participant_id` column. `visits` has one row per participant per visit, at 0, 12, 24, 36, 48 and 60 months.
 
-**unzip the file and load in `NCBI37.3.gene.loc` into R**
+## Joins
 
-  * 5a. add the column headers: `Entrez_Gene_ID`, `CHR`, `BP_START`, `BP_END`, `STRAND`, `GENE_NAME`
-  * 5b. How many Genes are on the positive strand?
-  * 5c. How many Genes begin and end with a letter?
+1. List and describe the tidyverse commands used to join two datasets together. What two key arguments can you use to prevent mistakes in your joins?
+
+2. Join `baseline` to `mortality` by `participant_id`.
+
+    * 2a. How many columns did each table have, and how many does the result have? It is *not* the sum — explain the difference.
+    * 2b. How many columns in the result end in `.x` or `.y`? What causes that, and what would you do about it?
+
+3. **Predict before you run.** Join `baseline` to only the visit-2 rows of `visits`, by `participant_id`:
+
+    * 3a. How many rows does `baseline` have? How many do you *expect* after the join?
+    * 3b. Run it. How many rows do you actually get?
+    * 3c. Find the participants responsible. What is wrong with those rows?
+    * 3d. Re-run the join with `relationship = "one-to-one"`. What happens? Why is this a better failure than the one in 3b?
+
+::: {.callout-important}
+Question 3 is the single most important thing in this homework. A join that silently changes your row count will quietly bias every mean, count and model you calculate afterwards, and nothing will warn you. Get into the habit of checking `nrow()` before and after **every** join.
+:::
+
+## Reshaping
+
+4. Reshape the weight measurements so there is one row per participant and one column per visit:
+
+```{r}
+#| eval: false
+visits |>
+  select(participant_id, visit_number, weight_kg) |>
+  pivot_wider(names_from = visit_number, values_from = weight_kg, names_prefix = "visit_")
+```
+
+  * 4a. Run it. R gives you a warning and the columns are not the type you would expect. What type are they, and what is the warning telling you?
+  * 4b. What is the underlying cause? Compare your answer with question 3 — **the same two rows are responsible for both**.
+  * 4c. Why is this failure easier to catch than the one in question 3?
+  * 4d. Fix the input so that `pivot_wider()` produces ordinary numeric columns, and say what you decided to do about the offending rows and why.
+
+5. Take your fixed wide table from 4d and use `pivot_longer()` to put it back into long format, dropping missing values. How many rows do you get, and why is it fewer than 2,400 × 6?
+
+## Applying a function across columns
+
+6. Using `baseline`:
+
+    * 6a. Use `across()` inside `summarise()` to get the mean `bmi_kg_m2` and `systolic_bp_mmHg` in one command, ignoring missing values.
+    * 6b. Extend it to report both the mean and the median for each.
+    * 6c. Group by `imd_quintile` first, and add a count of participants per group. Does anything about the groups look wrong to you?
+
+**Suggested Reading**
+
+- [R for Data Science 2e](https://r4ds.hadley.nz/), chapters 5 (data tidying) and 19 (joins)
+- The docs for [tidyr](https://tidyr.tidyverse.org/) and [dplyr](https://dplyr.tidyverse.org/)
+- [`vignette("pivot", package = "tidyr")`](https://tidyr.tidyverse.org/articles/pivot.html)
+- Strings and regular expressions are no longer taught in a session, but there is a [reference page](../10_resources/02_reference/strings_and_regex.qmd) with worked examples and practice if you need them.

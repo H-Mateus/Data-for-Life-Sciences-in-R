@@ -1,12 +1,14 @@
 ---
-title: "Wrangling Data 2 Homework Answers"
+title: "Data Wrangling in R II Homework Answers"
 # Unlinked from the sidebar and excluded from site search so students do not
 # stumble onto the answers. The page is still published, so the URL can be shared
 # deliberately once the homework has been discussed.
 search: false
-author: "Matthew Bracher-Smith"
-date: "2024-10-18"
-format: 
+author:
+  - "Matthew Bracher-Smith"
+  - "Gabriel Mateus Bernardo Harrington"
+date: "2026-10-12"
+format:
   html:
     number-sections: true
     highlight: tango
@@ -17,119 +19,201 @@ execute:
 
 ```{r}
 #| include: false
-library(plyr)
-library(dplyr)
-library(nycflights13)
-library(stringr)
-library(data.table)
-library(tibble)
+library(tidyverse)
+library(conflicted)
+conflicts_prefer(dplyr::filter)
 ```
-
-This document contains all questions for lesson 4. Please create a quarto document containing all text, code and output used to answer the questions.
-
-## 1. Explain how escapes work in R.  
-
-Anything along the lines of: 
-
-* you need to escape the string and the regex within R function. Students may also have written along the lines of 'You need to use `\\` for each escape because of the use of special characters (eg a backslash itself `\`)'.
-
-## 2. List and describe the tidyverse commands used to join two datasets together.   
-  
-left_join : 
-
-* All rows from dataset1
-* All columns from dataset1 and dataset2
-* If a row exists only in dataset1, data is retained.
-* If a row exists only in dataset2, data is not retained.
-
-right_join:
-
-* all rows from dataset2
-* all columns from dataset1 and dataset2
-* If a row exists only in dataset1, data is not retained.
-* If a row exists only in dataset2, data is retained.
-
-inner_join:
-
-* Only rows that exist in dataset1 and dataset2
-
-full_join:
-  
-* All rows in dataset1 and dataset2
-* Joining with missing or duplicate keys
-* If data is missing from one dataset but is in the other, depending on the type of join you are performing, this can result in missing data (NA values).
-
-semi_join(x, y):
-
-* keeps all observations in x that have a match in y
-
-anti_join(x, y):
-
-* drops all observations in x that have a match in y
-
-## 3. Load the nycflights13 package and join the datasets flights and airlines together, selecting only the columns: `year`, `month`, `day`, `hour`, `origin`, `tailnum` and `carrier` from flights. Can you do the same but using the mutate() function instead?
 
 ```{r}
-# one example:
-flights2 <- flights %>% 
-  select(year:day, hour, origin, tailnum, carrier) %>%
-  left_join(airlines, by = "carrier")
+#| message: false
+base_path <- here::here("Simulated_data", "generated_uk")
 
-# part 2
-flights3 <- flights %>%
-  select(year:day, hour, origin, tailnum, carrier) %>%
-  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+baseline  <- read_csv(file.path(base_path, "bioinformatics_msc_stats_baseline.csv"),
+                      show_col_types = FALSE)
+visits    <- read_csv(file.path(base_path, "bioinformatics_msc_stats_visits.csv"),
+                      show_col_types = FALSE)
+mortality <- read_csv(file.path(base_path, "bioinformatics_msc_stats_mortality_comorbidity.csv"),
+                      show_col_types = FALSE)
 ```
 
-## 4. In the starwars dataset and in one command, add two new columns:
+## 1. The join commands, and the two protective arguments
 
-* one column that converts the `name` column to lower case
-* one column that converts the `eye_colour` to uppercase
+The mutating joins all take the form `*_join(x, y, by = ...)`:
+
+- `left_join()` — keeps every row of `x`, fills with `NA` where `y` has no match. The default choice.
+- `inner_join()` — keeps only rows present in both.
+- `right_join()` — keeps every row of `y`.
+- `full_join()` — keeps every row of both.
+
+The filtering joins do not add columns, they only subset `x`:
+
+- `semi_join()` — keeps rows of `x` that *have* a match in `y`.
+- `anti_join()` — keeps rows of `x` with *no* match. Excellent for finding what is missing.
+
+The two arguments that prevent mistakes:
+
+- **`by`** — always state the key explicitly. A natural join on every shared column name is rarely what you want, and it changes silently when someone adds a column.
+- **`relationship`** — declare what you expect (`"one-to-one"`, `"many-to-one"`, and so on). dplyr then errors if the data disagrees, instead of quietly producing extra rows.
+
+## 2. Joining baseline to mortality
 
 ```{r}
+joined <- left_join(baseline, mortality, by = "participant_id")
 
-# one example:
-starwars_mutated <- starwars %>%
-  mutate(name_lower = str_to_lower(name),
-         eye_color_upper = str_to_upper(eye_color))
+c(baseline = ncol(baseline), mortality = ncol(mortality), joined = ncol(joined))
 ```
 
-5. Download the gene annotation file from the NCBI found [here](https://cf-my.sharepoint.com/:u:/g/personal/smithmr5_cardiff_ac_uk/Ed6jtKhhKgRGq5R-IoQHTAYBLgO6FC_aJ6u7mydY1mpc_A?e=siJJ4A)
+### 2a.
 
-**unzip the file and load in `NCBI37.3.gene.loc` into R**
+`r ncol(baseline)` + `r ncol(mortality)` would be `r ncol(baseline) + ncol(mortality)`, but the result has `r ncol(joined)`. The key `participant_id` appears once rather than twice, so we lose one column.
 
-* add the column headers: `Entrez_Gene_ID`, `CHR`, `BP_START`, `BP_END`, `STRAND`, `GENE_NAME`
-* How many Genes are on the positive strand?
-* How many Genes begin and end with a letter?
+### 2b.
 
 ```{r}
-#| eval: false
-# using readr to read the file
-# note that we haven't correctly handled chromosomes, which needs to be specified in col_types
-test <- readr::read_tsv(
-  "./data/NCBI37.3/NCBI37.3.gene.loc",
-  col_names = c("Entrez_Gene_ID", "CHR", "BP_START" ,"BP_END", "STRAND", "GENE_NAME"))
-
-# using data.table to read the file
-test <- fread("./data/NCBI37.3/NCBI37.3.gene.loc",header= F)
-setnames(test,c("Entrez_Gene_ID", "CHR", "BP_START" ,"BP_END", "STRAND", "GENE_NAME" ))
-test <- as_tibble(test)
-
-# How many Genes are on the positive strand? 9819
-sum(str_count(string = test$STRAND, pattern = "\\+"))
-
-# or with pipes
-test %>%
-  pull(STRAND) %>%
-  stringr::str_count(pattern = "\\+") %>%
-  sum()
-
-# How many genes begin and end with a letter?: 5016
-sum(str_count(string = test$GENE_NAME, pattern = "^[a-zA-Z].*[a-zA-Z]$"))
-
-# or with pipes again
-test %>%
-  pull(GENE_NAME) %>%
-  stringr::str_count(pattern = "^[a-zA-Z].*[a-zA-Z]$") %>%
-  sum()
+sum(grepl("\\.x$|\\.y$", names(joined)))
 ```
+
+The two tables share `r length(intersect(names(baseline), names(mortality))) - 1` column names besides the key — `age_years`, `sex_at_birth`, `frailty_category` and so on. dplyr cannot have two columns with the same name, so it suffixes both copies.
+
+What to do about it: `select()` only the columns you actually need from the second table before joining. Carrying 20 duplicated columns around is how you end up analysing `age_years.y` by accident.
+
+```{r}
+tidy_join <- baseline |>
+  left_join(select(mortality, participant_id, died_during_followup, age_at_death),
+            by = "participant_id")
+
+ncol(tidy_join)
+```
+
+## 3. The join that changes your row count
+
+### 3a and 3b.
+
+```{r}
+visit2 <- filter(visits, visit_number == 2)
+
+joined_v2 <- left_join(baseline, visit2, by = "participant_id")
+
+c(before = nrow(baseline), after = nrow(joined_v2))
+```
+
+You would expect 2,400 — one row per participant. You get **2,402**.
+
+### 3c.
+
+```{r}
+visit2 |>
+  count(participant_id) |>
+  filter(n > 1)
+```
+
+Two participants have their visit-2 record entered **twice**. They are exact duplicates:
+
+```{r}
+dupes <- visits |>
+  filter(participant_id %in% c("BIO00010", "BIO00018"), visit_number == 2)
+
+c(rows = nrow(dupes), distinct_rows = nrow(distinct(dupes)))
+```
+
+Each of those two participants therefore matches two rows in `visit2`, and `left_join()` duly returns both.
+
+### 3d.
+
+```{r}
+#| error: true
+left_join(baseline, visit2, by = "participant_id", relationship = "one-to-one")
+```
+
+It errors immediately and names the offending row. This is a better failure because it happens **at the join**, where the cause is obvious, rather than surfacing three steps later as a mean that is slightly wrong in a way nobody can explain. Two extra rows in 2,400 will not look wrong in any summary you produce.
+
+## 4. Reshaping the weights
+
+### 4a.
+
+```{r}
+#| warning: true
+wide_bad <- visits |>
+  select(participant_id, visit_number, weight_kg) |>
+  pivot_wider(names_from = visit_number, values_from = weight_kg, names_prefix = "visit_")
+
+class(wide_bad$visit_2)
+```
+
+The columns are **list-columns**, not numeric, and `pivot_wider()` warns that values are "not uniquely identified".
+
+### 4b.
+
+The same two duplicated rows from question 3. `pivot_wider()` expects one value per participant per visit; for `BIO00010` and `BIO00018` at visit 2 it finds two, and rather than guess it wraps every cell in a list.
+
+### 4c.
+
+Because it is **loud**. `pivot_wider()` warns and hands back an obviously wrong data type, so you find out within seconds. `left_join()` said nothing at all. The same data problem, discovered immediately in one case and potentially never in the other — which is the whole argument for checking row counts yourself rather than relying on the function to tell you.
+
+### 4d.
+
+Since the duplicates are exact, `distinct()` is a defensible fix — we are removing a double-entered record, not choosing between two conflicting measurements:
+
+```{r}
+wide <- visits |>
+  select(participant_id, visit_number, weight_kg) |>
+  distinct() |>
+  pivot_wider(names_from = visit_number, values_from = weight_kg, names_prefix = "visit_")
+
+c(rows = nrow(wide), cols = ncol(wide))
+class(wide$visit_2)
+```
+
+Had the two rows *disagreed* on weight, `distinct()` would not have helped and the right answer would have been to go back to the source and ask which is correct. Record whichever you did, and why.
+
+## 5. Back to long format
+
+```{r}
+long <- wide |>
+  pivot_longer(
+    -participant_id,
+    names_to = "visit",
+    values_to = "weight_kg",
+    values_drop_na = TRUE
+  )
+
+c(rows = nrow(long), if_complete = 2400 * 6)
+```
+
+`r format(nrow(long), big.mark = ",")` rather than 14,400, because the study has attrition: participants miss visits, withdraw, or die, so most people do not have all six measurements. `values_drop_na = TRUE` discards those empty cells.
+
+## 6. `across()`
+
+### 6a.
+
+```{r}
+baseline |>
+  summarise(across(c(bmi_kg_m2, systolic_bp_mmHg), ~ mean(.x, na.rm = TRUE)))
+```
+
+### 6b.
+
+```{r}
+baseline |>
+  summarise(
+    across(
+      c(bmi_kg_m2, systolic_bp_mmHg),
+      list(mean = ~ mean(.x, na.rm = TRUE), median = ~ median(.x, na.rm = TRUE))
+    )
+  )
+```
+
+### 6c.
+
+```{r}
+baseline |>
+  group_by(imd_quintile) |>
+  summarise(
+    across(c(bmi_kg_m2, systolic_bp_mmHg), ~ round(mean(.x, na.rm = TRUE), 1)),
+    n = n()
+  )
+```
+
+There are **six** groups, not five. IMD quintiles run 1 to 5, so the single participant coded `9` is an invalid value — most likely a data entry error or a missing-value code that was never translated.
+
+Grouping is a good way to find these: an unexpected group with a tiny `n` almost always means a coding problem rather than a real subgroup. Note also that a group of one gives you a "mean" with no spread at all, which will look perfectly reasonable in a summary table.

@@ -58,8 +58,6 @@ website:
             href: 05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Slides.qmd
           - text: "Lecture notes"
             href: 05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Lecture-Notes.qmd
-          - text: "Homework"
-            href: 05_wrangling_data_3/MET581-Lecture-05-Wrangling-Data-3-forcats-Homework.qmd
       - section: "Programming in R"
         contents:
           - text: "Slides"
@@ -68,6 +66,8 @@ website:
             href: 06_Programming_in_R/met581_programming_in_r_workshop.qmd
           - text: "Workshop answers"
             href: 10_resources/01_workshop_answers/met581_programming_in_r_workshop_answers.qmd
+          - text: "Homework"
+            href: 06_Programming_in_R/met581_06_programming_in_r_homework.qmd
       - section: "Exploratory Data Analysis in R"
         contents:
           - text: "Slides"
