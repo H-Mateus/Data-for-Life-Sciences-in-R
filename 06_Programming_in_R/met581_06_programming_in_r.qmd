@@ -64,6 +64,26 @@ execute:
 :::
 :::
 
+## The cleaning thread {.smaller}
+
+```{r}
+#| eval: false
+library(tidyverse)
+
+# your own work from last session, if you have it
+my_file <- "my_work/cohort_after_s5.rds"
+
+cohort <- if (file.exists(my_file)) {
+  read_rds(my_file)
+} else {
+  # missed the session, or lost the file? start from the provided checkpoint
+  read_rds("https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/data/checkpoints/cohort_after_s5.rds")
+}
+```
+
+The `if` is there so nobody gets stranded. If you have your own file it is used;
+if not, you pick up from a checkpoint and carry on.
+
 ## Package load and conflicts
 
 -   We'll load our packages early as is good practise!
@@ -571,6 +591,26 @@ cat("Number of flips to get 3 heads in a row: ", numFlips)
 ```
 
 -   [**Beware**]{style="color:#cc0000"} that while loops can crash if the condition being evaluated never becomes false!
+
+## Save your progress {.smaller}
+
+You have just repaired something. Write it down — the next session starts from
+this file.
+
+```{r}
+#| eval: false
+dir.create("my_work", showWarnings = FALSE)
+
+write_rds(cohort, "my_work/cohort_after_s6.rds")
+```
+
+::: {.callout-tip appearance="simple"}
+Keep a note of **what** you changed and **why**, not just the cleaned file. A
+cleaned dataset nobody can audit is worth very little, and the 50% report is
+marked on the pipeline as much as the result.
+:::
+
+Next session: exploratory data analysis, where we find what is still wrong.
 
 ## Workshop time! {.center}
 

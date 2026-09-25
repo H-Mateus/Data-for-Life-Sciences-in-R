@@ -228,6 +228,23 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 <section id="exploratory-data-analysis" class="slide level2 center">
 <h2>Exploratory Data Analysis</h2>
 </section>
+<section id="the-cleaning-thread" class="slide level2 smaller">
+<h2>The cleaning thread</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a aria-label="2"></a></span>
+<span id="cb1-3"><a aria-label="3"></a><span class="co"># your own work from last session, if you have it</span></span>
+<span id="cb1-4"><a aria-label="4"></a>my_file <span class="ot">&lt;-</span> <span class="st">"my_work/cohort_after_s6.rds"</span></span>
+<span id="cb1-5"><a aria-label="5"></a></span>
+<span id="cb1-6"><a aria-label="6"></a>cohort <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">file.exists</span>(my_file)) {</span>
+<span id="cb1-7"><a aria-label="7"></a>  <span class="fu">read_rds</span>(my_file)</span>
+<span id="cb1-8"><a aria-label="8"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-9"><a aria-label="9"></a>  <span class="co"># missed the session, or lost the file? start from the provided checkpoint</span></span>
+<span id="cb1-10"><a aria-label="10"></a>  <span class="fu">read_rds</span>(<span class="st">"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/data/checkpoints/cohort_after_s6.rds"</span>)</span>
+<span id="cb1-11"><a aria-label="11"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>if</code> is there so nobody gets stranded. If you have your own file it is used; if not, you pick up from a checkpoint and carry on.</p>
+</section>
 <section id="todays-aims" class="slide level2">
 <h2>Todays Aims</h2>
 <ul>
@@ -281,7 +298,7 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 <li>It is deliberately <strong>not clean</strong>, because real data never is</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="fu">dim</span>(cohort)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a><span class="fu">dim</span>(cohort)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2400   12</code></pre>
 </div>
@@ -304,7 +321,7 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 <h2>First contact</h2>
 <p>Before anything else — how big is it, and what is in it?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a><span class="fu">glimpse</span>(cohort)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a><span class="fu">glimpse</span>(cohort)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,400
 Columns: 12
@@ -402,11 +419,11 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Central tendency</h2>
 <p>Two ways to say “the typical value”:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb5-3"><a aria-label="3"></a>    <span class="at">mean   =</span> <span class="fu">mean</span>(age_years),</span>
-<span id="cb5-4"><a aria-label="4"></a>    <span class="at">median =</span> <span class="fu">median</span>(age_years)</span>
-<span id="cb5-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-3"><a aria-label="3"></a>    <span class="at">mean   =</span> <span class="fu">mean</span>(age_years),</span>
+<span id="cb6-4"><a aria-label="4"></a>    <span class="at">median =</span> <span class="fu">median</span>(age_years)</span>
+<span id="cb6-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
    mean median
@@ -423,12 +440,12 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Variability</h2>
 <p>“Typical” is useless without “how spread out”.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb7-3"><a aria-label="3"></a>    <span class="at">sd    =</span> <span class="fu">sd</span>(age_years),</span>
-<span id="cb7-4"><a aria-label="4"></a>    <span class="at">IQR   =</span> <span class="fu">IQR</span>(age_years),</span>
-<span id="cb7-5"><a aria-label="5"></a>    <span class="at">range =</span> <span class="fu">max</span>(age_years) <span class="sc">-</span> <span class="fu">min</span>(age_years)</span>
-<span id="cb7-6"><a aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-3"><a aria-label="3"></a>    <span class="at">sd    =</span> <span class="fu">sd</span>(age_years),</span>
+<span id="cb8-4"><a aria-label="4"></a>    <span class="at">IQR   =</span> <span class="fu">IQR</span>(age_years),</span>
+<span id="cb8-5"><a aria-label="5"></a>    <span class="at">range =</span> <span class="fu">max</span>(age_years) <span class="sc">-</span> <span class="fu">min</span>(age_years)</span>
+<span id="cb8-6"><a aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
      sd   IQR range
@@ -445,16 +462,16 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="now-do-it-for-blood-pressure" class="slide level2 smaller">
 <h2>Now do it for blood pressure</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb9-3"><a aria-label="3"></a>    <span class="at">n      =</span> <span class="fu">n</span>(),</span>
-<span id="cb9-4"><a aria-label="4"></a>    <span class="at">mean   =</span> <span class="fu">mean</span>(systolic_bp_mmHg),</span>
-<span id="cb9-5"><a aria-label="5"></a>    <span class="at">median =</span> <span class="fu">median</span>(systolic_bp_mmHg),</span>
-<span id="cb9-6"><a aria-label="6"></a>    <span class="at">sd     =</span> <span class="fu">sd</span>(systolic_bp_mmHg),</span>
-<span id="cb9-7"><a aria-label="7"></a>    <span class="at">IQR    =</span> <span class="fu">IQR</span>(systolic_bp_mmHg),</span>
-<span id="cb9-8"><a aria-label="8"></a>    <span class="at">min    =</span> <span class="fu">min</span>(systolic_bp_mmHg),</span>
-<span id="cb9-9"><a aria-label="9"></a>    <span class="at">max    =</span> <span class="fu">max</span>(systolic_bp_mmHg)</span>
-<span id="cb9-10"><a aria-label="10"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-3"><a aria-label="3"></a>    <span class="at">n      =</span> <span class="fu">n</span>(),</span>
+<span id="cb10-4"><a aria-label="4"></a>    <span class="at">mean   =</span> <span class="fu">mean</span>(systolic_bp_mmHg),</span>
+<span id="cb10-5"><a aria-label="5"></a>    <span class="at">median =</span> <span class="fu">median</span>(systolic_bp_mmHg),</span>
+<span id="cb10-6"><a aria-label="6"></a>    <span class="at">sd     =</span> <span class="fu">sd</span>(systolic_bp_mmHg),</span>
+<span id="cb10-7"><a aria-label="7"></a>    <span class="at">IQR    =</span> <span class="fu">IQR</span>(systolic_bp_mmHg),</span>
+<span id="cb10-8"><a aria-label="8"></a>    <span class="at">min    =</span> <span class="fu">min</span>(systolic_bp_mmHg),</span>
+<span id="cb10-9"><a aria-label="9"></a>    <span class="at">max    =</span> <span class="fu">max</span>(systolic_bp_mmHg)</span>
+<span id="cb10-10"><a aria-label="10"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 7
       n  mean median    sd   IQR   min   max
@@ -484,21 +501,21 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="look-at-it" class="slide level2 smaller">
 <h2>Look at it</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a><span class="fu">boxplot</span>(cohort<span class="sc">$</span>systolic_bp_mmHg,</span>
-<span id="cb11-2"><a aria-label="2"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb11-3"><a aria-label="3"></a>        <span class="at">xlab =</span> <span class="st">"Systolic BP (mmHg)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a><span class="fu">boxplot</span>(cohort<span class="sc">$</span>systolic_bp_mmHg,</span>
+<span id="cb12-2"><a aria-label="2"></a>        <span class="at">horizontal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-3"><a aria-label="3"></a>        <span class="at">xlab =</span> <span class="st">"Systolic BP (mmHg)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"><div class="fragment">
+<img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><div class="fragment">
 <p>The entire distribution is squashed against the left edge by two points.</p>
 </div>
 </section>
 <section id="find-it" class="slide level2 smaller">
 <h2>Find it</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a aria-label="2"></a>  <span class="fu">filter</span>(systolic_bp_mmHg <span class="sc">&gt;</span> <span class="dv">250</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a aria-label="3"></a>  <span class="fu">select</span>(participant_id, age_years, systolic_bp_mmHg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a aria-label="2"></a>  <span class="fu">filter</span>(systolic_bp_mmHg <span class="sc">&gt;</span> <span class="dv">250</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a aria-label="3"></a>  <span class="fu">select</span>(participant_id, age_years, systolic_bp_mmHg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   participant_id age_years systolic_bp_mmHg
@@ -514,17 +531,17 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="fix-it" class="slide level2 smaller">
 <h2>Fix it</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a>cohort_clean <span class="ot">&lt;-</span> cohort <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb14-3"><a aria-label="3"></a>    <span class="at">systolic_bp_mmHg =</span> <span class="fu">if_else</span>(</span>
-<span id="cb14-4"><a aria-label="4"></a>      systolic_bp_mmHg <span class="sc">&gt;</span> <span class="dv">250</span>,</span>
-<span id="cb14-5"><a aria-label="5"></a>      systolic_bp_mmHg <span class="sc">/</span> <span class="dv">10</span>,</span>
-<span id="cb14-6"><a aria-label="6"></a>      systolic_bp_mmHg</span>
-<span id="cb14-7"><a aria-label="7"></a>    )</span>
-<span id="cb14-8"><a aria-label="8"></a>  )</span>
-<span id="cb14-9"><a aria-label="9"></a></span>
-<span id="cb14-10"><a aria-label="10"></a>cohort_clean <span class="sc">|&gt;</span></span>
-<span id="cb14-11"><a aria-label="11"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(systolic_bp_mmHg), <span class="at">sd =</span> <span class="fu">sd</span>(systolic_bp_mmHg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a>cohort_clean <span class="ot">&lt;-</span> cohort <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-3"><a aria-label="3"></a>    <span class="at">systolic_bp_mmHg =</span> <span class="fu">if_else</span>(</span>
+<span id="cb15-4"><a aria-label="4"></a>      systolic_bp_mmHg <span class="sc">&gt;</span> <span class="dv">250</span>,</span>
+<span id="cb15-5"><a aria-label="5"></a>      systolic_bp_mmHg <span class="sc">/</span> <span class="dv">10</span>,</span>
+<span id="cb15-6"><a aria-label="6"></a>      systolic_bp_mmHg</span>
+<span id="cb15-7"><a aria-label="7"></a>    )</span>
+<span id="cb15-8"><a aria-label="8"></a>  )</span>
+<span id="cb15-9"><a aria-label="9"></a></span>
+<span id="cb15-10"><a aria-label="10"></a>cohort_clean <span class="sc">|&gt;</span></span>
+<span id="cb15-11"><a aria-label="11"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(systolic_bp_mmHg), <span class="at">sd =</span> <span class="fu">sd</span>(systolic_bp_mmHg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
    mean    sd
@@ -591,10 +608,10 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>What it cost</h2>
 <p>Two bad cells out of 2,400. Here is the correlation between age and blood pressure, before and after:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a><span class="fu">c</span>(</span>
-<span id="cb16-2"><a aria-label="2"></a>  <span class="at">raw     =</span> <span class="fu">cor</span>(cohort<span class="sc">$</span>age_years,       cohort<span class="sc">$</span>systolic_bp_mmHg),</span>
-<span id="cb16-3"><a aria-label="3"></a>  <span class="at">cleaned =</span> <span class="fu">cor</span>(cohort_clean<span class="sc">$</span>age_years, cohort_clean<span class="sc">$</span>systolic_bp_mmHg)</span>
-<span id="cb16-4"><a aria-label="4"></a>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a><span class="fu">c</span>(</span>
+<span id="cb17-2"><a aria-label="2"></a>  <span class="at">raw     =</span> <span class="fu">cor</span>(cohort<span class="sc">$</span>age_years,       cohort<span class="sc">$</span>systolic_bp_mmHg),</span>
+<span id="cb17-3"><a aria-label="3"></a>  <span class="at">cleaned =</span> <span class="fu">cor</span>(cohort_clean<span class="sc">$</span>age_years, cohort_clean<span class="sc">$</span>systolic_bp_mmHg)</span>
+<span id="cb17-4"><a aria-label="4"></a>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    raw cleaned 
   0.093   0.293 </code></pre>
@@ -624,14 +641,14 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Skew</h2>
 <p>Compare two continuous variables:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb18-3"><a aria-label="3"></a>    <span class="fu">across</span>(</span>
-<span id="cb18-4"><a aria-label="4"></a>      <span class="fu">c</span>(height_cm, crp_mg_L),</span>
-<span id="cb18-5"><a aria-label="5"></a>      <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb18-6"><a aria-label="6"></a>    )</span>
-<span id="cb18-7"><a aria-label="7"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb18-8"><a aria-label="8"></a>  <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-3"><a aria-label="3"></a>    <span class="fu">across</span>(</span>
+<span id="cb19-4"><a aria-label="4"></a>      <span class="fu">c</span>(height_cm, crp_mg_L),</span>
+<span id="cb19-5"><a aria-label="5"></a>      <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb19-6"><a aria-label="6"></a>    )</span>
+<span id="cb19-7"><a aria-label="7"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-8"><a aria-label="8"></a>  <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
   height_cm_mean height_cm_median crp_mg_L_mean crp_mg_L_median
@@ -646,15 +663,15 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 </section>
 <section id="seeing-skew" class="slide level2 smaller">
 <h2>Seeing skew</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="fu">hist</span>(cohort<span class="sc">$</span>height_cm, <span class="at">main =</span> <span class="st">"height_cm"</span>, <span class="at">xlab =</span> <span class="cn">NULL</span>)</span>
-<span id="cb20-2"><a aria-label="2"></a><span class="fu">hist</span>(cohort<span class="sc">$</span>crp_mg_L,  <span class="at">main =</span> <span class="st">"crp_mg_L"</span>,  <span class="at">xlab =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a><span class="fu">hist</span>(cohort<span class="sc">$</span>height_cm, <span class="at">main =</span> <span class="st">"height_cm"</span>, <span class="at">xlab =</span> <span class="cn">NULL</span>)</span>
+<span id="cb21-2"><a aria-label="2"></a><span class="fu">hist</span>(cohort<span class="sc">$</span>crp_mg_L,  <span class="at">main =</span> <span class="st">"crp_mg_L"</span>,  <span class="at">xlab =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
+<p><img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-12-2.png" width="960"></p>
+<p><img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-13-2.png" width="960"></p>
 </div>
 </div>
 </div>
@@ -681,11 +698,11 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="where-is-it-missing" class="slide level2 smaller">
 <h2>Where is it missing?</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.x)))) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a aria-label="3"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"n_missing"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a aria-label="4"></a>  <span class="fu">filter</span>(n_missing <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-5"><a aria-label="5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_missing))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.x)))) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a aria-label="3"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"variable"</span>, <span class="at">values_to =</span> <span class="st">"n_missing"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a aria-label="4"></a>  <span class="fu">filter</span>(n_missing <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a aria-label="5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_missing))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   variable          n_missing
@@ -711,14 +728,14 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="na-will-not-warn-you" class="slide level2 smaller">
 <h2><code>NA</code> will not warn you</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a><span class="fu">mean</span>(cohort<span class="sc">$</span>crp_mg_L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a><span class="fu">mean</span>(cohort<span class="sc">$</span>crp_mg_L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a><span class="fu">mean</span>(cohort<span class="sc">$</span>crp_mg_L, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a><span class="fu">mean</span>(cohort<span class="sc">$</span>crp_mg_L, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.43918508886</code></pre>
 </div>
@@ -738,7 +755,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Counting</h2>
 <p>The whole toolkit for a categorical variable starts here:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span> <span class="fu">count</span>(smoking_status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span> <span class="fu">count</span>(smoking_status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   smoking_status     n
@@ -756,7 +773,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="the-levels-are-not-clean" class="slide level2 smaller">
 <h2>The levels are not clean</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span> <span class="fu">count</span>(self_rated_health, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span> <span class="fu">count</span>(self_rated_health, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 2
   self_rated_health     n
@@ -793,7 +810,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Binary variables</h2>
 <p><code>obesity</code> has two possible values, so its summary is just a proportion. Let’s take the mean:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a><span class="fu">mean</span>(cohort<span class="sc">$</span>obesity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a><span class="fu">mean</span>(cohort<span class="sc">$</span>obesity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
@@ -808,7 +825,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="and-it-is-not-even-clean" class="slide level2 smaller">
 <h2>And it is not even clean</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span> <span class="fu">count</span>(obesity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a>cohort <span class="sc">|&gt;</span> <span class="fu">count</span>(obesity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   obesity     n
@@ -829,13 +846,13 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="clean-then-summarise" class="slide level2 smaller">
 <h2>Clean, then summarise</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a>cohort_clean <span class="ot">&lt;-</span> cohort_clean <span class="sc">|&gt;</span></span>
-<span id="cb35-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb35-3"><a aria-label="3"></a>    <span class="at">obese =</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_trim</span>(obesity)),</span>
-<span id="cb35-4"><a aria-label="4"></a>    <span class="at">obese =</span> obese <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"Yes"</span>)</span>
-<span id="cb35-5"><a aria-label="5"></a>  )</span>
-<span id="cb35-6"><a aria-label="6"></a></span>
-<span id="cb35-7"><a aria-label="7"></a>cohort_clean <span class="sc">|&gt;</span> <span class="fu">count</span>(obesity, obese)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a>cohort_clean <span class="ot">&lt;-</span> cohort_clean <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb36-3"><a aria-label="3"></a>    <span class="at">obese =</span> <span class="fu">str_to_sentence</span>(<span class="fu">str_trim</span>(obesity)),</span>
+<span id="cb36-4"><a aria-label="4"></a>    <span class="at">obese =</span> obese <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb36-5"><a aria-label="5"></a>  )</span>
+<span id="cb36-6"><a aria-label="6"></a></span>
+<span id="cb36-7"><a aria-label="7"></a>cohort_clean <span class="sc">|&gt;</span> <span class="fu">count</span>(obesity, obese)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
   obesity obese     n
@@ -850,12 +867,12 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="now-the-proportion" class="slide level2 smaller">
 <h2>Now the proportion</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-label="1"></a>cohort_clean <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb37-3"><a aria-label="3"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
-<span id="cb37-4"><a aria-label="4"></a>    <span class="at">n_obese    =</span> <span class="fu">sum</span>(obese),</span>
-<span id="cb37-5"><a aria-label="5"></a>    <span class="at">prevalence =</span> <span class="fu">mean</span>(obese)</span>
-<span id="cb37-6"><a aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-label="1"></a>cohort_clean <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb38-3"><a aria-label="3"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
+<span id="cb38-4"><a aria-label="4"></a>    <span class="at">n_obese    =</span> <span class="fu">sum</span>(obese),</span>
+<span id="cb38-5"><a aria-label="5"></a>    <span class="at">prevalence =</span> <span class="fu">mean</span>(obese)</span>
+<span id="cb38-6"><a aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
       n n_obese prevalence
@@ -892,9 +909,9 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Cross-tabulation</h2>
 <p>Two categorical variables at once:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a>cohort_clean <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a aria-label="2"></a>  <span class="fu">count</span>(sex_at_birth, obese) <span class="sc">|&gt;</span></span>
-<span id="cb39-3"><a aria-label="3"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> obese, <span class="at">values_from =</span> n, <span class="at">names_prefix =</span> <span class="st">"obese_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-label="1"></a>cohort_clean <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a aria-label="2"></a>  <span class="fu">count</span>(sex_at_birth, obese) <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a aria-label="3"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> obese, <span class="at">values_from =</span> n, <span class="at">names_prefix =</span> <span class="st">"obese_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   sex_at_birth obese_FALSE obese_TRUE
@@ -911,10 +928,10 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="proportions-within-groups" class="slide level2 smaller">
 <h2>Proportions within groups</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-label="1"></a>cohort_clean <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a aria-label="2"></a>  <span class="fu">group_by</span>(sex_at_birth) <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a aria-label="3"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">obesity_prevalence =</span> <span class="fu">mean</span>(obese)) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a aria-label="4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-label="1"></a>cohort_clean <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a aria-label="2"></a>  <span class="fu">group_by</span>(sex_at_birth) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a aria-label="3"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">obesity_prevalence =</span> <span class="fu">mean</span>(obese)) <span class="sc">|&gt;</span></span>
+<span id="cb42-4"><a aria-label="4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   sex_at_birth     n obesity_prevalence
@@ -945,7 +962,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <h2>Correlation</h2>
 <p>For two continuous variables:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a><span class="fu">cor</span>(cohort_clean<span class="sc">$</span>age_years, cohort_clean<span class="sc">$</span>systolic_bp_mmHg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-label="1"></a><span class="fu">cor</span>(cohort_clean<span class="sc">$</span>age_years, cohort_clean<span class="sc">$</span>systolic_bp_mmHg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.292824996636</code></pre>
 </div>
@@ -964,7 +981,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="correlation-with-missing-values" class="slide level2 smaller">
 <h2>Correlation with missing values</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a><span class="fu">cor</span>(cohort<span class="sc">$</span>bmi_kg_m2, cohort<span class="sc">$</span>crp_mg_L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-label="1"></a><span class="fu">cor</span>(cohort<span class="sc">$</span>bmi_kg_m2, cohort<span class="sc">$</span>crp_mg_L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
@@ -972,7 +989,7 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <div class="fragment">
 <p><code>NA</code>, because some CRP values are missing.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a><span class="fu">cor</span>(cohort<span class="sc">$</span>bmi_kg_m2, cohort<span class="sc">$</span>crp_mg_L, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-label="1"></a><span class="fu">cor</span>(cohort<span class="sc">$</span>bmi_kg_m2, cohort<span class="sc">$</span>crp_mg_L, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.360645713861</code></pre>
 </div>
@@ -1000,12 +1017,12 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <section id="plot-it" class="slide level2 smaller">
 <h2>Plot it</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a><span class="fu">plot</span>(cohort_clean<span class="sc">$</span>age_years, cohort_clean<span class="sc">$</span>systolic_bp_mmHg,</span>
-<span id="cb49-2"><a aria-label="2"></a>     <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.56</span>, <span class="fl">0.66</span>, <span class="dv">1</span>, <span class="fl">0.3</span>),</span>
-<span id="cb49-3"><a aria-label="3"></a>     <span class="at">xlab =</span> <span class="st">"Age (years)"</span>, <span class="at">ylab =</span> <span class="st">"Systolic BP (mmHg)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-label="1"></a><span class="fu">plot</span>(cohort_clean<span class="sc">$</span>age_years, cohort_clean<span class="sc">$</span>systolic_bp_mmHg,</span>
+<span id="cb50-2"><a aria-label="2"></a>     <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.56</span>, <span class="fl">0.66</span>, <span class="dv">1</span>, <span class="fl">0.3</span>),</span>
+<span id="cb50-3"><a aria-label="3"></a>     <span class="at">xlab =</span> <span class="st">"Age (years)"</span>, <span class="at">ylab =</span> <span class="st">"Systolic BP (mmHg)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-27-1.png" width="960" class="r-stretch"><div class="fragment">
+<img data-src="met581_08_exploratory_data_analysis_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"><div class="fragment">
 <p>A real trend, and a lot of scatter. That is what <em>r</em> = 0.29 looks like.</p>
 </div>
 </section>
@@ -1036,6 +1053,26 @@ $ type2_diabetes    &lt;chr&gt; "No", "No", "No", "No", "No", "No", "No", "No", 
 <div class="fragment">
 <p>It takes ten minutes and it is the difference between an analysis you can defend and one you cannot.</p>
 </div>
+</section>
+<section id="save-your-progress" class="slide level2 smaller">
+<h2>Save your progress</h2>
+<p>You have just repaired something. Write it down — the next session starts from this file.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a><span class="fu">dir.create</span>(<span class="st">"my_work"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-2"><a aria-label="2"></a></span>
+<span id="cb51-3"><a aria-label="3"></a><span class="fu">write_rds</span>(cohort, <span class="st">"my_work/cohort_after_s7.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-tip callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Keep a note of <strong>what</strong> you changed and <strong>why</strong>, not just the cleaned file. A cleaned dataset nobody can audit is worth very little, and the 50% report is marked on the pipeline as much as the result.</p>
+</div>
+</div>
+</div>
+<p>That file is your cleaned cohort. Use it for the report.</p>
 </section>
 <section id="additional-resources" class="slide level2">
 <h2>Additional Resources</h2>

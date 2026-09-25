@@ -37,6 +37,25 @@ execute:
   <img src="/10_resources/00_images/magrittr_hex.png" style="width:150px;">
 </div>
 
+## The cleaning thread {.smaller}
+
+```{r}
+#| eval: false
+library(tidyverse)
+
+base_url <- "https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/"
+
+cohort <- list(
+  baseline  = read_csv(paste0(base_url, "bioinformatics_msc_stats_baseline.csv")),
+  visits    = read_csv(paste0(base_url, "bioinformatics_msc_stats_visits.csv")),
+  mortality = read_csv(paste0(base_url, "bioinformatics_msc_stats_mortality_comorbidity.csv"))
+)
+```
+
+We will keep repairing this same cohort in every session from here to Exploratory
+Data Analysis. By the end you will have built a cleaned dataset, and a record of
+every change you made to it — which is exactly what the report asks for.
+
 ## Review
 - Introduction to R packages and data types
 - RMarkdown, Tibbles, and Readr
@@ -523,6 +542,26 @@ gapminder |>
 - the flow of operations isn't linear?
 - you need to inspect an intermediate step?
 - speed is more important to you than readability?
+
+## Save your progress {.smaller}
+
+You have just repaired something. Write it down — the next session starts from
+this file.
+
+```{r}
+#| eval: false
+dir.create("my_work", showWarnings = FALSE)
+
+write_rds(cohort, "my_work/cohort_after_s4.rds")
+```
+
+::: {.callout-tip appearance="simple"}
+Keep a note of **what** you changed and **why**, not just the cleaned file. A
+cleaned dataset nobody can audit is worth very little, and the 50% report is
+marked on the pipeline as much as the result.
+:::
+
+Next session: joins and reshaping.
 
 ## Homework
 - Quarto file

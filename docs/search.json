@@ -895,6 +895,18 @@
     ]
   },
   {
+    "objectID": "06_Programming_in_R/met581_06_programming_in_r.html#the-cleaning-thread",
+    "href": "06_Programming_in_R/met581_06_programming_in_r.html#the-cleaning-thread",
+    "title": "Programming in R",
+    "section": "The cleaning thread",
+    "text": "The cleaning thread\n\nlibrary(tidyverse)\n\n# your own work from last session, if you have it\nmy_file &lt;- \"my_work/cohort_after_s5.rds\"\n\ncohort &lt;- if (file.exists(my_file)) {\n  read_rds(my_file)\n} else {\n  # missed the session, or lost the file? start from the provided checkpoint\n  read_rds(\"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/data/checkpoints/cohort_after_s5.rds\")\n}\n\nThe if is there so nobody gets stranded. If you have your own file it is used; if not, you pick up from a checkpoint and carry on.",
+    "crumbs": [
+      "Home",
+      "Programming in R",
+      "Slides"
+    ]
+  },
+  {
     "objectID": "06_Programming_in_R/met581_06_programming_in_r.html#package-load-and-conflicts",
     "href": "06_Programming_in_R/met581_06_programming_in_r.html#package-load-and-conflicts",
     "title": "Programming in R",
@@ -1115,7 +1127,7 @@
     "href": "06_Programming_in_R/met581_06_programming_in_r.html#the-map-family-1",
     "title": "Programming in R",
     "section": "The map family",
-    "text": "The map family\n\n\nWe can use the map function to compute the mean and standard deviation of previous dataset.\n\n\n# I'm using round here so we don't get so many decimal places printed\nmap_dbl(df, mean) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.53 0.44 0.56 0.47 \n\nmap_dbl(df, sd) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.37 0.39 0.35 0.29 \n\n# And here's the native R sapply equivalent\nsapply(df, mean) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.53 0.44 0.56 0.47 \n\n\n\n\nAnd if you see the help page for map_dbl() you’ll notice the ... which allows us to pass function arguments:\n\n\nmap_dbl(df, mean, na.rm = TRUE) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.53 0.44 0.56 0.47",
+    "text": "The map family\n\n\nWe can use the map function to compute the mean and standard deviation of previous dataset.\n\n\n# I'm using round here so we don't get so many decimal places printed\nmap_dbl(df, mean) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.57 0.50 0.54 0.60 \n\nmap_dbl(df, sd) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.35 0.36 0.29 0.28 \n\n# And here's the native R sapply equivalent\nsapply(df, mean) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.57 0.50 0.54 0.60 \n\n\n\n\nAnd if you see the help page for map_dbl() you’ll notice the ... which allows us to pass function arguments:\n\n\nmap_dbl(df, mean, na.rm = TRUE) |&gt; round(digits = 2)\n\n   a    b    c    d \n0.57 0.50 0.54 0.60",
     "crumbs": [
       "Home",
       "Programming in R",
@@ -1175,7 +1187,7 @@
     "href": "06_Programming_in_R/met581_06_programming_in_r.html#multiple-arguments",
     "title": "Programming in R",
     "section": "Multiple Arguments",
-    "text": "Multiple Arguments\n\n\npurrr gives us the option to include more than one input in parallel with map2() and pmap().\nImagine we would like to simulate some random normal distributions with different means, and each vary, we could do:\n\n\n# Define input lists\nmu &lt;- list(5, 10, -3)\nsigma &lt;- list(1, 5, 10)\n# Generate distributions\nmap2(mu, sigma, rnorm, n = 5) |&gt;\n  str()\n\nList of 3\n $ : num [1:5] 4.62 3.42 3.09 6.4 4.49\n $ : num [1:5] 7.74 13.34 13.46 3.47 8.5\n $ : num [1:5] -19.46 -5.87 6.28 10.01 -1.15",
+    "text": "Multiple Arguments\n\n\npurrr gives us the option to include more than one input in parallel with map2() and pmap().\nImagine we would like to simulate some random normal distributions with different means, and each vary, we could do:\n\n\n# Define input lists\nmu &lt;- list(5, 10, -3)\nsigma &lt;- list(1, 5, 10)\n# Generate distributions\nmap2(mu, sigma, rnorm, n = 5) |&gt;\n  str()\n\nList of 3\n $ : num [1:5] 6.79 4.74 5.09 6.15 5.28\n $ : num [1:5] 8.89 3.24 14.7 -1.45 19.47\n $ : num [1:5] 0.15 -1.14 -13.36 7.27 -7.86",
     "crumbs": [
       "Home",
       "Programming in R",
@@ -1199,7 +1211,7 @@
     "href": "06_Programming_in_R/met581_06_programming_in_r.html#multiple-arguments-2",
     "title": "Programming in R",
     "section": "Multiple Arguments",
-    "text": "Multiple Arguments\n\nThere is no map3 or map4, so what if we want more than 2 arguments? purrr has the function pmap() for an arbitrary number of args.\n\n\n\nn &lt;- list(1, 3, 5)\narguments &lt;- list(n, mu, sigma)\n\narguments |&gt;\n  pmap(rnorm) |&gt;\n  str()\n\n\nList of 3\n $ : num 3.22\n $ : num [1:3] 8.44 9.84 6.67\n $ : num [1:5] 7.55 -5.78 3.9 14.9 -4.45\n\n\n\nWe can go even further by increasing the complexity of the problem using the exec() function.\n\n\nfuncs &lt;- c(\"runif\", \"rnorm\", \"rpois\")\nparams &lt;- list(list(min = -1, max = 1), list(sd = 5), list(lambda = 10))\n\nmap2(funcs, params, \\(fn, args) exec(fn, !!!args, n = 5)) |&gt;\n  str()\n\nList of 3\n $ : num [1:5] 0.941 -0.156 -0.574 0.645 -0.475\n $ : num [1:5] 7.47 -5.99 -7.46 2.01 -5.79\n $ : int [1:5] 9 7 9 9 9",
+    "text": "Multiple Arguments\n\nThere is no map3 or map4, so what if we want more than 2 arguments? purrr has the function pmap() for an arbitrary number of args.\n\n\n\nn &lt;- list(1, 3, 5)\narguments &lt;- list(n, mu, sigma)\n\narguments |&gt;\n  pmap(rnorm) |&gt;\n  str()\n\n\nList of 3\n $ : num 5.68\n $ : num [1:3] 8.21 9.91 6.46\n $ : num [1:5] -12.87 4.98 -25.51 1.25 -7.46\n\n\n\nWe can go even further by increasing the complexity of the problem using the exec() function.\n\n\nfuncs &lt;- c(\"runif\", \"rnorm\", \"rpois\")\nparams &lt;- list(list(min = -1, max = 1), list(sd = 5), list(lambda = 10))\n\nmap2(funcs, params, \\(fn, args) exec(fn, !!!args, n = 5)) |&gt;\n  str()\n\nList of 3\n $ : num [1:5] 0.0314 -0.5433 0.3277 0.4794 0.1781\n $ : num [1:5] 3.41 2.99 3.57 -5.52 5.29\n $ : int [1:5] 9 10 6 11 8",
     "crumbs": [
       "Home",
       "Programming in R",
@@ -1235,7 +1247,7 @@
     "href": "06_Programming_in_R/met581_06_programming_in_r.html#pwalk",
     "title": "Programming in R",
     "section": "pwalk",
-    "text": "pwalk\n\npmap() and pwalk() allow you to provide any number of arguments in a list.\n\n\n# Let's set-up a dataframe and function to use with pwalk\nds_mt &lt;-\n  mtcars |&gt;\n  rownames_to_column(\"model\") |&gt;\n  mutate(am = factor(am, labels = c(\"auto\", \"manual\"))) |&gt;\n  select(model, mpg, wt, cyl, am) |&gt;\n  sample_n(3)\nfoo &lt;- function(model, am, mpg) {\n  print(paste(\"The\", model, \"has a\", am, \"transmission and gets\", mpg, \"mpgs.\"))\n}\n# Now we can use pwalk\nds_mt |&gt;\n  select(model, am, mpg) |&gt;\n  pwalk(.l = _, .f = foo)\n\n[1] \"The Fiat 128 has a manual transmission and gets 32.4 mpgs.\"\n[1] \"The AMC Javelin has a auto transmission and gets 15.2 mpgs.\"\n[1] \"The Fiat X1-9 has a manual transmission and gets 27.3 mpgs.\"",
+    "text": "pwalk\n\npmap() and pwalk() allow you to provide any number of arguments in a list.\n\n\n# Let's set-up a dataframe and function to use with pwalk\nds_mt &lt;-\n  mtcars |&gt;\n  rownames_to_column(\"model\") |&gt;\n  mutate(am = factor(am, labels = c(\"auto\", \"manual\"))) |&gt;\n  select(model, mpg, wt, cyl, am) |&gt;\n  sample_n(3)\nfoo &lt;- function(model, am, mpg) {\n  print(paste(\"The\", model, \"has a\", am, \"transmission and gets\", mpg, \"mpgs.\"))\n}\n# Now we can use pwalk\nds_mt |&gt;\n  select(model, am, mpg) |&gt;\n  pwalk(.l = _, .f = foo)\n\n[1] \"The Ferrari Dino has a manual transmission and gets 19.7 mpgs.\"\n[1] \"The Fiat X1-9 has a manual transmission and gets 27.3 mpgs.\"\n[1] \"The Merc 280 has a auto transmission and gets 19.2 mpgs.\"",
     "crumbs": [
       "Home",
       "Programming in R",
@@ -1247,7 +1259,19 @@
     "href": "06_Programming_in_R/met581_06_programming_in_r.html#while-loops",
     "title": "Programming in R",
     "section": "While loops",
-    "text": "While loops\n\nYou’re unlikely to every use them in a data analysis context (I never have!), but they evaluate their body code until a condition is met\nExample: see how many times we need to flip a coin to get three heads in a row:\n\n\n\nflip_coin &lt;- function() {\n  sample(c(\"T\", \"H\"), 1)\n}\nnumFlips &lt;- 0\nnumHeads &lt;- 0\nwhile (numHeads &lt; 3) {\n  if (flip_coin() == \"H\") {\n    numHeads &lt;- numHeads + 1\n  } else {\n    numHeads &lt;- 0\n  }\n  numFlips &lt;- numFlips + 1\n}\ncat(\"Number of flips to get 3 heads in a row: \", numFlips)\n\n\nNumber of flips to get 3 heads in a row:  12\n\n\n\nBeware that while loops can crash if the condition being evaluated never becomes false!",
+    "text": "While loops\n\nYou’re unlikely to every use them in a data analysis context (I never have!), but they evaluate their body code until a condition is met\nExample: see how many times we need to flip a coin to get three heads in a row:\n\n\n\nflip_coin &lt;- function() {\n  sample(c(\"T\", \"H\"), 1)\n}\nnumFlips &lt;- 0\nnumHeads &lt;- 0\nwhile (numHeads &lt; 3) {\n  if (flip_coin() == \"H\") {\n    numHeads &lt;- numHeads + 1\n  } else {\n    numHeads &lt;- 0\n  }\n  numFlips &lt;- numFlips + 1\n}\ncat(\"Number of flips to get 3 heads in a row: \", numFlips)\n\n\nNumber of flips to get 3 heads in a row:  7\n\n\n\nBeware that while loops can crash if the condition being evaluated never becomes false!",
+    "crumbs": [
+      "Home",
+      "Programming in R",
+      "Slides"
+    ]
+  },
+  {
+    "objectID": "06_Programming_in_R/met581_06_programming_in_r.html#save-your-progress",
+    "href": "06_Programming_in_R/met581_06_programming_in_r.html#save-your-progress",
+    "title": "Programming in R",
+    "section": "Save your progress",
+    "text": "Save your progress\nYou have just repaired something. Write it down — the next session starts from this file.\n\ndir.create(\"my_work\", showWarnings = FALSE)\n\nwrite_rds(cohort, \"my_work/cohort_after_s6.rds\")\n\n\n\n\n\n\n\nKeep a note of what you changed and why, not just the cleaned file. A cleaned dataset nobody can audit is worth very little, and the 50% report is marked on the pipeline as much as the result.\n\n\n\nNext session: exploratory data analysis, where we find what is still wrong.",
     "crumbs": [
       "Home",
       "Programming in R",
@@ -3667,6 +3691,18 @@
     ]
   },
   {
+    "objectID": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#the-cleaning-thread",
+    "href": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#the-cleaning-thread",
+    "title": "Wrangling Data 1: dplyr",
+    "section": "The cleaning thread",
+    "text": "The cleaning thread\n\nlibrary(tidyverse)\n\nbase_url &lt;- \"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/Simulated_data/generated_uk/\"\n\ncohort &lt;- list(\n  baseline  = read_csv(paste0(base_url, \"bioinformatics_msc_stats_baseline.csv\")),\n  visits    = read_csv(paste0(base_url, \"bioinformatics_msc_stats_visits.csv\")),\n  mortality = read_csv(paste0(base_url, \"bioinformatics_msc_stats_mortality_comorbidity.csv\"))\n)\n\nWe will keep repairing this same cohort in every session from here to Exploratory Data Analysis. By the end you will have built a cleaned dataset, and a record of every change you made to it — which is exactly what the report asks for.",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 1: dplyr",
+      "Slides"
+    ]
+  },
+  {
     "objectID": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#review",
     "href": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#review",
     "title": "Wrangling Data 1: dplyr",
@@ -4255,6 +4291,18 @@
     ]
   },
   {
+    "objectID": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#save-your-progress",
+    "href": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#save-your-progress",
+    "title": "Wrangling Data 1: dplyr",
+    "section": "Save your progress",
+    "text": "Save your progress\nYou have just repaired something. Write it down — the next session starts from this file.\n\ndir.create(\"my_work\", showWarnings = FALSE)\n\nwrite_rds(cohort, \"my_work/cohort_after_s4.rds\")\n\n\n\n\n\n\n\nKeep a note of what you changed and why, not just the cleaned file. A cleaned dataset nobody can audit is worth very little, and the 50% report is marked on the pipeline as much as the result.\n\n\n\nNext session: joins and reshaping.",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 1: dplyr",
+      "Slides"
+    ]
+  },
+  {
     "objectID": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#homework",
     "href": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#homework",
     "title": "Wrangling Data 1: dplyr",
@@ -4344,6 +4392,18 @@
     "title": "Wrangling Data 2: tidying, strings and joins",
     "section": "Overview",
     "text": "Overview",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 2: tidying, strings and joins",
+      "Slides"
+    ]
+  },
+  {
+    "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.html#the-cleaning-thread",
+    "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.html#the-cleaning-thread",
+    "title": "Wrangling Data 2: tidying, strings and joins",
+    "section": "The cleaning thread",
+    "text": "The cleaning thread\n\nlibrary(tidyverse)\n\n# your own work from last session, if you have it\nmy_file &lt;- \"my_work/cohort_after_s4.rds\"\n\ncohort &lt;- if (file.exists(my_file)) {\n  read_rds(my_file)\n} else {\n  # missed the session, or lost the file? start from the provided checkpoint\n  read_rds(\"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/data/checkpoints/cohort_after_s4.rds\")\n}\n\nThe if is there so nobody gets stranded. If you have your own file it is used; if not, you pick up from a checkpoint and carry on.",
     "crumbs": [
       "Home",
       "Wrangling Data 2: tidying, strings and joins",
@@ -4944,6 +5004,18 @@
     "title": "Wrangling Data 2: tidying, strings and joins",
     "section": "Stringr - More Practice",
     "text": "Stringr - More Practice\nUsing starwars\n\nconvert the hair_color column values to be Sentence Case\nchange all columns names to be title case\n\nUsing gapminder\n\nremove any Camel Case from column names (i.e. all to lower case)\nconvert the continent column values to be all upper case",
+    "crumbs": [
+      "Home",
+      "Wrangling Data 2: tidying, strings and joins",
+      "Slides"
+    ]
+  },
+  {
+    "objectID": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.html#save-your-progress",
+    "href": "04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.html#save-your-progress",
+    "title": "Wrangling Data 2: tidying, strings and joins",
+    "section": "Save your progress",
+    "text": "Save your progress\nYou have just repaired something. Write it down — the next session starts from this file.\n\ndir.create(\"my_work\", showWarnings = FALSE)\n\nwrite_rds(cohort, \"my_work/cohort_after_s5.rds\")\n\n\n\n\n\n\n\nKeep a note of what you changed and why, not just the cleaned file. A cleaned dataset nobody can audit is worth very little, and the 50% report is marked on the pipeline as much as the result.\n\n\n\nNext session: turning these repairs into functions.",
     "crumbs": [
       "Home",
       "Wrangling Data 2: tidying, strings and joins",
@@ -5815,6 +5887,18 @@
     ]
   },
   {
+    "objectID": "08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html#the-cleaning-thread",
+    "href": "08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html#the-cleaning-thread",
+    "title": "Exploratory Data Analysis in R",
+    "section": "The cleaning thread",
+    "text": "The cleaning thread\n\nlibrary(tidyverse)\n\n# your own work from last session, if you have it\nmy_file &lt;- \"my_work/cohort_after_s6.rds\"\n\ncohort &lt;- if (file.exists(my_file)) {\n  read_rds(my_file)\n} else {\n  # missed the session, or lost the file? start from the provided checkpoint\n  read_rds(\"https://raw.githubusercontent.com/H-Mateus/Data-for-Life-Sciences-in-R/main/data/checkpoints/cohort_after_s6.rds\")\n}\n\nThe if is there so nobody gets stranded. If you have your own file it is used; if not, you pick up from a checkpoint and carry on.",
+    "crumbs": [
+      "Home",
+      "Exploratory Data Analysis in R",
+      "Slides"
+    ]
+  },
+  {
     "objectID": "08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html#todays-aims",
     "href": "08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html#todays-aims",
     "title": "Exploratory Data Analysis in R",
@@ -6312,6 +6396,18 @@
     "title": "Exploratory Data Analysis in R",
     "section": "An EDA checklist",
     "text": "An EDA checklist\nBefore any test, on any dataset:\n\ndim() and glimpse() — size and types\nClassify each variable you plan to use\nSummarise continuous variables both ways — mean/SD and median/IQR\ncount() every categorical variable, and read the levels\nCount the missing values, and ask why they are missing\nPlot anything you intend to claim a relationship about\n\n\nIt takes ten minutes and it is the difference between an analysis you can defend and one you cannot.",
+    "crumbs": [
+      "Home",
+      "Exploratory Data Analysis in R",
+      "Slides"
+    ]
+  },
+  {
+    "objectID": "08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html#save-your-progress",
+    "href": "08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html#save-your-progress",
+    "title": "Exploratory Data Analysis in R",
+    "section": "Save your progress",
+    "text": "Save your progress\nYou have just repaired something. Write it down — the next session starts from this file.\n\ndir.create(\"my_work\", showWarnings = FALSE)\n\nwrite_rds(cohort, \"my_work/cohort_after_s7.rds\")\n\n\n\n\n\n\n\nKeep a note of what you changed and why, not just the cleaned file. A cleaned dataset nobody can audit is worth very little, and the 50% report is marked on the pipeline as much as the result.\n\n\n\nThat file is your cleaned cohort. Use it for the report.",
     "crumbs": [
       "Home",
       "Exploratory Data Analysis in R",
