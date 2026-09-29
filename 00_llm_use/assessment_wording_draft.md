@@ -135,7 +135,8 @@ Two things I'd flag for the team rather than recommend:
 - **Sessions 1–2 (Anney)** cover "the role of code in scientific analysis",
   reproducibility, documentation and note-taking. The AI-use conversation
   arguably belongs there, or should at minimum be consistent with whatever is
-  said there. Worth checking before session 3 to avoid contradicting him.
+  said there. Worth checking before session 3, which points students at the AI guide, to
+  avoid contradicting him.
 - **The statistics half (Wills, Farewell, Watkins)** — the 25% Applied
   Statistics paper is not mine. If the debug-the-code item format is adopted,
   the statistical equivalents (t-test on inappropriate data, uncorrected

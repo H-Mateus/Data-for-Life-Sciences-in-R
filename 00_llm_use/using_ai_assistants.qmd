@@ -97,7 +97,7 @@ One row, not two — `NA != "a"` evaluates to `NA`, and `filter()` keeps only
 `filter(group != "a" | is.na(group))`.
 
 ::: {.callout-note}
-There are more of these in the session 3 slides. The common thread is that
+There are more of these in the session 5 slides. The common thread is that
 **none of them error**. Code that crashes is a minor annoyance; code that
 returns a confident wrong number is how bad science happens — and you cannot
 spot any of them without understanding factors, `NA` semantics, and joins.

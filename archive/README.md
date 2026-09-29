@@ -37,6 +37,23 @@ here.
 > (answers) and the two PDFs are the whole set. Rendered HTML for these is
 > recoverable from git history (`git show 4f78824:docs/08_Modelling_in_R/...`).
 
+## `05_wrangling_data_3/`
+
+The old third wrangling lecture: factors with `forcats`, dates with `lubridate`,
+and writing functions (slides and lecture notes).
+
+**Why archived:** the lecture was dissolved rather than retired. The timetable has
+two wrangling sessions, not three, and the syllabus for them names *transform,
+group, reshape, join* and never strings, factors or dates. So:
+
+- `forcats` and `lubridate` became reference pages in `10_resources/02_reference/`
+- the functions half (writing functions, when not to, anonymous functions,
+  if/else, modularising, unit testing) moved into session 6, Programming in R
+
+Kept here as the record of what was cut. It also has two mid-module anonymous
+feedback slides (Slido) that were not carried over, because the Slido event is
+from a previous year.
+
 ## `10_resources_workshop_answers/`
 
 Answer key for the modelling practice workbook, moved out of

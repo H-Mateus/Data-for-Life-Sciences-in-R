@@ -47,8 +47,9 @@ execute:
 - Set out what's fine and what isn't in assessed work
 
 ::: {.notes}
-~15-20 minutes, placed after the first coding exercises in session 3 so they
-have enough R to read the examples. Run the code live rather than reading the
+~15-20 minutes, at the end of session 5, straight after joins. By then students
+can read every exhibit, and Exhibit D is the join mistake they have just been
+taught to avoid. Run the code live rather than reading the
 output off the slide — the reveal is the whole point.
 :::
 
@@ -396,8 +397,6 @@ same extractions from different accounts and compared them:
 
 An answer you cannot reproduce is not evidence — and this module is about
 reproducible pipelines. Use it to *find* papers. Then read them.
-
-## Break {.center}
 
 ## Right — so use them well {.smaller}
 

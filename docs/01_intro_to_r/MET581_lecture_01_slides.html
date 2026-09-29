@@ -230,23 +230,11 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 <h2>Todays Aims</h2>
 <ul>
 <li>Basics of R</li>
-<li>Importing and Exporting Data</li>
 <li>Working with R packages</li>
-<li>Basic data alterations</li>
+<li>Importing and exporting data, in base R and with readr</li>
+<li>Tibbles, the tidyverse’s data frame</li>
+<li>Writing reproducible documents with Quarto</li>
 </ul>
-<aside class="notes">
-<p>Consider adding more detailed learning outcomes, such as specific R skills or tasks they should master.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>Learning Objectives</h2>
@@ -255,22 +243,10 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 <li>Understand R syntax</li>
 <li>Learn basic calculations</li>
 <li>Explore data types and structures</li>
-<li>Learn data import/export in base R</li>
 <li>Find help and install packages</li>
+<li>Import and export data</li>
+<li>Create and render a Quarto document</li>
 </ul>
-<aside class="notes">
-<p>Might need to highlight “tidyverse” and packages related to data wrangling, as they’re commonly used in modern R workflows.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="recommended-textbook" class="slide level2">
 <h2>Recommended Textbook</h2>
@@ -517,17 +493,19 @@ If you aren’t quite sure of the function name try <code>??function_name</code>
 <span id="cb17-2"><a aria-label="2"></a>??mean</span>
 <span id="cb17-3"><a aria-label="3"></a><span class="fu">help</span>(mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="searching-online-and-llms" class="slide level2">
+<section id="searching-online-and-llms" class="slide level2 smaller">
 <h2>Searching online and LLMs</h2>
 <ul>
-<li>Back in the not so distance past, <a href="https://stackoverflow.com/questions">Stackoverflow</a> was the place to find help with codey matters…</li>
+<li>Back in the not so distant past, <a href="https://stackoverflow.com/questions">Stackoverflow</a> was the place to find help with codey matters…</li>
 <li>Now most people will use Large Language Models (LLMs)
 <ul>
 <li>A word of caution!</li>
-<li>They can be handy tools, but try to be very intensional about how you use them whilst learning!</li>
-<li>You’ll be using R throughout this course, so it’s important you actually built confidence using R, not just pass the assessments</li>
+<li>They can be handy tools, but try to be very intentional about how you use them whilst learning!</li>
+<li>You’ll be using R throughout this course, so it’s important you actually build confidence using R, not just pass the assessments</li>
 <li>If you use them, make sure you understand the output they give you (try asking it to explain parts you don’t understand and comment any code it writes well)</li>
 </ul></li>
+<li>We come back to this properly in session 5, once you can read the kind of code they get wrong</li>
+<li>Before you start any assessed work, read <a href="../00_llm_use/using_ai_assistants.html#whats-fine-and-what-isnt">what’s fine and what isn’t</a></li>
 </ul>
 </section>
 <section id="variables" class="slide level2">
@@ -879,12 +857,12 @@ Make your own Vector like the one below.</p>
 <span id="cb58-2"><a aria-label="2"></a>numbers <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">size =</span> <span class="dv">10</span>)</span>
 <span id="cb58-3"><a aria-label="3"></a><span class="fu">print</span>(numbers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 42 66 87 81 51 16 89 22 58 13</code></pre>
+<pre><code> [1] 26 28 71 82 85 32 90 55 36 69</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-label="1"></a><span class="co"># How many values are below 50?</span></span>
 <span id="cb60-2"><a aria-label="2"></a>numbers <span class="sc">&lt;</span> <span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
+<pre><code> [1]  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -1156,37 +1134,523 @@ function (x)  .Primitive("sin")
 <li><p>This can be particularly important to consider when reading in larger files</p></li>
 </ul>
 </section>
-<section id="exporting-data" class="slide level2">
-<h2>Exporting Data</h2>
+<section id="readr" class="slide level2">
+<h2>Readr</h2>
 <ul>
-<li>You’ll likely want to save the data you’ve been working with at some point</li>
-<li>Similarly to importing data, you’ll use different functions depending on the format you want to save to</li>
+<li>There are many ways to import data into R, from inputting the data yourself to reading it in using the base R tools we have just seen.</li>
+<li>The tidyverse way is to use a package called readr, there are several functions within this package you can use to read in different types of data.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a aria-label="1"></a>df <span class="ot">&lt;-</span> mtcars <span class="co"># build in dataframe in R</span></span>
-<span id="cb89-2"><a aria-label="2"></a></span>
-<span id="cb89-3"><a aria-label="3"></a><span class="co"># Save to csv</span></span>
-<span id="cb89-4"><a aria-label="4"></a><span class="fu">write.csv</span>(</span>
-<span id="cb89-5"><a aria-label="5"></a>  df,</span>
-<span id="cb89-6"><a aria-label="6"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"03_data/mydata.csv"</span>),</span>
-<span id="cb89-7"><a aria-label="7"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb89-8"><a aria-label="8"></a>  <span class="at">quote =</span> <span class="cn">FALSE</span></span>
-<span id="cb89-9"><a aria-label="9"></a>)</span>
-<span id="cb89-10"><a aria-label="10"></a></span>
-<span id="cb89-11"><a aria-label="11"></a><span class="co"># Save to tsv</span></span>
-<span id="cb89-12"><a aria-label="12"></a><span class="fu">write.table</span>(df, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"03_data/mydata.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250620-122125.avif" class="quarto-figure quarto-figure-center" height="200"></p>
+</figure>
+</div>
+</section>
+<section id="readr-functions" class="slide level2">
+<h2>Readr functions</h2>
 <ul>
-<li>Use row.names = FALSE and quote = FALSE for better formatting.</li>
+<li><code>read_csv()</code> reads comma delimited files</li>
+<li><code>read_csv2()</code> reads semicolon separated files (common in countries where , is used as the decimal place)</li>
+<li><code>read_tsv()</code> reads tab delimited files</li>
+<li><code>read_delim()</code> reads in files with any delimiter.</li>
+<li><code>read_fwf()</code> reads fixed width files. You can specify fields either by their widths with <code>fwf_widths()</code> or their position with <code>fwf_positions()</code>.</li>
+<li><code>read_table()</code> reads a common variation of fixed width files where columns are separated by white space.</li>
+<li><code>read_log()</code> reads Apache style log files.</li>
+</ul>
+</section>
+<section id="readr-exercises" class="slide level2">
+<h2>Readr exercises</h2>
+<ol type="1">
+<li>Use the base R function <code>read.table()</code> to import the <a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno.txt">pheno.txt</a> file. Then repeat this with <code>read_tsv()</code> from Readr, what is the difference?</li>
+</ol>
+<p>You may notice that <code>read_csv</code> automatically assumes your first row is your column headers, you may wish to alter this behaviour is your file comes with a header of information on the top row.</p>
+<ol start="2" type="1">
+<li>Open the “pheno.txt” in a text editor (can use notepad on Windows), and add a header to the file</li>
+<li>What happens when you open this using <code>read_csv</code>?</li>
+</ol>
+</section>
+<section id="readr-exercises-continued" class="slide level2">
+<h2>Readr exercises continued</h2>
+<p>Let’s try again, but skipping this header.</p>
+<ol start="4" type="1">
+<li>You can use <code>skip = n</code> to skip the first n lines; or use <code>comment = "#"</code> to drop all lines that start with “#”</li>
+<li>You may not have column names, in that case you can use <code>col_names = FALSE</code> to tell <code>read_csv()</code> not to treat the first row as headings, and instead label them sequentially from X1 to Xn</li>
+</ol>
+</section>
+<section id="readr-vs-base-r" class="slide level2">
+<h2>Readr VS base R</h2>
+<p>Why use the readr functions?</p>
+<ul>
+<li>They are typically much faster (~10x) than their base equivalents. Long running jobs have a progress bar, so you can see what’s happening. If you’re looking for raw speed, try <code>fread()</code> from the <code>data.table</code> package. It doesn’t fit quite so well into the tidyverse, but it can be quite a bit faster.</li>
+<li>They produce tibbles, they don’t convert character vectors to factors, use row names, or munge the column names. These are common sources of frustration with the base R functions.</li>
+<li>They are more reproducible. Base R functions inherit some behaviour from your operating system and environment variables, so code that works on your computer might not work on someone else’s.</li>
+</ul>
+</section>
+<section id="tibbles" class="slide level2">
+<h2>Tibbles!</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>“Tibbles”&nbsp;are a new modern data frame. It keeps many important features of the original data frame. It removes many of the outdated features. They are another amazing feature added to R by Hadley Wickham. We will use them in the tidyverse to replace the older dataframe that we just learned about.</p>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-162539.avif" class="quarto-figure quarto-figure-center" height="200"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-162550.avif" class="quarto-figure quarto-figure-center" height="200"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="tibbles---continued" class="slide level2">
+<h2>Tibbles! - continued</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Compared to Data Frames:</p>
+<ol type="1">
+<li>A&nbsp;tibble&nbsp;never changes the input type.</li>
+<li>A tibble can have columns that are lists.</li>
+<li>A tibble can have non-standard variable names.
+<ul>
+<li>can start with a number or contain spaces.</li>
+<li>To use this refer to these in a backtick.</li>
+</ul></li>
+<li>It only recycles vectors of length 1.</li>
+<li>It never creates row names.</li>
+<li>Enhanced <code>print()</code> behaviour</li>
+</ol>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-162539.avif" class="quarto-figure quarto-figure-center" height="200"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-162550.avif" class="quarto-figure quarto-figure-center" height="200"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="tibbles---continued-1" class="slide level2">
+<h2>Tibbles! - continued</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li>The syntax to make a tibble is nearly identical to data frames</li>
+</ul>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a aria-label="1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb89-2"><a aria-label="2"></a>test <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>))</span>
+<span id="cb89-3"><a aria-label="3"></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+      x y         
+  &lt;int&gt; &lt;list&gt;    
+1     1 &lt;int [5]&gt; 
+2     2 &lt;int [10]&gt;
+3     3 &lt;int [20]&gt;</code></pre>
+</div>
+</div>
+</div></div>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li>Whereas if we try this as a dataframe</li>
+</ul>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a aria-label="1"></a>test <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">c</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">y =</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)))</span>
+<span id="cb91-2"><a aria-label="2"></a><span class="fu">head</span>(test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  x1 x2 x3 y1 y2 y3
+1  1  2  3  1  1  1
+2  1  2  3  2  2  2
+3  1  2  3  3  3  3
+4  1  2  3  4  4  4
+5  1  2  3  5  5  5
+6  1  2  3  1  6  6</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="tibbles---continued-2" class="slide level2">
+<h2>Tibbles! - continued</h2>
+<p>We can easily coerce dataframes to tibbles with <code>as_tibble()</code></p>
+<p>Try the following, what differences do you notice:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a aria-label="1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb93-2"><a aria-label="2"></a><span class="fu">as_tibble</span>(iris)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<ul>
+<li>Tibbles on print the first 10 rows and all the columns that fit on the screen</li>
+<li>You will not accidentally print too much!</li>
+<li>Each column displays its data type</li>
+</ul>
+</div>
+</section>
+<section id="tribble" class="slide level2">
+<h2>Tribble</h2>
+<ul>
+<li>Sometimes you might need to make a small table in R</li>
+<li><code>tribble()</code> allows you make a tibble and fill it row wise</li>
+<li>The <code>~</code> is used to define column headers</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a aria-label="1"></a><span class="fu">tribble</span>(<span class="sc">~</span>x, <span class="sc">~</span>y, <span class="sc">~</span>z, <span class="st">"a"</span>, <span class="dv">2</span>, <span class="fl">3.6</span>, <span class="st">"b"</span>, <span class="dv">1</span>, <span class="fl">8.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  x         y     z
+  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 a         2   3.6
+2 b         1   8.5</code></pre>
+</div>
+</div>
+</section>
+<section id="tibble-exercises" class="slide level2">
+<h2>Tibble exercises</h2>
+<ol type="1">
+<li>How can you tell if an object is a tibble?</li>
+<li>Compare and contrast the following operations on a data.frame and equivalent tibble. What is different?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a aria-label="1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">abc =</span> <span class="dv">1</span>, <span class="at">xyz =</span> <span class="st">"a"</span>)</span>
+<span id="cb96-2"><a aria-label="2"></a>df<span class="sc">$</span>x</span>
+<span id="cb96-3"><a aria-label="3"></a>df[, <span class="st">"xyz"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="3" type="1">
+<li>If you have the name of a column stored in an object, e.g.&nbsp;<code>var &lt;- "mpg"</code>, how can you extract the column from a tibble?</li>
+</ol>
+</section>
+<section id="getting-data-back-out" class="slide level2">
+<h2>Getting data back out</h2>
+<ul>
+<li>Importing is only half of it — an analysis that can’t be handed on isn’t reproducible</li>
+<li>Every <code>read_</code> function in readr has a matching <code>write_</code> function</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a aria-label="1"></a><span class="fu">write_csv</span>(my_data, <span class="st">"results/cleaned_pheno.csv"</span>)</span>
+<span id="cb97-2"><a aria-label="2"></a><span class="fu">write_tsv</span>(my_data, <span class="st">"results/cleaned_pheno.tsv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>Note the argument order: <strong>data first, then the path</strong></li>
+<li>Unlike base <code>write.csv()</code>, these never write row names, so there is no <code>row.names = FALSE</code> to remember</li>
+</ul>
+</section>
+<section id="which-format-should-you-write" class="slide level2">
+<h2>Which format should you write?</h2>
+<ul>
+<li><strong><code>write_csv()</code></strong> — plain text, opens anywhere, readable by a human and by Excel
+<ul>
+<li>Use it whenever someone else, or some other tool, has to read the file</li>
+<li>But: it cannot store what a column <em>is</em>, so factors and dates come back as text</li>
+</ul></li>
+<li><strong><code>write_rds()</code></strong> — R’s own format, preserves the object exactly</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a aria-label="1"></a><span class="fu">write_rds</span>(my_data, <span class="st">"results/cleaned_pheno.rds"</span>)</span>
+<span id="cb98-2"><a aria-label="2"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"results/cleaned_pheno.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>Only R can read it, but a tibble written with <code>write_rds()</code> comes back identical — types, factor levels and all</li>
+</ul>
+</section>
+<section id="writing-data---practice" class="slide level2">
+<h2>Writing data - practice</h2>
+<ol type="1">
+<li>Read in “pheno.txt”, then write it back out as a <code>.csv</code>. Open both in a text editor and compare them</li>
+<li>Convert a column to a factor, write it with <code>write_csv()</code>, read it back in. What type is it now?</li>
+<li>Repeat step 2 using <code>write_rds()</code> and <code>read_rds()</code>. What is different?</li>
+</ol>
+<p><strong>Extra practice</strong></p>
+<ol start="4" type="1">
+<li>Never write output into the same folder as your raw data. Why not?</li>
+</ol>
+</section>
+<section id="quarto" class="slide level2">
+<h2>Quarto</h2>
+<p>Last up today is <a href="https://quarto.org/">Quarto</a>, which we can use to make pdf and html files (and much more!) that integrate plain language, code and output (images etc.). This is excellent because it’s a dynamic document (and so more reproducible), and hugely flexible - various languages and engines, and outputs are supported.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-145634.avif" class="quarto-figure quarto-figure-center" height="100"></p>
+</figure>
+</div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<p>But before Quarto, there was Rmarkdown…</p>
+</section>
+<section id="some-background-on-rmarkdown" class="slide level2">
+<h2>Some background on Rmarkdown</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Today we will be working on a .qmd (Quarto) file, but first, we need to talk about <code>.rmd</code> files.</p>
+<p>This (an <code>.rmd</code> file) is an Rmarkdown file. You may have met markdown already; if not, it takes about ten minutes to learn. Your homework is written in its successor, Quarto, so let’s have a look at both.</p>
+<p>RMarkdown is a way to make documents which include R code. You can use this to write html documents, pdf’s and PowerPoints to show answers to coding problems, or the code themselves.</p>
+<p>Can you think of any reasons for using this?</p>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-145914.avif" class="quarto-figure quarto-figure-center" height="400"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="some-background-on-quarto" class="slide level2">
+<h2>Some background on Quarto</h2>
+<ul>
+<li>Announced in 2022 and becoming more widely adopted only last year, based on <a href="https://pandoc.org/">pandoc</a></li>
+<li>Actually a separate software that we run within RStudio</li>
+<li>The successor to Rmarkdown in many ways (made by the same devs), using <code>.qmd</code> files, made to support more languages (Python, Julia, etc.) and be more consistent in formatting</li>
+<li>Can be used to make documents in Rstudio, or Jupyter notebooks or elsewhere (i.e.&nbsp;it’s both multi-language and multi-engine)</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-150153.avif" class="quarto-figure quarto-figure-center" height="200"></p>
+</figure>
+</div>
+<aside class="notes">
+<ul>
+<li>Combines R Markdown, <code>bookdown</code>, <code>distill</code>, <code>xaringian</code>, and others “into a single consistent system”</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="some-background-on-quarto-1" class="slide level2">
+<h2>Some background on Quarto</h2>
+
+<img data-src="MET581_lecture_02-Explore-R-img/250619-150717.avif" class="r-stretch"></section>
+<section id="a-note-on-quarto" class="slide level2">
+<h2>A note on Quarto</h2>
+<ul>
+<li>Fundamental usage for reports is the same as creating in Rmarkdown</li>
+<li>It’s also what’s used to make many of the R books you may read online (including R for Data Science 2nd edition!)</li>
+<li>Recommended that you use Quarto by default, because:
+<ul>
+<li>You will be easily be able to swap-in other languages besides R</li>
+<li>You will more easily be able to use other Quarto features like those for making blogs and journal articles if you’re already familiar</li>
+<li>It’s highly compatible - you can render most Rmarkdown or jupyter notebooks in Quarto easily, so you can still make normal Rmarkdown documents with your knowledge if needed.</li>
+<li>You’re up to date with the latest in reproducible research</li>
+<li>Newest features will likely be added to Quarto over Rmarkdown</li>
+</ul></li>
+</ul>
+</section>
+<section id="making-your-first-.qmd-file" class="slide level2">
+<h2>Making your first .qmd file</h2>
+<div class="columns">
+<div class="column" style="width:80%;">
+<ul>
+<li><p>Use the menu bar to create a new Quarto document, we will focus on html today</p></li>
+<li><p>Notice that the file contains three types of content:</p>
+<ul>
+<li>A YAML header surrounded by <code>- - -</code></li>
+<li>R code chunks surrounded by ```</li>
+<li>Text mixed with simple markdown formatting</li>
+</ul></li>
+</ul>
+<p>What do each of the bits of your new file do?</p>
+<ul>
+<li>Let’s work through these now and create a knitted document!</li>
+<li>Create your own with code/data you have, or download an example file from quarto from <a href="https://quarto.org/docs/get-started/computations/_computations.qmd">here</a></li>
+</ul>
+</div><div class="column" style="width:20%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-151102.avif" class="quarto-figure quarto-figure-center" height="500"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="elements-of-quarto-the-yaml-header" class="slide level2">
+<h2>Elements of Quarto | The YAML header</h2>
+<ul>
+<li>Quarto documents start with a YAML header that sets metadata and configurations for the document.</li>
+<li>YAML is a data serialisation language which aims to be useful for computers (often config files) and humans (it’s relatively easy to read)</li>
+<li>Typical YAML options:
+<ul>
+<li>title: Title of the document</li>
+<li>author: Author’s name</li>
+<li>date: Document date</li>
+<li>format: Specifies the output format (html, pdf, etc.)</li>
+<li>theme: Defines a theme for visual style</li>
+</ul></li>
+</ul>
+<p>There are <a href="https://quarto.org/docs/reference/formats/html.html">a lot</a> of options we won’t cover today and they differ by document type!</p>
+</section>
+<section id="elements-of-quarto-code-chunks" class="slide level2">
+<h2>Elements of Quarto | Code chunks</h2>
+<p>When you open the file in the RStudio IDE, it becomes a notebook interface for R. You can run each code chunk by clicking the green arrow icon. RStudio executes the code and display the results in line with your file.</p>
+<p>There are three ways to insert R code into the file:</p>
+<ol type="1">
+<li>The keyboard shortcut Ctrl + Alt + I (OS X: Cmd + Option + I)</li>
+<li>The +option in the menu bar</li>
+<li>Or by typing the chunk delimiters ``` {r} ```</li>
+</ol>
+
+<img data-src="MET581_lecture_02-Explore-R-img/250619-152627.avif" class="r-stretch"></section>
+<section id="elements-of-quarto-code-chunks-1" class="slide level2">
+<h2>Elements of Quarto | Code chunks</h2>
+<p>In Quarto, chunk output can be customized with options prefixed by <code>#|</code> inside the chunk header. Here are some common options:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>#| include: false
+<ul>
+<li>Excludes code and results from the rendered document but runs the code.</li>
+</ul></li>
+<li>#| echo: false
+<ul>
+<li>Excludes code but displays results. Useful for embedding figures.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>#| message: false
+<ul>
+<li>Suppresses messages generated by code.</li>
+</ul></li>
+<li>#| warning: false
+<ul>
+<li>Suppresses warnings generated by code.</li>
+</ul></li>
+<li>#| fig-cap: “This is a caption”
+<ul>
+<li>Adds a caption to figures.</li>
+</ul></li>
+</ul>
+</div></div>
+<p>In html documents, adding code-tools and using code-folding are usually preferred over include/echo</p>
+</section>
+<section id="elements-of-quarto-inline-code" class="slide level2">
+<h2>Elements of Quarto | Inline code</h2>
+<p>Code results can be inserted directly into the text of a .qmd file by enclosing the code using single ` like so:</p>
+<ul>
+<li>The mean of the data was <code>{r} mean(mtcars$gear)</code>
+<ul>
+<li>Which renders as:</li>
+<li>The mean of the data was 3.6875</li>
+</ul></li>
+</ul>
+</section>
+<section id="elements-of-quarto-multiple-languages" class="slide level2">
+<h2>Elements of Quarto | Multiple languages</h2>
+<p>Quarto allows the use of multiple languages in code chunks. Specify the language using <code>{}</code> after the chunk delimiter, like python, julia, or r.</p>
+
+<img data-src="MET581_lecture_02-Explore-R-img/250619-154055.avif" class="r-stretch"></section>
+<section id="elements-of-quarto-text-options" class="slide level2">
+<h2>Elements of Quarto | Text Options</h2>
+<ul>
+<li>Do you remember your markdown formatting?</li>
+<li>The main body is just normal markdown, so all the same stuff works</li>
+<li>Examples on the website <a href="https://quarto.org/docs/authoring/markdown-basics.html">here</a></li>
+</ul>
+</section>
+<section id="creating-documents-previewing-and-rendering" class="slide level2">
+<h2>Creating documents | Previewing and Rendering</h2>
+<ul>
+<li>In RStudio, you can preview and render Quarto documents easily
+<ul>
+<li>Render by clicking the ‘Render’ button</li>
+<li>Preview by toggling the visual button</li>
+</ul></li>
+</ul>
+
+<img data-src="MET581_lecture_02-Explore-R-img/250619-160005.avif" class="r-stretch"><ul>
+<li>Quarto provides a command-line interface as well, which allows rendering with: <code>quarto render myfile.qmd</code></li>
+<li>You can specify output formats in the YAML header or when rendering</li>
+</ul>
+</section>
+<section id="creating-documents-quarto-output-formats" class="slide level2">
+<h2>Creating documents | Quarto output formats</h2>
+<ul>
+<li>Quarto supports various output formats:
+<ul>
+<li><code>html</code>: Web format with dynamic features</li>
+<li><code>pdf</code>: Portable document format for printing</li>
+<li><code>docx</code>: Microsoft Word format</li>
+<li><code>revealjs</code>: HTML presentations (for slides, this is what these slide are made with!)</li>
+<li><code>beamer</code>: PDF presentations (for slides)</li>
+</ul></li>
+<li>Specify these in the YAML or use them with the quarto render command, more details <a href="https://quarto.org/docs/output-formats/all-formats.html">here</a></li>
+</ul>
+</section>
+<section id="creating-documents-practice" class="slide level2">
+<h2>Creating documents | Practice</h2>
+<ul>
+<li><a href="https://quarto.org/docs/get-started/computations/_computations-complete.qmd">Here</a> is a version of the document with other elements added</li>
+<li>See if you can make an ordered list with sub items that contain at least one example of bold, italic, superscript and strikethrough text, as well as a 2x2 table with headers</li>
+</ul>
+</section>
+<section id="now-make-an-.rmd-file" class="slide level2">
+<h2>Now make an .rmd file</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Compare it to a <code>.rmd</code> document</li>
+<li>What do you notice that’s different?</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="MET581_lecture_02-Explore-R-img/250619-160623.avif"></p>
+</div></div>
+</section>
+<section id="quarto-.qmd-and-rmarkdown-.rmd-differences-you-need-to-know" class="slide level2">
+<h2>Quarto (.qmd) and Rmarkdown (.rmd): Differences you need to know</h2>
+<ul>
+<li>It’s pretty much mainly the syntax of the YAML options (<code>html</code> VS <code>html_document</code>), code chunk option formats (although Quarto is compatible with the rmd format), and the language support</li>
+<li>Rmarkdown is wedded to R, even if you use other languages like Python, it’s still actually being run through R (via the <code>reticulate</code> package in the case of Python)</li>
+<li>Quarto is language and engine agnostic, and thus more more versatile</li>
+</ul>
+</section>
+<section id="final-quarto-links" class="slide level2">
+<h2>Final Quarto links</h2>
+<ul>
+<li>The Quarto site, is very good: <a href="https://quarto.org/">https://quarto.org/</a></li>
+<li>Cheatsheet <a href="https://rstudio.github.io/cheatsheets/quarto.pdf">here</a></li>
+</ul>
+<p>For PDFs:</p>
+<ul>
+<li>You’ll need latex installed to create pdfs
+<ul>
+<li>See options <a href="https://quarto.org/docs/output-formats/pdf-engine.html">here</a> (TinyTex is probably best bet)</li>
+<li>The pdf YAML reference is <a href="https://quarto.org/docs/reference/formats/pdf.html">here</a></li>
+</ul></li>
+<li>You can output to multiple formats and use the quarto package directly
+<ul>
+<li>See tutorial on authoring <a href="https://quarto.org/docs/get-started/authoring/rstudio.html">here</a></li>
+</ul></li>
 </ul>
 </section>
 <section id="additional-resources" class="slide level2">
 <h2>Additional Resources</h2>
 <ul>
-<li><p><a href="https://posit.co/resources/cheatsheets/">Posit Cheatsheets</a></p>
+<li><a href="https://posit.co/resources/cheatsheets/">Posit Cheatsheets</a>
 <ul>
 <li>Cheatsheets for various packages and RStudio itself (by developers of RStudio)</li>
 </ul></li>
-<li><p>Free online book <a href="https://r4ds.hadley.nz/">R for Data Science</a></p></li>
-<li><p>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a>:</p></li>
+<li>Free online book <a href="https://r4ds.hadley.nz/">R for Data Science</a>:
+<ul>
+<li>Chapter 8: Data import</li>
+<li>Chapter 29: Quarto</li>
+<li>Chapter 30: Quarto formats</li>
+</ul></li>
+<li>Advanced reading:
+<ul>
+<li>Chapter 21-25 (importing data)</li>
+</ul></li>
+<li>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a>:</li>
 </ul>
 
 

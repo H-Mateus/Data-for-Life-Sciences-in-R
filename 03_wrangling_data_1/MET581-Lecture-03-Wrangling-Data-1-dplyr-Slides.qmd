@@ -1,5 +1,5 @@
 ---
-title: "Wrangling Data 1: dplyr"
+title: "Data Wrangling in R I: dplyr"
 author:
   - name: "Matthew Bracher-Smith"
   - name: "Gabriel Mateus Bernardo Harrington"
@@ -340,6 +340,8 @@ mutate(gapminder, gdp_billion = gdpPercap * pop / 10^9)
 **Using flights**
 
 - Assume 'EWR' is the code for unknown airport. Recode it to NA in columns 'origin' and 'dest' using `na_if()`
+
+## Break
 
 ## Combining Operations
 Let's combine lots of operations together to get the data we want!

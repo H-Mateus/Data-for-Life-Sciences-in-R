@@ -8,7 +8,7 @@ for Life Sciences I*. Staff-facing notes here; student-facing content is the
 
 | File | Audience | Purpose |
 |---|---|---|
-| `met581_llm_demo_slides.qmd` | students, live | ~15–20 min segment for **session 3**. Seven verified examples of fluent, non-erroring, wrong R, then the prompting guidance. |
+| `met581_llm_demo_slides.qmd` | students, live | ~15–20 min segment at the end of **session 5**. Seven verified examples of fluent, non-erroring, wrong R, then the prompting guidance. |
 | `using_ai_assistants.qmd` | students, reference | Website page: the norms, the prompting guide, what's fine in assessed work, links to the tutor prompt. |
 | `r_tutor_prompt.md` | students | Tool-agnostic paste-in tutor prompt (Claude, ChatGPT, Gemini, Copilot…). |
 | `skills/r-tutor/SKILL.md` | students | Claude Code skill version. Drops into `~/.claude/skills/r-tutor/`. |
@@ -25,7 +25,7 @@ one of three:
    debug-the-generated-code items in `assessment_wording_draft.md`. Assesses the
    evaluative skill directly instead of prohibiting the tool. MLO-5 already
    requires students to *defend* analytical choices, which is the mandate.
-2. **The session 3 demo** (most persuasive) — the employability argument lands
+2. **The session 5 demo** (most persuasive) — the employability argument lands
    far harder *after* students watch a model produce confidently wrong R than
    before. Run the code live; don't read the output off the slide.
 3. **The tutor prompt** (a gift, not a fence) — framed as something that makes
@@ -63,10 +63,17 @@ single most transferable thing in the segment.
 
 ## Placement
 
-Put the segment in **session 3 (Introduction to R)**, after the first hands-on
-exercises — students need enough R to read the examples, and the argument is more
-credible once they've felt the friction themselves. Then refer back to it: the
-join exhibit belongs again in session 5 when joins are taught properly.
+Put the segment at the end of **session 5 (Data Wrangling in R II)**, straight
+after joins. It was first planned for session 3, but the exhibits use `filter()`,
+`mutate()`, `left_join()` and `ifelse()`, none of which students can read on
+their first day of R. By session 5 they can read all but two (`sapply()` and
+`ifelse()`, which session 6 teaches), and the join exhibit lands right after they
+have been taught to avoid it.
+
+The cost is timing: the Programming in R assessment is set in week 1, before the
+segment. Session 3 keeps a short LLM slide that points students at the "What's
+fine and what isn't" section of `using_ai_assistants.qmd`, so the rules for
+assessed work reach them before the reasons do.
 
 **Check with Richard Anney first.** His sessions 1–2 cover the role of code in
 scientific analysis, reproducibility and documentation; the AI conversation may

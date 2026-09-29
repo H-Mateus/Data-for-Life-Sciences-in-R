@@ -1,5 +1,5 @@
 ---
-title: "Wrangling Data 1: dplyr"
+title: "Data Wrangling in R I: dplyr"
 author:
   - name: "Matthew Bracher-Smith"
 date: "2024-10-17"

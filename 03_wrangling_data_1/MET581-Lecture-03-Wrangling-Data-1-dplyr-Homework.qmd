@@ -1,5 +1,5 @@
 ---
-title: "Wrangling Data 1 Homework"
+title: "Data Wrangling in R I Homework"
 author: "Matthew Bracher-Smith"
 date: "2024-10-17"
 format: 
@@ -11,7 +11,7 @@ execute:
   echo: true
 ---
 
-This document contains all questions for the lecture 'Wrangling Data 1'. Please create a Quarto document containing all text, code and output used to answer the questions.
+This document contains all questions for the session 'Data Wrangling in R I'. Please create a Quarto document containing all text, code and output used to answer the questions.
 
 ## Tidy Data
 1. What 3 main rules do we need to follow for data to be in tidy format?

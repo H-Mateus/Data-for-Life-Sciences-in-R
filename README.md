@@ -11,14 +11,18 @@ The website hosting the material can be found here:
 
 This repository holds **sessions 3–8** of the module's fourteen — the R half:
 
-| # | Session |
-|---|---------|
-| 3 | Introduction to R |
-| 4 | Data Wrangling in R I |
-| 5 | Data Wrangling in R II |
-| 6 | Programming in R |
-| 7 | Exploratory Data Analysis in R |
-| 8 | Data Visualisation in R |
+| # | Session | Directory |
+|---|---------|-----------|
+| 3 | Introduction to R | `01_intro_to_r/` (homework in `02_explore_r/`) |
+| 4 | Data Wrangling in R I | `03_wrangling_data_1/` |
+| 5 | Data Wrangling in R II | `04_wrangling_data_2/`, plus `00_llm_use/` slides |
+| 6 | Programming in R | `06_Programming_in_R/` |
+| 7 | Exploratory Data Analysis in R | `08_exploratory_data_analysis/` |
+| 8 | Data Visualisation in R | `07_Data_Visualisation_in_R/` |
+
+Each session is three hours with one break. The directory numbers are the old
+MET581 lecture numbers, which is why they don't match the session numbers; the
+site sidebar is ordered and labelled by session.
 
 Sessions 1–2 (Introduction to Data Science) and 9–14 (probability, significance
 testing, regression and prediction) are delivered by other members of the

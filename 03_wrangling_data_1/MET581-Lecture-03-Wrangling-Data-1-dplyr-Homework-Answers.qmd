@@ -1,5 +1,5 @@
 ---
-title: "Wrangling Data 1 Homework Answers"
+title: "Data Wrangling in R I Homework Answers"
 # Unlinked from the sidebar and excluded from site search so students do not
 # stumble onto the answers. The page is still published, so the URL can be shared
 # deliberately once the homework has been discussed.
@@ -16,7 +16,7 @@ execute:
   output: false
 ---
 
-This document contains all questions for the lecture 'Wrangling Data 1'. Please create a Quarto document containing all text, code and output used to answer the questions.
+This document contains all questions for the session 'Data Wrangling in R I'. Please create a Quarto document containing all text, code and output used to answer the questions.
 
 ```{r}
 #| include: false

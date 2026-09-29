@@ -70,39 +70,55 @@ moved to Watkins** (sessions 13–14); the three wrangling lectures must compres
 into two; and **EDA is a session in its own right** (previously spread across
 `02_explore_r` and other lectures).
 
-## Restructure plan (agreed, in progress)
+## Restructure (done, 2026-09-29)
+
+There is now exactly **one sidebar section per timetabled session**, labelled
+"Session 3: …" to "Session 8: …". Each session is **3 hours**, with **one `Break`
+slide near the middle** of every session deck.
 
 Directory names stay on the old `0N_` scheme; they are repurposed rather than
 renamed, because renaming churns `docs/` and every sidebar href. The mapping:
 
 | Dir | Becomes | Content |
 |-----|---------|---------|
-| `01_intro_to_r` + `02_explore_r` | **Session 3** Introduction to R | R basics, data types, IDE, packages, help **+ tibbles, readr, Quarto** |
+| `01_intro_to_r` | **Session 3** Introduction to R | R basics, data types, IDE, packages, help, import/export, tibbles, readr, Quarto. The old `02_explore_r` deck is merged into this file; `02_explore_r/` now holds only the session 3 homework |
 | `03_wrangling_data_1` | **Session 4** Data Wrangling in R I | dplyr verbs, the pipe, grouping |
-| `04_wrangling_data_2` | **Session 5** Data Wrangling in R II | `across`/`pick`, tidyr reshaping, joins |
-| `06_Programming_in_R` | **Session 6** Programming in R | existing purrr/conditionals **+ the functions half of `05`** |
-| `08_exploratory_data_analysis` | **Session 7** Exploratory Data Analysis | **drafted** — new authoring, built on the simulated cohort |
+| `04_wrangling_data_2` | **Session 5** Data Wrangling in R II | `across`/`pick`, tidyr reshaping, joins, then the AI-assistant segment (`00_llm_use/met581_llm_demo_slides.qmd`, a separate deck) |
+| `06_Programming_in_R` | **Session 6** Programming in R | writing functions (from old `05`), conditionals, `switch`, arguments and constraints, purrr, loops, modularising and unit testing (from old `05`) |
+| `08_exploratory_data_analysis` | **Session 7** Exploratory Data Analysis | new authoring, built on the simulated cohort |
 | `07_Data_Visualisation_in_R` | **Session 8** Data Visualisation in R | ggplot2, largely as-is |
+
+Old `05_wrangling_data_3` was dissolved: forcats and lubridate are reference pages,
+functions went to session 6, and the deck itself is in `archive/`.
+
+**Session 3 is the densest** (about 70 slides; it absorbed two old lectures). If it
+overruns, the first candidate to move is the tibbles block (about 6 slides) into the
+opening of session 4, next to the tidy-data slides. Quarto cannot move later: the
+session 4 homework is submitted as a Quarto file.
 
 Decisions behind it:
 
 - **Wrangling compresses by cutting, not thinning.** The syllabus for the wrangling
   block names *transform, group, reshape, join* and never mentions strings or dates.
-  So `stringr`/regex (currently `04`, from `## But what *is* a string?` onward),
-  and `forcats` + `lubridate` (currently `05`, up to `## Anonymous Feedback |
-  Comments`) come out of the taught sessions and become **reference pages** on the
-  site. This buys joins real time, which matters: the silent duplicate-row join is
+  So `stringr`/regex and `forcats` + `lubridate` came out of the taught sessions
+  and are **reference pages** on the site. This buys joins real time, which matters: the silent duplicate-row join is
   the most expensive mistake these students will make.
 - **`02_explore_r` is not EDA.** Despite its name it is Quarto, tibbles and readr.
-  It moves into session 3, whose syllabus already names importing data, installing
+  It moved into session 3, whose syllabus already names importing data, installing
   packages and accessing documentation. Quarto has to come early regardless, since
   the 50% report is written in it.
-- **The functions half of `05` (from `## Functions {.smaller}`, line ~405) belongs
-  to session 6**, not to a wrangling session. `06` already covers conditionals,
+- **The functions half of `05` belongs to session 6**, not to a wrangling session.
+  It opens the session, because `06`'s argument and constraint slides assume
+  students can already write a function. `06` already covers conditionals,
   function arguments, dots, pipes and purrr, but *not* general rules for writing
   functions, when not to write one, modularising, or unit testing — which is
   exactly the syllabus's "explicit constraints to ensure input validity" and
   MLO-4's reproducible-code requirement.
+- **The AI segment moved from session 3 to the end of session 5.** Its exhibits use
+  `filter`, `mutate`, `left_join`, `sapply` and `ifelse`, none of which students can
+  read on day one. Session 3 keeps a short LLM slide that links to the "What's fine
+  and what isn't" section of the AI guide, because the Programming in R assessment
+  is set in week 1, before session 5.
 
 ### Session 7 (EDA) — drafted on the simulated cohort
 
@@ -153,17 +169,19 @@ where a neutral phrasing would do.
 Directories are numbered by the *old* lecture order:
 
 ```
-00_llm_use/               AI-assistant strand (see below) → segment in session 3
-01_intro_to_r/            Intro to R           → new session 3
-02_explore_r/             Quarto, tibbles, readr → feeds new session 7 (EDA)
-03_wrangling_data_1/      dplyr verbs, pipe    → new session 4
-04_wrangling_data_2/      tidyr, joins, stringr/regex → new session 5
-05_wrangling_data_3/      forcats, lubridate, functions → new session 5 (+6)
-06_Programming_in_R/      conditionals, functions, purrr, loops → new session 6
-07_Data_Visualisation_in_R/ ggplot2            → new session 8
+00_llm_use/               AI-assistant strand (see below) → segment at end of session 5
+01_intro_to_r/            session 3 deck (Intro to R + Quarto, tibbles, readr)
+02_explore_r/             session 3 homework only
+03_wrangling_data_1/      session 4: dplyr verbs, pipe, grouping
+04_wrangling_data_2/      session 5: across, tidyr, joins
+06_Programming_in_R/      session 6: functions, conditionals, purrr, loops, testing
+07_Data_Visualisation_in_R/ session 8: ggplot2
+08_exploratory_data_analysis/ session 7: EDA
 10_resources/00_images/           shared images
 10_resources/01_workshop_answers/ answer versions of workshops
+10_resources/02_reference/        strings/regex, forcats, lubridate reference pages
 archive/                  retired material, excluded from render — see its README
+  05_wrangling_data_3/      dissolved third wrangling lecture
   08_Modelling_in_R/        lm/glm — now Watkins, sessions 13–14 (offer as handover)
   09_ShinyApp/              Shiny — dropped from the new module
 data/                     pheno.txt, pheno_unclean.txt
@@ -177,7 +195,7 @@ _extensions/r-wasm/drop/  webr plugin for in-browser code cells
 A three-layer response to student LLM use — the stance is *use them well*, not
 *don't use them*. See `00_llm_use/README.md` for the rationale and placement.
 
-- `met581_llm_demo_slides.qmd` — ~15–20 min segment for session 3: seven
+- `met581_llm_demo_slides.qmd` — ~15–20 min segment at the end of session 5: seven
   examples of fluent, non-erroring, **wrong** R, then prompting guidance.
 - `using_ai_assistants.qmd` — student reference page on the site.
 - `r_tutor_prompt.md`, `skills/r-tutor/SKILL.md`, `CLAUDE.md.example` — tutor-mode
@@ -302,11 +320,9 @@ Outstanding:
 - Directory names and `.qmd` **filenames** still use the old `MET581`/lecture-NN
   scheme. Only the rendered titles were changed. Renaming files would churn
   `docs/`, `_freeze/` and every sidebar href for no student-visible gain.
-- Lecture/session numbering has **not** been remapped to the new session numbers
-  (3–8), because the restructure it depends on hasn't happened yet — the three
-  wrangling lectures still need compressing into two, and `05` currently splits
-  across sessions 5 and 6. Assigning numbers now would encode a mapping that is
-  about to change.
+- ~~Lecture/session numbering not remapped~~ — the sidebar is now labelled by
+  session (3–8), and deck titles match the timetable's session names. Only the
+  directory and file names keep the old lecture numbers.
 - Legacy `.pptx`/`.rmd`/`.pdf` originals still sit alongside their `.qmd`
   replacements in `01`, `02`, `07`. Harmless but confusing; decide whether they
   belong in `archive/`.
@@ -337,11 +353,14 @@ Three gaps were found. **All three are now drafted:**
   workshop. Now three slides in `02_explore_r`, including the csv-vs-rds
   type-preservation point.
 
-Still worth a decision (not a gap):
+Decided since:
 
-- `for` loops appear once in session 6, only as the thing purrr replaces.
-  Defensible for a tidyverse-first course, but the syllabus lists "loops (while,
-  for)", so make it a deliberate choice rather than an accident.
+- ~~`for` loops only appear as the thing purrr replaces~~ — deliberate now. Session
+  6 teaches `for` briefly (anatomy slide, then the `rescale` loop), then a "Why
+  purrr instead of `for`?" slide. That slide argues from clarity and type safety,
+  **not speed**: `map()` is a loop underneath, and only true vectorisation is
+  faster. Don't let the old "loops are slow, use purrr" framing creep back in.
+  `while` gets one slide (coin flips) to cover the syllabus, and is taught quickly.
 
 Everything else in the syllabus for sessions 3–8 is covered.
 

@@ -1,5 +1,5 @@
 ---
-title: "Wrangling Data 2: tidying, strings and joins"
+title: "Data Wrangling in R II: across, reshaping and joins"
 author:
   - name: "Gabriel Mateus Bernardo Harrington"
   - name: "Matthew Bracher-Smith"
@@ -26,7 +26,6 @@ execute:
 
 <div class="image-container" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: -5px;">
   <img src="/10_resources/00_images/dplyr_hex.png" style="width:150px;">
-  <img src="/10_resources/00_images/stringr_hex.png" style="width:150px;">
   <img src="/10_resources/00_images/tidyr_hex.png" style="width:150px;">
 </div>
 
@@ -59,7 +58,6 @@ if not, you pick up from a checkpoint and carry on.
 ```{r}
 #| output: false
 #| warning: false
-library(stringr)
 library(tidyr)
 library(dplyr)
 library(gapminder)
@@ -98,7 +96,7 @@ gapminder |>
 
 ## `across` for applying functions
 
-- You will cover functional programming in detail with `purrr` in later lectures
+- You will cover functional programming in detail with `purrr` next session
 - Functional programming refers to functions which can take other functions as arguments for iteration
 - `across` can be used in this way to apply functions to multiple columns
 - see [the R4DS book, ch. 26](https://r4ds.hadley.nz/iteration) for more
@@ -159,7 +157,7 @@ gapminder |>
 - introduce wide and long formats
 - begin converting between wide and long data
 - join data frames together with dplyr
-- introduce manipulating data with strings in stringr
+- see how AI assistants get this kind of code wrong
 
 # Tidyr
 
@@ -240,6 +238,8 @@ weather |>
   ggplot(aes(measurement, condition)) +
   geom_jitter(alpha = 0.6)
 ```
+
+## Break
 
 # Joins
 
@@ -352,242 +352,6 @@ planes |>
 - anti-joins can be useful to find rows that don't match between datasets, e.g. to exclude rows with IDs that aren't in an expected ID list
 - there is now a relationships argument in `dplyr::join()` - use this to give the expected relationships between data frames (it will stop you making many mistakes)
 
-# Strings
-
-## But what *is* a string? {.smaller}
-
-- Strings are a sequence of characters which has to be represented in memory in binary
-- This was first widely done using ASCII (American Standard Code for Information Interchange)
-- But, ASCII only allows for 128 characters, so not nearly enough for all languages
-- Now we represent strings using Unicode (which didn't appear in it's current form till the 90s!), which allows for a lot (>1m) characters
-- UTF-8 is the most common encoding for Unicode - uses a variable number of bytes (8-bit) units to represent characters
-- R uses UTF-8 encoding by default (though will use the label "unknown" unless non-ASCII characters appear), and stringr fully supports Unicode
-
-## Stringr
-
-- removes inconsistencies found in base R
-- built on top of the stringi package
-- starts all functions with "str_"
-- more advanced use requires regular expressions (regex)
-
-## Regex
-
-As quoted by [R for Data Science 1st edition](http://r4ds.had.co.nz/strings.html):
-
-> _"When you first look at a regexp, you’ll think a cat walked across your keyboard, but as your understanding improves they will soon start to make sense."_
-
-If you've read about regex before, you will also have come across the quotation:
-
-> _"Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems."_
-
-## Whistle-stop regex review {.smaller}
-
-- Allow you to match patterns in strings
-- Most basic matches an actual chunk of text, e.g. 'hag' in 'hagrid'
-- We can match multiple types of characters with `\s`, `\d`, `\w`, `[abc]` and `[^abc]`
-- Because we're in R, we have to use `\\` instead of `\`, e.g. `\\w` or `\\d`
-- We can match any character with `.`
-- We can expand these with `?`, `+`, `*` or `{n,m}`
-- We can anchor them to the start `^` or the end `$`
-- e.g. `^\\w+_\\d{4}$` would match "hagrid_2020", but not "hagrid_120"
-
-## Whistle-stop regex review
-
-- Allow you to match patterns in strings
-- Most basic matches an actual chunk of text
-
-```{r}
-my_string <- c(
-  'Hagrid',
-  'Hermione',
-  'Harry.Potter',
-  'Ronald_Weasley',
-  '24xHouse Elves'
-)
-stringr::str_detect(my_string, 'Hag')
-```
-
-## Whistle-stop regex review {.smaller}
-
-- We can match multiple types of characters with `\s`, `\d`, `\w`, `[abc]` and `[^abc]`
-```{r}
-my_string
-stringr::str_detect(my_string, '\\w')
-```
-
-```{r}
-stringr::str_detect(my_string, '\\d')
-```
-
-```{r}
-stringr::str_detect(my_string, '\\s')
-```
-
-## Whistle-stop regex review
-
-- We can match any character with `.`
-```{r}
-my_string
-stringr::str_detect(my_string, '.')
-```
-
-## Whistle-stop regex review {.smaller}
-
-- We can expand these with `?`, `+`, `*` or `{n,m}`
-```{r}
-my_string
-stringr::str_detect(my_string, '\\w+')
-```
-
-```{r}
-stringr::str_detect(my_string, '\\d{2}[xyz]\\w+\\s?\\w+')
-stringr::str_detect(my_string, '\\d{2}[^xyz]\\w+\\s?\\w+')
-```
-
-## Whistle-stop regex review {.smaller}
-
-- We can anchor them to the start `^` or the end `$`
-
-```{r}
-my_string
-stringr::str_detect(my_string, '^H\\w+$')
-```
-
-```{r}
-stringr::str_detect(my_string, '^Hag$')
-```
-
-## Whistle-stop regex review {.smaller}
-
-- Allow you to match patterns in strings
-- Most basic matches an actual chunk of text, e.g. 'hag' in 'hagrid'
-- We can match multiple types of characters with `\s`, `\d`, `\w`, `[abc]` and `[^abc]`
-- Because we're in R, we have to use `\\` instead of `\`, e.g. `\\w` or `\\d`
-- We can match any character with `.`
-- We can expand these with `?`, `+`, `*` or `{n,m}`
-- We can anchor them to the start `^` or the end `$`
-- e.g. `^\\w+_\\d{4}$` would match "hagrid_2020", but not "hagrid_120"
-
-## Basic stringr operations {.smaller}
-
-**check string lengths and counts**
-
-```{r}
-# counts the number of characters in each string
-stringr::str_length(my_string)
-
-# counts the number of matches in a string
-stringr::str_count(my_string, 'Ha')
-```
-
-## Basic stringr operations {.smaller}
-
-**concatenate (combine) strings**
-
-```{r}
-# explicitly naming each column
-stringr::str_c('this', 'that', sep = ', ')
-```
-
-## Manipulations with stringr {.smaller}
-
-**extract or replace strings**
-
-```{r}
-# extract substrings
-stringr::str_sub(my_string, 1, 3)
-```
-
-```{r}
-# replace matches
-stringr::str_replace(my_string, '[\\._x]', ' ')
-```
-
-## Stringr - Practice {.smaller}
-
-- concatenate the strings "day" to" and "day", separated by a hyphen
-
-**Using starwars**
-
-- select the hair color column and replace ', ' with a '/' (hint: you can pipe a column into `pull()` to convert it to a vector for stringr to handle)
-
-**Using flights**
-
-- select columns ending with 'delay' and remove the underscore from all column names
-
-## Manipulations with stringr {.smaller}
-
-**find or view strings**
-
-```{r}
-# return a boolean for matches (alternative to grepl)
-stringr::str_detect(my_string, 'Hagrid')
-```
-
-```{r}
-# highlight matches
-stringr::str_view(my_string, '^\\w')
-```
-
-## Manipulations with stringr {.smaller}
-
-**sort and separate strings**
-
-```{r}
-# sorting strings
-sentences |>
-  head(1) |>
-  stringr::str_split(" ")
-```
-
-```{r}
-# sorting strings
-stringr::str_sort(words[1:10], locale = 'en')
-```
-
-## Stringr - Practice
-
-- split the string "Harry, did you put your name in the Goblet of Fire?" into its components
-- use the `boundary("word")` function instead of " " and compare results
-
-**Using the fifth line of the sentences dataset**
-
-- split by word boundary, convert to lowercase and sort (hint: use `unlist()`)
-
-## Cleaning up with stringr
-
-```{r}
-stringr::str_to_upper(words[1:10])
-stringr::str_to_lower(words[1:10])
-stringr::str_to_sentence(words[1:10])
-stringr::str_to_title(words[1:10])
-```
-
-## Cleaning up with stringr
-
-```{r}
-sentences |>
-  head(1) |>
-  stringr::str_to_sentence()
-
-sentences |>
-  head(1) |>
-  stringr::str_to_title()
-```
-
-
-## Stringr - More Practice {.smaller}
-
-**Using starwars**
-
-- convert the hair_color column values to be Sentence Case
-- change all columns names to be title case
-
-**Using gapminder**
-
-- remove any Camel Case from column names (i.e. all to lower case)
-- convert the continent column values to be all upper case
-
 ## Save your progress {.smaller}
 
 You have just repaired something. Write it down — the next session starts from
@@ -608,13 +372,20 @@ marked on the pipeline as much as the result.
 
 Next session: turning these repairs into functions.
 
+## One more thing: AI assistants
+
+You now know enough R to read the code that AI assistants get wrong — including
+the join mistake we have just been careful to avoid.
+
+[Working with AI assistants — slides](../00_llm_use/met581_llm_demo_slides.qmd)
+
 ## Homework
 
 - Quarto file
 
 **Suggested Reading**
 
-- [R for Data Science 2e](https://r4ds.hadley.nz/), chapters 6, 15, 16, 20
+- [R for Data Science 2e](https://r4ds.hadley.nz/), the chapters on data tidying and joins
 - The docs for [dplyr](https://dplyr.tidyverse.org/) and vignette at `browseVignettes(package = "dplyr")`
-- Also check out the docs for [tidyr](https://tidyr.tidyverse.org/index.html) and [stringr](https://stringr.tidyverse.org/)
-- [This blog post](https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/) by Joel Spolsky on Unicode and character sets
+- Also check out the docs for [tidyr](https://tidyr.tidyverse.org/index.html)
+- Strings and regular expressions are no longer taught, but there is a [reference page](../10_resources/02_reference/strings_and_regex.qmd) for when you need them

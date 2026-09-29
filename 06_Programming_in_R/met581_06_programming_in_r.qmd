@@ -46,23 +46,23 @@ execute:
 
 ::: columns
 ::: {.column width="50%"}
+-   Writing functions, and when not to
 -   Conditional Execution
 -   Defining Function Arguments
 -   Explicit Constraints
 -   Dot-dot-dot (...)
 -   Pipes
--   Iterations with purr
 :::
 
 ::: {.column width="50%"}
--   While loops
--   Other loops – purrr functions
--   The map family
--   Shortcuts
--   Multiple arguments
--   walk
+-   Iterations with purrr
+-   Anonymous functions and shortcuts
+-   The map family, multiple arguments, walk
+-   Loops: `for` and `while`
+-   Modularising code and unit testing
 :::
 :::
+
 
 ## The cleaning thread {.smaller}
 
@@ -113,6 +113,92 @@ mtcars[1:3,] |>
   filter(gear == 4)
 ```
 
+## Functions {.smaller}
+
+Functions in R:
+
+- allow you to automate tasks in a more powerful way than copy/paste
+- mean you only need to update code in one place
+- reduce the likelihood of errors
+- are for others, but mainly for **YOU**
+- should be written for **readability** and **reusability**
+- have the format
+```{r}
+#| eval: false
+function_name <- function(arg1, arg2, arg3) {
+  # function body
+}
+```
+
+## Functions - Practice! {.smaller}
+_call your functions after creating them to check their output_
+
+- write an empty function with no arguments, called 'stub_func'.
+- write a function that takes no arguments and returns the number 3 using the `return()` statement. Choose an appropriate name.
+- create another function with no return statement or arguments, which only contains the number 3. Run the function. Is it different to before?
+- create a function called `my_divide()` which takes two arguments, 'x' and 'y' and returns x divided by y. Use an explicit return statement.
+- we want to still return a value when y is zero. Change the `my_divide()` function so that there is another argument called 'tol'. Set it to a very low value, and add it to y before dividing.
+
+## General Rules for Writing Functions {.smaller}
+
+Try to decipher the following code below
+- what does it do?
+- does it work? Are there errors?
+```{r}
+#| eval: false
+df <- data.frame(a = rnorm(10), b = rnorm(10), c = rnorm(10), d = rnorm(10))
+df$a <- (df$a - min(df$a, na.rm = TRUE)) / (max(df$a, na.rm = TRUE) - min(df$a, na.rm = TRUE))
+df$b <- (df$b - min(df$b, na.rm = TRUE)) / (max(df$b, na.rm = TRUE) - min(df$a, na.rm = TRUE))
+df$c <- (df$c - min(df$c, na.rm = TRUE)) / (max(df$c, na.rm = TRUE) - min(df$c, na.rm = TRUE))
+df$d <- (df$d - min(df$d, na.rm = TRUE)) / (max(df$d, na.rm = TRUE) - min(df$d, na.rm = TRUE))
+```
+
+## General Rules for Writing Functions
+
+Is this better?
+```{r}
+#| eval: false
+rescale <- function(x) {
+    return((x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)))
+}
+```
+
+## General Rules for Writing Functions
+
+Even better?
+```{r}
+#| eval: false
+rescale <- function(x) {
+    y <- min(x, na.rm = TRUE)
+    return((x - y) / (max(x, na.rm = TRUE) - y))
+}
+```
+
+## General Rules for Writing Functions
+
+Perfect?
+```{r}
+#| eval: false
+rescale <- function(x) {
+  # rescale vector to the range from 0 to 1
+  min_value <- min(x, na.rm = TRUE)
+  return((x - min_value) / (max(x, na.rm = TRUE) - min_value))
+}
+```
+
+## General Rules for Writing Functions
+- **_never_** take variables created _outside_ a function and use them from _inside_ a function unless you pass them as an argument
+- if you have a lot of functions, it's good practice to put them in a separate file and use 'source'
+- generally, functions should do one thing, but you can do whatever you like, including nested functions
+
+## When to write a function
+- if you find yourself writing/pasting the same thing 2/3 times
+
+## When NOT to write a function
+- if it's a one-off bit of code you'll never use again
+- you're lazy
+- you hate future you
+
 ## Conditional Execution
 
 -   In R, the conditional execution of statements are performed within `if()` and `{}` blocks of code.
@@ -132,6 +218,36 @@ myFunction <- function(x) {
     return(x)
   }
 }
+```
+
+## Conditional Execution | `else if`
+We can add multiple `else if` statements to these
+```{r}
+#| eval: false
+if (x > 0) {
+    print("Positive")
+} else if (x < 0) {
+    print("Negative")
+} else {
+    print("Zero")
+}
+```
+
+## Conditional Execution | vectorised {.smaller}
+- `ifelse()` lets us use vectorised if-else statements, but `dplyr::if_else()` is stricter and keeps types — remember Exhibit F from last session, where `ifelse()` turned dates into numbers
+- if you have a lot of `if` statements, `switch()` is next
+- `dplyr::case_when()` handles multiple vectorised `if_else()` statements
+
+```{r}
+# example use of case_when to simplify multiple if_else statements
+mtcars |>
+  mutate(mpg_category = case_when(
+    mpg < 15 ~ "Low",
+    mpg <= 25 ~ "Medium",
+    .default = "High"
+  )) |>
+  select(mpg, mpg_category) |>
+  head(3)
 ```
 
 ## Conditional Execution | `switch()`
@@ -320,6 +436,8 @@ diamonds |>
   print_missings()
 ```
 
+## Break
+
 ## Iterations with purrr
 
 ![](/./10_resources/00_images/purrr_logo.png){.absolute top=-20 right=50 width="80" height="80"}
@@ -344,11 +462,22 @@ df$c <- rescale(df$c)
 df$d <- rescale(df$d) # Wow this is tedious...
 ```
 
-## Iterations with purrr
+## `for` loops
 
-![](/./10_resources/00_images/purrr_logo.png){.absolute top=-20 right=50 width="80" height="80"}
+-   A `for` loop runs the same code once for each element of a sequence
 
--   This can be simplified with a for loop
+```{r}
+for (gene in c("APOE", "TREM2", "APP")) {
+  print(paste("Checking", gene))
+}
+```
+
+-   `gene` takes each value in turn; the code in `{}` is the **body**
+-   Loop over **positions** with `seq_along()`, which is safe even when the input is empty (`1:length(x)` is not: it gives `1 0`)
+
+## `for` loops | fixing the repetition
+
+-   So the copy-and-paste above can be replaced with a for loop
 
 ```{r}
 for (i in seq_along(df)) {
@@ -356,9 +485,29 @@ for (i in seq_along(df)) {
 } # This is much shorter (and less error prone)!
 ```
 
--   A breif note, it's generally better to vectorise your R code as it's faster and often more succinct code, see [here](https://www.r-bloggers.com/2018/06/why-loops-are-slow-in-r/) and [here](https://adv-r.hadley.nz/perf-improve.html#vectorise) for more details
--   However it is said that [premature optimization is the root of all evil](https://wiki.c2.com/?PrematureOptimization=), so don't stress to much if you're analysing smaller datasets
--   If you're writing a pipeline that'll be rerun many times by lots of people, then optimisation is more important
+-   Every language has these, so you need to be able to read them, but in R there is usually a better option
+
+## Why purrr instead of `for`? {.smaller}
+
+A loop makes you manage the *how*: set up the output, track the index, fill it in
+
+```{r}
+means <- numeric(length(df)) # you must create the output first
+for (i in seq_along(df)) {
+  means[i] <- mean(df[[i]])
+}
+```
+
+`map_dbl()` says only the *what*, and guarantees you get numbers back (it errors
+otherwise — remember Exhibit E from last session)
+
+```{r}
+means <- map_dbl(df, mean)
+df <- df |> mutate(across(everything(), rescale)) # and the rescale loop, with across()
+```
+
+-   It is **not** about speed: `map()` is a loop underneath. The gain is fewer places to make a mistake
+-   The genuinely fast option is a **vectorised** function, one that works on a whole vector at once — which is why `rescale()` takes a column rather than a single value. See [Advanced R](https://adv-r.hadley.nz/perf-improve.html#vectorise)
 
 ## Other loops - purr functions
 
@@ -429,6 +578,46 @@ x |> map_dbl(2)
     -   `map_dbl()` returns a double vector.
     -   `map_chr()` returns a character vector.
     -   `map_df()` returns a data frame.
+
+## Anonymous functions {.smaller}
+- sometimes we need to package up some code in a function, but we know we'll never need it again
+- this is common where we do something trivial, like a simple calculation
+- in these cases we often create a function _on the fly_ in the call to another function
+- these are called _anonymous functions_ (because we don't name them) or _lambda functions_ (from lambda calculus)
+- they're reasonably common in R, especially when using dplyr
+
+## Anonymous functions {.smaller}
+- you've already seen these in calls like `summarise(across(...))`!
+- the tilde (`~`) is used to create a lambda function, and the dot (`.x`) is used to refer to the input
+- you will also see `.` used to refer to the input - this is the same as `.x`
+- you can actually use anything you like, but `.` and `.x` are common conventions
+
+```{r}
+# example use of an anonymous function with summarise
+mtcars |>
+  group_by(cyl) |>
+  summarise(across(c(mpg, hp, wt), ~ mean(.x, na.rm = TRUE)))
+```
+
+## Anonymous functions {.smaller}
+
+- In this way,
+
+```{r}
+#| output: false
+#| eval: false
+~ mean(.x, na.rm = TRUE)
+```
+
+is equivalent to
+
+```{r}
+#| output: false
+#| eval: false
+function(.x) {
+  mean(.x, na.rm = TRUE)
+}
+```
 
 ## Shortcuts
 
@@ -569,7 +758,7 @@ ds_mt |>
 
 ## While loops
 
--   You're unlikely to every use them in a data analysis context (I never have!), but they evaluate their body code until a condition is met
+-   You're unlikely to ever use them in a data analysis context (I never have!), but they evaluate their body code until a condition is met
 -   **Example**: see how many times we need to flip a coin to get three heads in a row:
 
 ```{r}
@@ -592,6 +781,70 @@ cat("Number of flips to get 3 heads in a row: ", numFlips)
 
 -   [**Beware**]{style="color:#cc0000"} that while loops can crash if the condition being evaluated never becomes false!
 
+## Using your functions
+- modularising code
+- unit testing
+- packages
+
+## Modularising code
+- separating code into functions and files makes it easier to re-use across projects
+- it also makes it easier to maintain as we know where to go to change them
+- testing functions is also easier than testing code spread out in a script and interweaved with results
+
+## Modularising code - practice!
+- create a new R script
+- create a function in the script called `my_add()` that takes two arguments, `x` and `y` and returns their sum (do not paste it into the terminal!)
+- save the R script
+- in the console, source the R script with `source("path/to/script.R")`
+- run the function with `my_add(2, 3)`
+
+## Types of testing
+- there are many ways to test your code! We have:
+  + **unit tests** in your local development environment or CI/CD pipeline
+  + **integration tests** to check that your code works with other code
+  + **quality assurance tests** to check that your code meets a certain standard (usually done by a separate team)
+  + **end-to-end tests** to check that your code works in a real-world (production) environment
+
+## Unit Testing {.smaller}
+- for testing the smallest unit of code (functions)
+- they are simply functions that test your code to make sure it does what it is supposed to
+- this can mean it gives the correct output with expected input, but also that it errors as expected when you give it faulty input
+- allows you to change your code and quickly check it still works
+- allows you to sleep at night
+- done in r using the `testthat` package
+
+## Unit testing - practice! {.smaller}
+- create a function called `my_multiply()` that takes two arguments, `x` and `y` and returns their product
+- write a test for this function that checks that `my_multiply(2, 3)` returns 6
+- use the example of my_add below and modify it:
+
+```{r}
+#| output: false
+#| eval: false
+my_add <- function(x, y) {
+  return(x + y)
+}
+
+testthat::test_that("my_add() works as expected",
+{
+  testthat::expect_equal(my_add(2, 3), 5)
+})
+```
+
+## Putting it all together (optional extra homework)
+- create a github account
+- install `devtools` and `testthat`
+- make a personal package following the outline [here](https://r-pkgs.org/whole-game.html)
+- add a function to the package for a common task you do (can be simple)
+- write test for your function using `testthat`
+- push it to github and (double optional) send me the link!
+
+## Putting it all together (optional extra homework)
+- this:
+  + is a great way to learn how to write functions and test them
+  + it will set you up for future projects
+  + is entirely optional and not required for the course
+
 ## Save your progress {.smaller}
 
 You have just repaired something. Write it down — the next session starts from
@@ -611,6 +864,12 @@ marked on the pipeline as much as the result.
 :::
 
 Next session: exploratory data analysis, where we find what is still wrong.
+
+## Further reading
+
+-   [Anonymous functions](https://www.r-bloggers.com/anonymous-functions-in-r-and-python/)
+-   [Testing basics](https://r-pkgs.org/testing-basics.html), from *R Packages* (2e)
+-   The [iteration chapter](https://r4ds.hadley.nz/iteration) of *R for Data Science* (2e)
 
 ## Workshop time! {.center}
 
