@@ -3,10 +3,13 @@ title: "Data Wrangling in R II: grouping, reshaping and joins"
 author:
   - name: "Gabriel Mateus Bernardo Harrington"
   - name: "Matthew Bracher-Smith"
-date: "2025-10-17"
+date: last-modified
 editor: source
 format: 
   revealjs:
+    logo: /10_resources/00_images/combined_logos.png
+    footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
+    slide-number: true
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     width: 1244
@@ -266,7 +269,7 @@ gapminder |>
 ## Wide and Long Data
 
 <div class="image-center" style="display: flex; justify-content: center; align-items: flex-start; margin-top: 20px;">
-  <img src="/10_resources/00_images/wide_long.png" style="max-width: 100%; height: auto;">
+  <img src="/10_resources/00_images/wide_long.png" style="max-width: 100%; max-height: 470px; height: auto;">
 </div>
 
 ## What's the problem?
@@ -383,7 +386,7 @@ planes |>
 ## Joins
 
 <div class="image-center" style="display: flex; justify-content: center; align-items: flex-start; margin-top: 20px; background-color: #FFFFFF;">
-  <img src="/10_resources/00_images/joins.png" style="max-width: 100%; height: auto;">
+  <img src="/10_resources/00_images/joins.png" style="max-width: 100%; max-height: 470px; height: auto;">
 </div>
 
 ## Inner Join

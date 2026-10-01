@@ -21,6 +21,7 @@ format:
   revealjs:
     logo: /./10_resources/00_images/combined_logos.png
     footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
+    slide-number: true
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     width: 1244
@@ -84,7 +85,7 @@ cohort <- if (file.exists(my_file)) {
 The `if` is there so nobody gets stranded. If you have your own file it is used;
 if not, you pick up from a checkpoint and carry on.
 
-## Package load and conflicts
+## Package load and conflicts {.smaller}
 
 -   We'll load our packages early as is good practise!
 -   As an aide, you may notice a verbose message when loading the tidyverse mentioning conflicts
@@ -318,7 +319,7 @@ return(x ** y)
 
 -   What do you think will happen if you try `pow(3)` and `pow(3,3)` in the console? Try it!
 
-## Defining Function Arguments
+## Defining Function Arguments {.smaller}
 
 -   There are two ways of passing the values to a function: by order and by name.
 -   Check the description of `mean()` by typing `?mean`
@@ -391,7 +392,7 @@ i02 <- function(a, ...) {
 str(i02(a = 1, y = 2, z = 3))
 ```
 
-## Dot-Dot-Dot (...)
+## Dot-Dot-Dot (...) {.smaller}
 
 -   By adding numbers at the end, it is possible to refer to elements of ... by position (what position the generic arguments will sit in).
 
@@ -529,7 +530,7 @@ df <- df |> mutate(across(everything(), rescale)) # and the rescale loop, with a
 
 ![](/./10_resources/00_images/purrr_map_cartoon.png){fig-align="center" width="600px"}
 
-## The map family
+## The map family {.smaller}
 
 ![](/./10_resources/00_images/purrr_logo.png){.absolute top=-20 right=50 width="80" height="80"}
 
@@ -641,7 +642,7 @@ models3 <- mtcars %>%
   map(\(df) lm(mpg ~ wt, data = df))
 ```
 
-## Shortcuts
+## Shortcuts {.smaller}
 
 -   The `.` used in the second example is a placeholder for the dataset we’ve piped in (`mtcars`) so we can access parts of it (via `$`)
 -   Note that the placeholder for the native R pipe (`|>`) is a `_`, but it doesn't have the same functionality as the `magritter` pipe! See [here](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) for more info on differences
@@ -678,7 +679,7 @@ map2(mu, sigma, rnorm, n = 5) |>
 
 ![](/./10_resources/00_images/purrr_map2_cartoon.png){fig-align="center" width="600px"}
 
-## Multiple Arguments
+## Multiple Arguments {.smaller}
 
 -   There is no map3 or map4, so what if we want more than 2 arguments? `purrr` has the function `pmap()` for an arbitrary number of args.
 
@@ -756,7 +757,7 @@ ds_mt |>
   pwalk(.l = _, .f = foo)
 ```
 
-## While loops
+## While loops {.smaller}
 
 -   You're unlikely to ever use them in a data analysis context (I never have!), but they evaluate their body code until a condition is met
 -   **Example**: see how many times we need to flip a coin to get three heads in a row:

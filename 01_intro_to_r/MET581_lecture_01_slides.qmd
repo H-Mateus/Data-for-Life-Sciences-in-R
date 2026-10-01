@@ -380,7 +380,7 @@ vec[3:6]
 vec[c(2, 5)]
 ```
 
-## Vectors only contain one type of data
+## Vectors only contain one type of data {.smaller}
 
 - Vectors can only contain a single type or data, so you can't have both characters and numerics together in one vector
 - What do you think happens if you try?
@@ -400,7 +400,7 @@ typeof(confused)
 -   There is an order of type conversion that R uses, with character being the broadest type
 -   It's common for columns you expect to be numeric to end up being characters due to a rouge value, be careful!
 
-## Operators
+## Operators {.smaller}
 
 :::: {.columns}
 
@@ -462,7 +462,7 @@ num1 | num2
 !num2
 ```
 
-## Logicals are secretly numerics
+## Logicals are secretly numerics {.smaller}
 
 -   Try adding two logicals, what happens?
 
@@ -599,7 +599,7 @@ sum_of_squares(3, 7)
 -   You can also write your own package and submit it to the R community.  We will come back to looking at packages and the writing of packages later in the course, but if you are interested there is a book about it! You can find it online [here](https://r-pkgs.org/).
 -   Hilary Parker’s posts on [personal R packages](https://hilaryparker.com/2013/04/03/personal-r-packages/) and [how to create one](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
 
-## Installing Packages continued
+## Installing Packages continued {.smaller}
 
 There are a couple of ways to install packages into R, but the easiest way is just to install them through the console and load them in like this:
 
@@ -649,7 +649,7 @@ library(tidyverse)
     -   `C:/Users/matt/Dropbox/Teaching/Lesson 1 - Into to R/` - typical absolute path on Windows
     -   `03_data/my_data.csv` - relative path from project root
 
-## Working Directories - continued
+## Working Directories - continued {.smaller}
 
 -   Use getwd() and setwd() to manage your working directory.
 

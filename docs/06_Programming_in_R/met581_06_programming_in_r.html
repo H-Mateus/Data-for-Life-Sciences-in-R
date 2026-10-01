@@ -270,7 +270,7 @@ Gabriel Mateus Bernardo Harrington <a href="https://orcid.org/0000-0001-6075-361
 </div>
 <p>The <code>if</code> is there so nobody gets stranded. If you have your own file it is used; if not, you pick up from a checkpoint and carry on.</p>
 </section>
-<section id="package-load-and-conflicts" class="slide level2">
+<section id="package-load-and-conflicts" class="slide level2 smaller">
 <h2>Package load and conflicts</h2>
 <ul>
 <li>We’ll load our packages early as is good practise!</li>
@@ -548,7 +548,7 @@ Datsun 710    22.8       Medium</code></pre>
 <li>What do you think will happen if you try <code>pow(3)</code> and <code>pow(3,3)</code> in the console? Try it!</li>
 </ul>
 </section>
-<section id="defining-function-arguments-1" class="slide level2">
+<section id="defining-function-arguments-1" class="slide level2 smaller">
 <h2>Defining Function Arguments</h2>
 <ul>
 <li>There are two ways of passing the values to a function: by order and by name.</li>
@@ -629,7 +629,7 @@ Datsun 710    22.8       Medium</code></pre>
 </div>
 </div>
 </section>
-<section id="dot-dot-dot-1" class="slide level2">
+<section id="dot-dot-dot-1" class="slide level2 smaller">
 <h2>Dot-Dot-Dot (…)</h2>
 <ul>
 <li>By adding numbers at the end, it is possible to refer to elements of … by position (what position the generic arguments will sit in).</li>
@@ -798,7 +798,7 @@ Missing values: 573</code></pre>
 </figure>
 </div>
 </section>
-<section id="the-map-family-1" class="slide level2">
+<section id="the-map-family-1" class="slide level2 smaller">
 <h2>The map family</h2>
 <p><img data-src=".././10_resources/00_images/purrr_logo.png" class="absolute" style="top: -20px; right: 50px; width: 80px; height: 80px; "></p>
 <ul>
@@ -809,18 +809,18 @@ Missing values: 573</code></pre>
 <span id="cb45-2"><a aria-label="2"></a><span class="fu">map_dbl</span>(df, mean) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.63 0.57 0.32 0.56 </code></pre>
+0.60 0.39 0.49 0.37 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(df, sd) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.30 0.33 0.39 0.28 </code></pre>
+0.30 0.33 0.31 0.30 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a><span class="co"># And here's the native R sapply equivalent</span></span>
 <span id="cb49-2"><a aria-label="2"></a><span class="fu">sapply</span>(df, mean) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.63 0.57 0.32 0.56 </code></pre>
+0.60 0.39 0.49 0.37 </code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -831,7 +831,7 @@ Missing values: 573</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(df, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.63 0.57 0.32 0.56 </code></pre>
+0.60 0.39 0.49 0.37 </code></pre>
 </div>
 </div>
 </div>
@@ -945,7 +945,7 @@ Missing values: 573</code></pre>
 <span id="cb61-14"><a aria-label="14"></a>  <span class="fu">map</span>(\(df) <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> df))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="shortcuts-1" class="slide level2">
+<section id="shortcuts-1" class="slide level2 smaller">
 <h2>Shortcuts</h2>
 <ul>
 <li>The <code>.</code> used in the second example is a placeholder for the dataset we’ve piped in (<code>mtcars</code>) so we can access parts of it (via <code>$</code>)</li>
@@ -985,9 +985,9 @@ Missing values: 573</code></pre>
 <span id="cb66-6"><a aria-label="6"></a>  <span class="fu">str</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num [1:5] 4.01 4.12 6.19 4.56 3.57
- $ : num [1:5] 6.29 13.1 9.09 10.11 3.35
- $ : num [1:5] -10.06 -1.22 -1.95 -17.32 2.36</code></pre>
+ $ : num [1:5] 3.06 4.7 4.77 6.36 5.01
+ $ : num [1:5] 1.84 15 6.36 5.48 6.02
+ $ : num [1:5] 0.384 -19.91 -5.218 -14.489 -7.535</code></pre>
 </div>
 </div>
 </section>
@@ -998,7 +998,7 @@ Missing values: 573</code></pre>
 </ul>
 
 <img data-src=".././10_resources/00_images/purrr_map2_cartoon.png" class="quarto-figure quarto-figure-center r-stretch" width="600"></section>
-<section id="multiple-arguments-2" class="slide level2">
+<section id="multiple-arguments-2" class="slide level2 smaller">
 <h2>Multiple Arguments</h2>
 <ul>
 <li>There is no map3 or map4, so what if we want more than 2 arguments? <code>purrr</code> has the function <code>pmap()</code> for an arbitrary number of args.</li>
@@ -1014,9 +1014,9 @@ Missing values: 573</code></pre>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num 2.77
- $ : num [1:3] 4.12 12.02 12.45
- $ : num [1:5] -6.462 3.773 12.194 -2.636 -0.274</code></pre>
+ $ : num 8.08
+ $ : num [1:3] 7.24 4.96 13.42
+ $ : num [1:5] 1.74 2.84 6.42 -8.28 4.24</code></pre>
 </div>
 </div></div>
 <ul>
@@ -1030,9 +1030,9 @@ Missing values: 573</code></pre>
 <span id="cb70-5"><a aria-label="5"></a>  <span class="fu">str</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num [1:5] 0.999 -0.872 0.837 -0.897 -0.706
- $ : num [1:5] 2.94 3.67 -3.47 -12.71 -7.3
- $ : int [1:5] 9 10 18 11 8</code></pre>
+ $ : num [1:5] 0.6062 0.8262 -0.0769 0.8112 0.1926
+ $ : num [1:5] 6.44 -1.36 -6.97 1.7 -1.4
+ $ : int [1:5] 2 7 17 11 9</code></pre>
 </div>
 </div>
 </section>
@@ -1095,13 +1095,13 @@ Missing values: 573</code></pre>
 <span id="cb75-13"><a aria-label="13"></a>  <span class="fu">select</span>(model, am, mpg) <span class="sc">|&gt;</span></span>
 <span id="cb75-14"><a aria-label="14"></a>  <span class="fu">pwalk</span>(<span class="at">.l =</span> _, <span class="at">.f =</span> foo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The Mazda RX4 has a manual transmission and gets 21 mpgs."
-[1] "The Duster 360 has a auto transmission and gets 14.3 mpgs."
+<pre><code>[1] "The Mazda RX4 Wag has a manual transmission and gets 21 mpgs."
+[1] "The Volvo 142E has a manual transmission and gets 21.4 mpgs."
 [1] "The Dodge Challenger has a auto transmission and gets 15.5 mpgs."</code></pre>
 </div>
 </div>
 </section>
-<section id="while-loops" class="slide level2">
+<section id="while-loops" class="slide level2 smaller">
 <h2>While loops</h2>
 <ul>
 <li>You’re unlikely to ever use them in a data analysis context (I never have!), but they evaluate their body code until a condition is met</li>
@@ -1125,7 +1125,7 @@ Missing values: 573</code></pre>
 <span id="cb77-14"><a aria-label="14"></a><span class="fu">cat</span>(<span class="st">"Number of flips to get 3 heads in a row: "</span>, numFlips)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of flips to get 3 heads in a row:  6</code></pre>
+<pre><code>Number of flips to get 3 heads in a row:  3</code></pre>
 </div>
 </div></div>
 <ul>
@@ -1321,7 +1321,7 @@ Missing values: 573</code></pre>
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',

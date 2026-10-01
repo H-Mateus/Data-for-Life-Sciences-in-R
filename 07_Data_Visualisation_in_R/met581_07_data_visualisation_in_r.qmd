@@ -21,6 +21,7 @@ format:
   revealjs:
     logo: /./10_resources/00_images/combined_logos.png
     footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
+    slide-number: true
     theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     width: 1244
@@ -78,6 +79,7 @@ execute:
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 data <- c(2, 3, 6, 4, 9)
 plot(data)
@@ -91,6 +93,7 @@ plot(data, type = "l")
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 plot(data, type = "o", col = "blue")
 
@@ -183,6 +186,7 @@ ggplot(data = mtcars, mapping = aes(x = mpg, y = hp, colour = factor(cyl))) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 # Using size
 ggplot(data = mtcars, mapping = aes(x = mpg, y = hp, size = cyl)) +
@@ -243,6 +247,7 @@ ggplot(data = diamonds) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.6
 ggplot(data = mtcars, mapping = aes(x = mpg, y = hp, colour = factor(cyl))) +
   geom_point() +
   facet_wrap(~cyl)
@@ -281,6 +286,7 @@ ggplot(data = mtcars, mapping = aes(x = mpg, y = hp, colour = factor(cyl))) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.6
 ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
   geom_smooth()
 ```
@@ -304,6 +310,7 @@ ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 ggplot(data = mtcars, mapping = aes(x = mpg, y = hp, colour = factor(cyl))) +
   geom_smooth() +
@@ -315,7 +322,7 @@ ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
   geom_point(aes(colour = factor(cyl)))
 ```
 
-## Statistical Transformations: count
+## Statistical Transformations: count {.smaller}
 
 -   Some plots transform your data internally and plot those new values instead of raw values
 -   The `stat` argument of different plot types (geom functions) specifies the statistical transformation
@@ -323,6 +330,7 @@ ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 2.3
 #| fig-show: hold
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut))
@@ -360,6 +368,7 @@ ggplot(data = demo) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 # stacked
 ggplot(data = diamonds) +
@@ -426,6 +435,7 @@ ggplot(mpg, aes(x = drv, fill = factor(cyl))) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
   geom_point(aes(color = factor(cyl))) +
@@ -442,6 +452,7 @@ ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 ggplot(data = mtcars, mapping = aes(x = mpg, y = hp)) +
   geom_point(aes(color = factor(cyl))) +
@@ -560,6 +571,7 @@ ggplot(mtcars, aes(x = mpg, y = hp)) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 #| code-line-numbers: "1-9|11-16"
 # Adding text to labels
@@ -588,6 +600,7 @@ ggplot(mtcars, aes(x = mpg, y = hp)) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 p <- ggplot(mtcars, aes(x = mpg, y = hp)) +
   geom_point(aes(color = factor(cyl)))
@@ -634,6 +647,7 @@ ggplot(mtcars, aes(x = mpg, y = hp)) +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 #| code-line-numbers: "1-6|8-16"
 ggplot(mtcars, aes(x = mpg, y = hp)) +
@@ -714,6 +728,7 @@ plot1 + plot2
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 mtcars$cyl <- as.factor(mtcars$cyl)
 # Make base plot
 p <- ggplot(mtcars, aes(cyl, mpg))
@@ -727,6 +742,7 @@ p + geom_boxplot(aes(colour = cyl))
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 p + geom_boxplot(aes(fill = cyl), alpha = 0.3) + geom_jitter(size = 0.8)
 # Violin
@@ -752,6 +768,7 @@ p +
 
 ```{r}
 #| output-location: column
+#| fig-height: 3.0
 #| fig-show: hold
 # discretise numeric data into categorical
 ggplot(diamonds, aes(x = carat, y = price)) +
@@ -800,7 +817,7 @@ ggstatsplot::ggscatterstats(mtcars, x = hp, y = qsec)
 ## One last thing: AI assistants
 
 ::: {.incremental}
--   We opened this course with **seven examples of confident, non-erroring, wrong
+-   Last session ended with **seven examples of confident, non-erroring, wrong
     R**. You now know enough to catch all seven.
 
 -   That was the point. Judging generated code is the skill; producing it is not.

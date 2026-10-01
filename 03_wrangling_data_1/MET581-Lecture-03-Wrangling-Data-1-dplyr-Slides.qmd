@@ -3,7 +3,7 @@ title: "Data Wrangling in R I: Quarto and dplyr"
 author:
   - name: "Matthew Bracher-Smith"
   - name: "Gabriel Mateus Bernardo Harrington"
-date: "2024-10-17"
+date: last-modified
 editor: source
 format: 
   revealjs:
@@ -19,6 +19,7 @@ format:
     self-contained: true
     logo: /10_resources/00_images/combined_logos.png
     footer: "Data for Life Sciences 1 - Slides and code available [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)"
+    slide-number: true
     drop:
       engine: webr
       webr:
@@ -307,7 +308,7 @@ which is exactly what the report asks for.
 
 ## The Tidyverse
 
-![](/10_resources/00_images/tidyverse.png){fig-align="center"}
+![](/10_resources/00_images/tidyverse.png){fig-align="center" height="470px"}
 
 ## Tidy Data
 - Each observation must have its own row
@@ -457,18 +458,8 @@ filter(gapminder, year == 1997L)
 ##| output: false
 # combining multiple filters in a single statement
 country_names <- c(
-  'Afghanistan',
-  'Angola',
-  'Belgium',
-  'China',
-  'Mauritania',
-  'Mauritius',
-  'Mongolia',
-  'Korea, Rep.',
-  'Sri Lanka',
-  'Saudi Arabia',
-  'Vietnam',
-  'Yemen, Rep.'
+  'Afghanistan', 'Angola', 'Belgium', 'China', 'Mauritania', 'Mauritius',
+  'Mongolia', 'Korea, Rep.', 'Sri Lanka', 'Saudi Arabia', 'Vietnam', 'Yemen, Rep.'
 )
 filter(
   gapminder,
@@ -551,7 +542,7 @@ arrange(gapminder, desc(lifeExp), pop) |> head(4)
 mutate(gapminder, gdp_billion = gdpPercap * pop / 10^9)
 ```
 <div class="image-center" style="display: flex; justify-content: center; align-items: flex-start; margin-top: 20px; background-color: #FFFFFF;">
-  <img src="/10_resources/00_images/mutate_eg.png" style="max-width: 100%; height: auto;">
+  <img src="/10_resources/00_images/mutate_eg.png" style="max-width: 100%; max-height: 330px; height: auto;">
 </div>
 
 ## Mutate - Practice!
@@ -640,7 +631,7 @@ gapminder |>
 
 *tip: use `is.character` and `ifelse()` to create the new column following the format:*
 ```{r}
-#| output-location: fragment
+#| output: false
 starwars |>
   na.omit() |>
   select_if(is.character) |>
