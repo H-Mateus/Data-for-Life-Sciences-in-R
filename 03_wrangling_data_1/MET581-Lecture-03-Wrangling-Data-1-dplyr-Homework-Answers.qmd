@@ -26,8 +26,20 @@ library(stringr)
 data(starwars)
 ```
 
+## Quarto
+
+1. Hand this homework in as a Quarto document, rendered to html. Before the dplyr questions, write a paragraph explaining the tidyverse concept. Your paragraph should include:
+
+    - Example code
+    - Inline code
+    - A blockquote
+    - A list
+    - Bold or italic text
+
+Check the rendered html rather than the source: inline code should show its *result*, and the blockquote, list and emphasis should all render as formatting rather than as literal symbols.
+
 ## Tidy Data
-1. What 3 main rules do we need to follow for data to be in tidy format?
+2. What 3 main rules do we need to follow for data to be in tidy format?
 
 The 3 main rules for tidy data are:
 
@@ -35,7 +47,7 @@ The 3 main rules for tidy data are:
     - Each variable must have its own column
     - Each value must have its own cell
 
-2. Load `readr` and use it to read in the dataset at "http://stat405.had.co.nz/data/pew.txt". You should have a tibble with 18 rows and 11 columns showing data on the relationship between religion and income in the US. Is the data in tidy format? Explain why.
+3. Load `readr` and use it to read in the dataset at "http://stat405.had.co.nz/data/pew.txt". You should have a tibble with 18 rows and 11 columns showing data on the relationship between religion and income in the US. Is the data in tidy format? Explain why.
 
 No, it's not in tidy format.
 
@@ -43,7 +55,7 @@ No, it's not in tidy format.
       been listed as a column header.
     - A tidy dataset would instead have three columns called religion, income and frequency
 
-3. Look at [the paper by Hadley Wickham](https://www.jstatsoft.org/article/view/v059i10/) describing tidy data. Section 3 outlines how to turn messy datasets into tidy ones. Briefly state the 5 most common problems that make a dataset messy and the solutions Hadley proposes.
+4. Look at [the paper by Hadley Wickham](https://www.jstatsoft.org/article/view/v059i10/) describing tidy data. Section 3 outlines how to turn messy datasets into tidy ones. Briefly state the 5 most common problems that make a dataset messy and the solutions Hadley proposes.
 
 The 5 most common problems, followed by their solutions are:
 
@@ -58,12 +70,13 @@ The 5 most common problems, followed by their solutions are:
 ## dplyr
 These exercises require use of the dplyr verbs we have learned so far. Some questions will require small variations on these that you need to look up; you may find it especially useful to check the documentation on [**scoped variants of the standard verbs**](https://dplyr.tidyverse.org/reference/scoped.html), or the recent equivalents in [**pick**](https://dplyr.tidyverse.org/reference/pick.html) and [**across**](https://dplyr.tidyverse.org/reference/across.html) (we will review both options in the next session). All tasks that require use of more than one verb should be done using the pipe. Show the output from each question in a new cell, where a single paragraph of pipes is used to answer each question.
 
-If you're struggling with a question that requires a lot of steps, try to sketch out the bones of the code before filling in the details. For instance, if you're asked to shown the mean of GDP in 1990, you might first write out the basic order of things, like so:
+If you're struggling with a question that requires a lot of steps, try to sketch out the bones of the code before filling in the details. For instance, if you're asked to show the European countries in 1990, sorted by life expectancy, you might first write out the basic order of things, like so:
 ```{r}
 #| eval: false
 gapminder |>
   filter() |>
-  summarise()
+  select() |>
+  arrange()
 ```
 
 **read in the dataset at 'http://stat405.had.co.nz/data/weather.txt' using `readr`**
@@ -73,7 +86,7 @@ gapminder |>
 weather <- read_tsv('http://stat405.had.co.nz/data/weather.txt')
 ```
 
-4. convert all column names to title case, except 'id', which should be all capitals
+5. convert all column names to title case, except 'id', which should be all capitals
 
 ```{r}
 #| warning: false
@@ -95,7 +108,7 @@ weather |>
   rename(ID = Id)
 ```
 
-5. choose columns ID, Year, Month and d1 to d10. Use `num_range` to select the columns d1:d10
+6. choose columns ID, Year, Month and d1 to d10. Use `num_range` to select the columns d1:d10
 
 ```{r}
 weather |>
@@ -109,7 +122,7 @@ weather |>
 sleep <- read_csv('https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv')
 ```
 
-6. select the name and genus columns, and all columns ending with 'wt'. Remove all rows with missing values,then print the first 20 rows from the final dataframe.
+7. select the name and genus columns, and all columns ending with 'wt'. Remove all rows with missing values,then print the first 20 rows from the final dataframe.
 
 ```{r}
 sleep |>
@@ -118,50 +131,13 @@ sleep |>
   print(n = 20)
 ```
 
-7. show the columns name, order, sleep_total and awake for all animals in the order 'Artiodactyla', sorted by descending sleep time.
+8. show the columns name, order, sleep_total and awake for all animals in the order 'Artiodactyla', sorted by descending sleep time.
 
 ```{r}
 sleep |>
   filter(order == 'Artiodactyla') |>
   select(name, order, sleep_total, awake) |>
   arrange(desc(sleep_total))
-```
-
-8. after removing those missing conservation status, show the mean for all columns beginning with 'sleep', grouped by order. Include a count of the number of animals in each grouping.
-
-```{r}
-# this is one of the most concise answers, but students may not have got it
-sleep |>
-  filter(!is.na(conservation)) |>
-  group_by(order) |>
-  summarise_at(vars(starts_with('sleep')), funs(n(), mean(., na.rm=TRUE)))
-
-# people may have separated out the selecting and the summarising
-# if they did use it, they need the 'na.rm = TRUE' bit.
-sleep |>
-  filter(!is.na(conservation)) |>
-  group_by(order) |>
-  select(order, starts_with('sleep')) |>
-  summarise_all(funs(n(), mean(., na.rm = TRUE)))
-```
-
-```{r}
-# something like this is also acceptable, but a bit more work
-sleep |>
-  filter(!is.na(conservation)) |>
-  group_by(order) |>
-  summarise(N_Animals = n(),
-            Mean_Sleep = mean(sleep_total, na.rm = TRUE),
-            Mean_REM = mean(sleep_rem, na.rm = TRUE),
-            Mean_Cycle = mean(sleep_cycle, na.rm = TRUE))
-```
-
-```{r}
-# or use across
-sleep |>
-  filter(!is.na(conservation)) |>
-  group_by(order) |>
-  summarise(across(starts_with('sleep'), list(count = ~n(), mean = ~mean(., na.rm = TRUE))))
 ```
 
 9. doubles should never be compared using `==`. Instead, use `dplyr::near()` to keep rows with 'sleep_total' equal to 9.4 and select columns containing the string 'or' anywhere in their names
@@ -174,18 +150,6 @@ sleep |>
   select(contains('or'))
 ```
 
-10. use `dplyr::coalesce` to replace all missing values in the column 'conservation' with the string 'unknown'. Then use dplyr's `between` function to filter for rows with sleep_rem between 1 and 2.5 and show the total number of animals and number of distinct genera, using `summarise()`, `n()` and `n_distinct()`, after grouping by conservation status. Name the new summary columns 'animals' and 'genera'.
-
-```{r}
-# need to use between() and coalesce()
-sleep |>
-  mutate(conservation = coalesce(conservation, 'unknown')) |>
-  filter(dplyr::between(sleep_rem, 1, 2.5)) |>
-  group_by(conservation) |>
-  summarise(animals = n(),
-            genera = n_distinct(genus))
-```
-
 **Load the starwars dataset**
 
 ```{r}
@@ -193,7 +157,7 @@ sleep |>
 data("starwars")
 ```
 
-11. filter hair_color to keep those rows *containing* brown (including combinations like 'brown, grey') **or** eye_color that is brown *only*, then select the column range from 'name' to 'eye_color', and the columns 'gender', 'homeworld' and 'species.' Next, create a new boolean column called 'male_brunette', which is TRUE only for males with exclusively brown hair. Sort by descending height and re-order the columns, using `select()` and `everything()`, to put 'male_brunette' directly after the 'name' column. Finally, replace underscores in the column names with spaces, change all instances of 'color' to 'colour', and make all column names title case using `str_to_title()`. Print the top 5 rows only.
+10. filter hair_color to keep those rows *containing* brown (including combinations like 'brown, grey') **or** eye_color that is brown *only*, then select the column range from 'name' to 'eye_color', and the columns 'gender', 'homeworld' and 'species.' Next, create a new boolean column called 'male_brunette', which is TRUE only for males with exclusively brown hair. Sort by descending height and re-order the columns, using `select()` and `everything()`, to put 'male_brunette' directly after the 'name' column. Finally, replace underscores in the column names with spaces, change all instances of 'color' to 'colour', and make all column names title case using `str_to_title()`. Print the top 5 rows only.
 
 ```{r}
 # make sure the filter uses grepl (or str_detect) for hair colour, but '==' for eye colour
@@ -223,20 +187,4 @@ starwars |>
   rename_with(~ str_replace(., 'color', 'colour')) |>
   rename_with(str_to_title) |>
   print(n = 5)
-```
-
-12. how many rows are missing information for each column? Break it down by species by using `group_by()` and `summarise_all()`
-
-```{r}
-# older syntax (still acceptable and common, but deprecated)
-starwars |>
-  group_by(species) |>
-  summarise_all(funs(sum(is.na(.))))
-```
-
-```{r}
-# using across
-starwars |>
-  group_by(species) |>
-  summarise(across(everything(), ~ sum(is.na(.))))
 ```

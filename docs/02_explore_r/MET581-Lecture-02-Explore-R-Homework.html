@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Gabriel Mateus Bernardo Harrington">
 <meta name="author" content="Matthew Bracher-Smith">
-<meta name="dcterms.date" content="2024-10-15">
+<meta name="dcterms.date" content="2026-10-01">
 
 <title>Introduction to R Homework – Data for Life Sciences 1</title>
 <style>
@@ -116,6 +117,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -421,12 +451,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides: working with AI assistants</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture notes</span></a>
   </div>
@@ -487,6 +511,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides: working with AI assistants</span></a>
   </div>
 </li>
       </ul>
@@ -564,11 +594,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#exploring-data-in-r---exercises" id="toc-exploring-data-in-r---exercises" class="nav-link active" data-scroll-target="#exploring-data-in-r---exercises">Exploring Data in R - Exercises</a>
-  <ul class="collapse">
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
-  </ul></li>
+  <li><a href="#r-basics" id="toc-r-basics" class="nav-link active" data-scroll-target="#r-basics"><span class="header-section-number">1</span> R basics</a></li>
+  <li><a href="#data-types-and-structures" id="toc-data-types-and-structures" class="nav-link" data-scroll-target="#data-types-and-structures"><span class="header-section-number">2</span> Data types and structures</a></li>
+  <li><a href="#tibbles-and-readr" id="toc-tibbles-and-readr" class="nav-link" data-scroll-target="#tibbles-and-readr"><span class="header-section-number">3</span> Tibbles and readr</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/02_explore_r/MET581-Lecture-02-Explore-R-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -586,8 +614,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
+             <p>Gabriel Mateus Bernardo Harrington </p>
              <p>Matthew Bracher-Smith </p>
           </div>
   </div>
@@ -595,7 +624,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 15, 2024</p>
+      <p class="date">October 1, 2026</p>
     </div>
   </div>
   
@@ -607,57 +636,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="exploring-data-in-r---exercises" class="level1">
-<h1>Exploring Data in R - Exercises</h1>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>Quarto is a document format that allows you to create and render documents in multiple formats including HTML, PDF, and MS Word. For more details on using Quarto, see <a href="https://quarto.org">the Quarto website</a>. When you render this document, it will generate output that includes both the content and the results of any embedded R code chunks. You can embed an R code chunk like this:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>This will display a summary of the cars dataset like shown below:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  </code></pre>
-</div>
-</div>
-<p>For your homework, you will answer the questions below using Quarto. Make sure to include both the code and results in your knitted PDF or html file.</p>
-</section>
-<section id="questions" class="level2">
-<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<p>This document contains all questions for <strong>Introduction to R</strong>. Answer them in an R script, with a comment above each answer saying which question it is, so that someone else could run the script from top to bottom and get your answers.</p>
+<p>From next session onwards you will hand homework in as a Quarto document instead, which keeps the code, its output and your explanation together.</p>
+<section id="r-basics" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="r-basics"><span class="header-section-number">1</span> R basics</h2>
 <ol type="1">
-<li>Use Quarto to write a paragraph explaining the tidyverse concept. Your paragraph should include:</li>
-</ol>
+<li><p>Perform these calculations in R:</p>
 <ul>
-<li>Example code</li>
-<li>Inline code</li>
-<li>Blockquotes</li>
-<li>Lists</li>
-<li>Bold or italic text</li>
-</ul>
-<ol start="2" type="1">
-<li><p>Create a tibble with columns labeled: name, age, height, gender. Your tibble should contain at least 13 rows of data.</p>
-<ul>
-<li>2a: Use tibble code to select the data for row 4.</li>
-<li>2b: Retrieve the height of a person based on their name.</li>
-<li>2c: Calculate the ratio of men to women.</li>
-<li>2d: Calculate the average age and the standard deviation.</li>
+<li><span class="math inline">\(\sqrt{6 \times 2}\)</span></li>
+<li><span class="math inline">\(4 + 3 - 2\)</span></li>
+<li><span class="math inline">\(1046 \times 934\)</span></li>
 </ul></li>
-<li><p>Turn the dataset iris into a tibble.</p></li>
+<li><p>R comes with some example datasets built in. <code>women</code> holds the average heights and weights of a group of American women.</p>
+<ul>
+<li>2a. Load it with <code>data(women)</code>.</li>
+<li>2b. Use <code>nrow()</code> to count the rows, and <code>colnames()</code> to show the column headers.</li>
+<li>2c. Add a column called <code>ages</code>, giving each woman any age you like. Print the new data frame.</li>
+<li>2d. What are the mean and the sum of each column?</li>
+<li>2e. Now run <code>summary(women)</code>. What does it give you that 2d did not?</li>
+</ul></li>
+<li><p>Read in the dataset at <a href="http://tbb.bio.uu.nl/BDA/fig4.tsv" class="uri">http://tbb.bio.uu.nl/BDA/fig4.tsv</a> and store it in a variable called <code>cohort</code>.</p>
+<ul>
+<li>3a. Read it once with base R’s <code>read.table()</code> and once with readr’s <code>read_tsv()</code>. What is different about the two results?</li>
+<li>3b. Make a subset containing only women (<code>Gender == "F"</code>), and store it in a variable called <code>females</code>.</li>
+<li>3c. Write <code>females</code> to a file called <code>fig4-females.csv</code>, using <code>write_csv()</code>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="data-types-and-structures" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="data-types-and-structures"><span class="header-section-number">2</span> Data types and structures</h2>
+<ol start="4" type="1">
+<li><p>R has several types of data, and several ways of holding them.</p>
+<ul>
+<li>4a. What types of data can R handle?</li>
+<li>4b. Print these three vectors. How would you select the first and third element of <code>c</code>?</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="fl">5.3</span>, <span class="dv">6</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">4</span>) <span class="co"># numeric vector</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span>) <span class="co"># character vector</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>) <span class="co"># logical vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>4c. Make a matrix with four rows and four columns, with both row and column names. Look up the <code>dimnames</code> argument in <code>?matrix</code> and explain how it works.</li>
+<li>4d. Make your own data frame with at least three rows and three columns.</li>
+<li>4e. Change its column names to something else.</li>
+</ul></li>
+<li><p>Find a package on <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN</a> or <a href="https://r-pkg.org">METACRAN</a>, install it, and say in a sentence or two what it does.</p></li>
+</ol>
+</section>
+<section id="tibbles-and-readr" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="tibbles-and-readr"><span class="header-section-number">3</span> Tibbles and readr</h2>
+<ol start="6" type="1">
+<li><p>Create a tibble with the columns <code>name</code>, <code>age</code>, <code>height</code> and <code>gender</code>, and at least 13 rows of data.</p>
+<ul>
+<li>6a. Select the data for row 4.</li>
+<li>6b. Retrieve the height of a person based on their name.</li>
+<li>6c. Calculate the ratio of men to women.</li>
+<li>6d. Calculate the average age and its standard deviation.</li>
+</ul></li>
+<li><p>Turn the dataset <code>iris</code> into a tibble.</p></li>
 <li><p>Why might tibbles be preferable to traditional R data frames for data scientists?</p></li>
 <li><p>List some of the most important options provided by the readr package.</p></li>
-<li><p>Import the pheno_unclean.txt file (find it <a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno_unclean.txt">here</a> using readr.</p></li>
-<li><p>Identify any errors in the pheno_unclean.txt file using R code.</p></li>
+<li><p>Import the <a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno_unclean.txt">pheno_unclean.txt</a> file using readr.</p></li>
+<li><p>Identify any errors in the <code>pheno_unclean.txt</code> file using R code.</p></li>
 </ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

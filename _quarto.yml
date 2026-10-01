@@ -48,8 +48,6 @@ website:
         contents:
           - text: "Slides"
             href: 04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.qmd
-          - text: "Slides: working with AI assistants"
-            href: 00_llm_use/met581_llm_demo_slides.qmd
           - text: "Lecture notes"
             href: 04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.qmd
           - text: "Homework"
@@ -68,6 +66,8 @@ website:
         contents:
           - text: "Slides"
             href: 08_exploratory_data_analysis/met581_08_exploratory_data_analysis.qmd
+          - text: "Slides: working with AI assistants"
+            href: 00_llm_use/met581_llm_demo_slides.qmd
       - section: "Session 8: Data Visualisation in R"
         contents:
           - text: "Slides"

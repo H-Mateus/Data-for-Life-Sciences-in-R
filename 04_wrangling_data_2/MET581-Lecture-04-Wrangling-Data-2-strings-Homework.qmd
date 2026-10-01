@@ -70,13 +70,30 @@ visits |>
 
 5. Take your fixed wide table from 4d and use `pivot_longer()` to put it back into long format, dropping missing values. How many rows do you get, and why is it fewer than 2,400 × 6?
 
+## Grouping and summarising
+
+These three use two small, non-cohort datasets. Read in the mammal sleep data with
+
+```{r}
+#| eval: false
+sleep <- read_csv('https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv')
+```
+
+and load `starwars` with `data(starwars)` (it comes with dplyr).
+
+6. after removing those missing conservation status, show the mean for all columns beginning with 'sleep', grouped by order. Include a count of the number of animals in each grouping.
+
+7. use `dplyr::coalesce` to replace all missing values in the column 'conservation' with the string 'unknown'. Then use dplyr's `between` function to filter for rows with sleep_rem between 1 and 2.5 and show the total number of animals and number of distinct genera, using `summarise()`, `n()` and `n_distinct()`, after grouping by conservation status. Name the new summary columns 'animals' and 'genera'.
+
+8. how many rows are missing information for each column? Break it down by species by using `group_by()` and `summarise_all()`
+
 ## Applying a function across columns
 
-6. Using `baseline`:
+9. Using `baseline`:
 
-    * 6a. Use `across()` inside `summarise()` to get the mean `bmi_kg_m2` and `systolic_bp_mmHg` in one command, ignoring missing values.
-    * 6b. Extend it to report both the mean and the median for each.
-    * 6c. Group by `imd_quintile` first, and add a count of participants per group. Does anything about the groups look wrong to you?
+    * 9a. Use `across()` inside `summarise()` to get the mean `bmi_kg_m2` and `systolic_bp_mmHg` in one command, ignoring missing values.
+    * 9b. Extend it to report both the mean and the median for each.
+    * 9c. Group by `imd_quintile` first, and add a count of participants per group. Does anything about the groups look wrong to you?
 
 **Suggested Reading**
 

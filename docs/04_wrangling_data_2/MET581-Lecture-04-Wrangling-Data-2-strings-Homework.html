@@ -422,12 +422,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides: working with AI assistants</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture notes</span></a>
   </div>
@@ -488,6 +482,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides: working with AI assistants</span></a>
   </div>
 </li>
       </ul>
@@ -568,7 +568,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">1</span> The data</a></li>
   <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins"><span class="header-section-number">2</span> Joins</a></li>
   <li><a href="#reshaping" id="toc-reshaping" class="nav-link" data-scroll-target="#reshaping"><span class="header-section-number">3</span> Reshaping</a></li>
-  <li><a href="#applying-a-function-across-columns" id="toc-applying-a-function-across-columns" class="nav-link" data-scroll-target="#applying-a-function-across-columns"><span class="header-section-number">4</span> Applying a function across columns</a></li>
+  <li><a href="#grouping-and-summarising" id="toc-grouping-and-summarising" class="nav-link" data-scroll-target="#grouping-and-summarising"><span class="header-section-number">4</span> Grouping and summarising</a></li>
+  <li><a href="#applying-a-function-across-columns" id="toc-applying-a-function-across-columns" class="nav-link" data-scroll-target="#applying-a-function-across-columns"><span class="header-section-number">5</span> Applying a function across columns</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -674,14 +675,27 @@ Important
 <li>Take your fixed wide table from 4d and use <code>pivot_longer()</code> to put it back into long format, dropping missing values. How many rows do you get, and why is it fewer than 2,400 × 6?</li>
 </ol>
 </section>
-<section id="applying-a-function-across-columns" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="applying-a-function-across-columns"><span class="header-section-number">4</span> Applying a function across columns</h2>
+<section id="grouping-and-summarising" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="grouping-and-summarising"><span class="header-section-number">4</span> Grouping and summarising</h2>
+<p>These three use two small, non-cohort datasets. Read in the mammal sleep data with</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>and load <code>starwars</code> with <code>data(starwars)</code> (it comes with dplyr).</p>
 <ol start="6" type="1">
+<li><p>after removing those missing conservation status, show the mean for all columns beginning with ‘sleep’, grouped by order. Include a count of the number of animals in each grouping.</p></li>
+<li><p>use <code>dplyr::coalesce</code> to replace all missing values in the column ‘conservation’ with the string ‘unknown’. Then use dplyr’s <code>between</code> function to filter for rows with sleep_rem between 1 and 2.5 and show the total number of animals and number of distinct genera, using <code>summarise()</code>, <code>n()</code> and <code>n_distinct()</code>, after grouping by conservation status. Name the new summary columns ‘animals’ and ‘genera’.</p></li>
+<li><p>how many rows are missing information for each column? Break it down by species by using <code>group_by()</code> and <code>summarise_all()</code></p></li>
+</ol>
+</section>
+<section id="applying-a-function-across-columns" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="applying-a-function-across-columns"><span class="header-section-number">5</span> Applying a function across columns</h2>
+<ol start="9" type="1">
 <li><p>Using <code>baseline</code>:</p>
 <ul>
-<li>6a. Use <code>across()</code> inside <code>summarise()</code> to get the mean <code>bmi_kg_m2</code> and <code>systolic_bp_mmHg</code> in one command, ignoring missing values.</li>
-<li>6b. Extend it to report both the mean and the median for each.</li>
-<li>6c. Group by <code>imd_quintile</code> first, and add a count of participants per group. Does anything about the groups look wrong to you?</li>
+<li>9a. Use <code>across()</code> inside <code>summarise()</code> to get the mean <code>bmi_kg_m2</code> and <code>systolic_bp_mmHg</code> in one command, ignoring missing values.</li>
+<li>9b. Extend it to report both the mean and the median for each.</li>
+<li>9c. Group by <code>imd_quintile</code> first, and add a count of participants per group. Does anything about the groups look wrong to you?</li>
 </ul></li>
 </ol>
 <p><strong>Suggested Reading</strong></p>

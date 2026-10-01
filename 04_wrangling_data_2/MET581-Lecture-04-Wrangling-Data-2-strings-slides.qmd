@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling in R II: across, reshaping and joins"
+title: "Data Wrangling in R II: grouping, reshaping and joins"
 author:
   - name: "Gabriel Mateus Bernardo Harrington"
   - name: "Matthew Bracher-Smith"
@@ -7,7 +7,7 @@ date: "2025-10-17"
 editor: source
 format: 
   revealjs:
-    theme: [dark, brand]
+    theme: [dark, ../styles.scss, brand]
     brand-mode: dark
     width: 1244
     height: 700
@@ -65,6 +65,13 @@ library(nycflights13)
 library(ggplot2)
 ```
 
+## The Plan
+- group and summarise data
+- apply a function across many columns at once
+- introduce wide and long formats
+- begin converting between wide and long data
+- join data frames together with dplyr
+
 # Homework Tips
 
 ## Basic organisation
@@ -73,6 +80,105 @@ library(ggplot2)
 - This might be R scripts or literate programming (Quarto files)
 - It's worth creating a new project for each class, and a new .qmd file for each homework
 - Test in the console to build up parts of a query and transfer to the .qmd file
+
+# Grouping and summarising
+
+## Group_by
+Useful only in conjunction with other methods
+```{r}
+#| output-location: fragment
+# grouping by single variables
+gapminder |>
+  group_by(continent) |>
+  head(4)
+```
+
+## Group_by
+Useful only in conjunction with other methods
+```{r}
+#| output: false
+# grouping by multiple variables
+gapminder |>
+  group_by(country, continent) |>
+  head(4)
+```
+
+## Summarise
+**reduces multiple values down to a single value**
+```{r}
+# get mean of life expectancy
+summarise(gapminder, mean_lifexp = mean(lifeExp))
+```
+
+```{r}
+# get mean of life expectancy and mean of GDP
+summarise(gapminder, mean_lifexp = mean(lifeExp), mean_gdp = mean(gdpPercap))
+```
+
+## Summarise {.smaller}
+Combining `group_by()` and `summarise()` gives us so much more power!
+```{r}
+gapminder |>
+  select(-pop) |>
+  filter(continent == 'Oceania', year > 1980L) |>
+  arrange(desc(gdpPercap)) |>
+  group_by(country) |>
+  summarise(
+    n_years = n(),
+    Mean_Life_Exp = mean(lifeExp),
+    SD_Life_Exp = sd(lifeExp),
+    Max_GDP = max(gdpPercap)
+  )
+```
+
+## Summarise
+We can use lots of built-in functions when using summarise:
+
+<div class="image-center" style="display: flex; justify-content: center; align-items: flex-start; margin-top: 20px;">
+  <img src="/10_resources/00_images/summarise_utilities.jpg" style="max-width: 100%; height: auto;">
+</div>
+
+## Summarise
+**Note:** Don't forget to include `na.rm = TRUE` if NAs are present
+```{r}
+# e.g.
+data("airquality")
+airquality |>
+  as_tibble() |>
+  summarise(mean_ozone = mean(Ozone, na.rm = TRUE))
+```
+
+## Summarise - Practice!
+**Using gapminder**
+
+- Get the median and standard deviation for gdpPercap
+
+**Using airquality**
+
+- Convert to tibble, remove Month and Day, keep Temperatures above 60, then summarise Solar.R with number, mean, median and standard deviation
+
+## Summarise - Extra Practice! {.smaller}
+**Using airquality**
+
+- Summarise the mean values for integer columns only using `summarise_if()` and `is.integer()`
+
+**Using starwars**
+
+- What is the mean height and weight of all Droids? Include a count of how many droids there are
+- We want to compare Humans from different planets. Show the number of people and their mean height and mass, broken down by homeworld then gender. Make sure you show *all* rows when printing by piping the last line into `print(n = x)`, where `x` is a suitably high number of rows
+
+## Prettier summaries with skimr
+```{r, eval=FALSE}
+library(skimr)
+gapminder |>
+  skim()
+```
+
+<div class="image-center" style="display: flex; justify-content: center; align-items: flex-start; margin-top: 20px;">
+  <img src="/10_resources/00_images/skimr_eg.png" style="max-width: 100%; height: auto;">
+</div>
+
+# Applying functions across columns
 
 ## Scoped verbs vs. pick and across
 
@@ -153,11 +259,7 @@ gapminder |>
 - break the query up into manageable chunks if it's long
 - test queries on a small batch of data e.g. read n_max=10 rows for testing
 
-## The Plan
-- introduce wide and long formats
-- begin converting between wide and long data
-- join data frames together with dplyr
-- see how AI assistants get this kind of code wrong
+## Break
 
 # Tidyr
 
@@ -238,8 +340,6 @@ weather |>
   ggplot(aes(measurement, condition)) +
   geom_jitter(alpha = 0.6)
 ```
-
-## Break
 
 # Joins
 
@@ -372,13 +472,6 @@ marked on the pipeline as much as the result.
 
 Next session: turning these repairs into functions.
 
-## One more thing: AI assistants
-
-You now know enough R to read the code that AI assistants get wrong — including
-the join mistake we have just been careful to avoid.
-
-[Working with AI assistants — slides](../00_llm_use/met581_llm_demo_slides.qmd)
-
 ## Homework
 
 - Quarto file
@@ -389,3 +482,15 @@ the join mistake we have just been careful to avoid.
 - The docs for [dplyr](https://dplyr.tidyverse.org/) and vignette at `browseVignettes(package = "dplyr")`
 - Also check out the docs for [tidyr](https://tidyr.tidyverse.org/index.html)
 - Strings and regular expressions are no longer taught, but there is a [reference page](../10_resources/02_reference/strings_and_regex.qmd) for when you need them
+
+## Slides and code
+
+:::: {.columns}
+::: {.column width="60%"}
+-   These slides, the homework and everything else for the module are on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+:::
+
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::

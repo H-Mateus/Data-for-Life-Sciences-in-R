@@ -423,12 +423,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides: working with AI assistants</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture notes</span></a>
   </div>
@@ -489,6 +483,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides: working with AI assistants</span></a>
   </div>
 </li>
       </ul>
@@ -591,11 +591,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#practice-answers-4" id="toc-practice-answers-4" class="nav-link" data-scroll-target="#practice-answers-4"><span class="header-section-number">3.6.1</span> practice answers</a></li>
   <li><a href="#extra-practice-answers-3" id="toc-extra-practice-answers-3" class="nav-link" data-scroll-target="#extra-practice-answers-3"><span class="header-section-number">3.6.2</span> extra practice answers</a></li>
   </ul></li>
-  <li><a href="#dplyrgroup_by-and-dplyrsummarise" id="toc-dplyrgroup_by-and-dplyrsummarise" class="nav-link" data-scroll-target="#dplyrgroup_by-and-dplyrsummarise"><span class="header-section-number">3.7</span> dplyr::group_by() and dplyr::summarise()</a>
-  <ul class="collapse">
-  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice"><span class="header-section-number">3.7.1</span> practice</a></li>
-  <li><a href="#extra-practice" id="toc-extra-practice" class="nav-link" data-scroll-target="#extra-practice"><span class="header-section-number">3.7.2</span> extra practice</a></li>
-  </ul></li>
   </ul></li>
   <li><a href="#closing-notes" id="toc-closing-notes" class="nav-link" data-scroll-target="#closing-notes"><span class="header-section-number">4</span> Closing notes</a>
   <ul class="collapse">
@@ -668,6 +663,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>group_by() → return grouping of variables</li>
 <li>summarise() → reduces multiple values down to a single value</li>
 </ol>
+<p>This session covers the first four, and the pipe. Grouping and summarising are in Data Wrangling in R II.</p>
 <p>The important thing to remember is that all verbs follow the same format: - verb(dataset, options)</p>
 </section>
 <section id="dplyr-notes-and-exercises" class="level1" data-number="3">
@@ -1151,153 +1147,6 @@ replacement element 3 has 1 row to replace 0 rows</code></pre>
 </div>
 </section>
 </section>
-<section id="dplyrgroup_by-and-dplyrsummarise" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="dplyrgroup_by-and-dplyrsummarise"><span class="header-section-number">3.7</span> dplyr::group_by() and dplyr::summarise()</h2>
-<p><code>group_by()</code> doesn’t do much on its own, but by combining group_by() and summarise() we get so much more power! We can start to show summary statistics broken down by different groups, like the mean life expectancy per continent, all after applying whatever filters we want.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># e.g.</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>pop) <span class="sc">|&gt;</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">'Oceania'</span>, year <span class="sc">&gt;</span> <span class="dv">1980</span>L) <span class="sc">|&gt;</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(gdpPercap)) <span class="sc">|&gt;</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_years =</span> <span class="fu">n</span>(),</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Life_Exp =</span> <span class="fu">mean</span>(lifeExp),</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD_Life_Exp =</span> <span class="fu">sd</span>(lifeExp),</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max_GDP =</span> <span class="fu">max</span>(gdpPercap)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["country"],"name":[1],"type":["fct"],"align":["left"]},{"label":["n_years"],"name":[2],"type":["int"],"align":["right"]},{"label":["Mean_Life_Exp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SD_Life_Exp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Max_GDP"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Australia","2":"6","3":"78.1758333333","4":"2.45882576989","5":"34435.36744"},{"1":"New Zealand","2":"6","3":"76.8923333333","4":"2.55215843291","5":"25185.00911"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<section id="practice" class="level3" data-number="3.7.1">
-<h3 data-number="3.7.1" class="anchored" data-anchor-id="practice"><span class="header-section-number">3.7.1</span> practice</h3>
-<p><strong>Using gapminder</strong></p>
-<ul>
-<li>Get the median and standard deviation for gdpPercap</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(gapminder, <span class="at">mean_GDP =</span> <span class="fu">mean</span>(gdpPercap), <span class="at">sd_GDP =</span> <span class="fu">sd</span>(gdpPercap))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>Using airquality</strong> - load with data(“airquality”)</p>
-<ul>
-<li>Convert to tibble, remove Month and Day, keep Temperatures above 60, then summarise Solar.R with number, mean, median and standard deviation</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the airquality dataset is built-in to R, and can be loaded with data('airquality')</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"airquality"</span>)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Month, <span class="sc">-</span>Day) <span class="sc">|&gt;</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Temp <span class="sc">&gt;</span> <span class="dv">60</span>L) <span class="sc">|&gt;</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obvs =</span> <span class="fu">n</span>(),</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_solar =</span> <span class="fu">mean</span>(Solar.R, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median_solar =</span> <span class="fu">median</span>(Solar.R, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD_solar =</span> <span class="fu">sd</span>(Solar.R, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["n_obvs"],"name":[1],"type":["int"],"align":["right"]},{"label":["Mean_solar"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Median_solar"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SD_solar"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"145","2":"189.742857143","3":"212.5","4":"88.4603208556"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-</section>
-<section id="extra-practice" class="level3" data-number="3.7.2">
-<h3 data-number="3.7.2" class="anchored" data-anchor-id="extra-practice"><span class="header-section-number">3.7.2</span> extra practice</h3>
-<p><strong>Using airquality</strong></p>
-<ul>
-<li>Summarise the mean values for integer columns only using <code>summarise_if()</code> and <code>is.integer</code></li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_if</span>(is.integer, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["Ozone"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Solar.R"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Temp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Month"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Day"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"42.1293103448","2":"185.931506849","3":"77.8823529412","4":"6.99346405229","5":"15.8039215686"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<p><strong>Using starwars</strong></p>
-<ul>
-<li>What is the mean height and weight of all Droids? Include a count of how many droids there are</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Droid'</span>) <span class="sc">|&gt;</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">N_droid =</span> <span class="fu">n</span>(),</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_height =</span> <span class="fu">mean</span>(height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_weight =</span> <span class="fu">mean</span>(mass, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div data-pagedtable="false">
-  <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["N_droid"],"name":[1],"type":["int"],"align":["right"]},{"label":["Mean_height"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean_weight"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"131.2","3":"69.75"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<ul>
-<li>We want to compare Humans from different planets. Show the number of people and their mean height and mass, broken down by homeworld then gender. Make sure you show <em>all</em> rows when printing by piping the last line into <code>print(n = x)</code>, where <code>x</code> is a suitably high number of rows</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Human'</span>) <span class="sc">|&gt;</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(homeworld, gender) <span class="sc">|&gt;</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">N_people =</span> <span class="fu">n</span>(),</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_height =</span> <span class="fu">mean</span>(height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_weight =</span> <span class="fu">mean</span>(mass, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has regrouped the output.
-ℹ Summaries were computed grouped by homeworld and gender.
-ℹ Output is grouped by homeworld.
-ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-ℹ Use `summarise(.by = c(homeworld, gender))` for per-operation grouping
-  (`?dplyr::dplyr_by`) instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 20 × 5
-# Groups:   homeworld [15]
-   homeworld    gender    N_people Mean_height Mean_weight
-   &lt;chr&gt;        &lt;chr&gt;        &lt;int&gt;       &lt;dbl&gt;       &lt;dbl&gt;
- 1 Alderaan     feminine         1        150         49  
- 2 Alderaan     masculine        2        190.        79  
- 3 Bespin       masculine        1        175         79  
- 4 Chandrila    feminine         1        150        NaN  
- 5 Concord Dawn masculine        1        183         79  
- 6 Corellia     masculine        2        175         78.5
- 7 Coruscant    feminine         1        167        NaN  
- 8 Coruscant    masculine        1        170        NaN  
- 9 Eriadu       masculine        1        180        NaN  
-10 Haruun Kal   masculine        1        188         84  
-11 Kamino       masculine        1        183         78.2
-12 Naboo        feminine         2        175         45  
-13 Naboo        masculine        3        179.        75  
-14 Serenno      masculine        1        193         80  
-15 Socorro      masculine        1        177         79  
-16 Stewjon      masculine        1        182         77  
-17 Tatooine     feminine         2        164         75  
-18 Tatooine     masculine        6        184.       100. 
-19 &lt;NA&gt;         feminine         2        NaN        NaN  
-20 &lt;NA&gt;         masculine        4        193         89  </code></pre>
-</div>
-</div>
-</section>
-</section>
 </section>
 <section id="closing-notes" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Closing notes</h1>
@@ -1349,8 +1198,8 @@ replacement element 3 has 1 row to replace 0 rows</code></pre>
 <li>Packages can have functions with the same name - sometimes it helps to be specific <em>e.g.&nbsp;<code>dplyr::select()</code></em></li>
 <li>We can now used the conflicted package to be more explicit about this!</li>
 <li>See the introductory blog post from Hadley <a href="https://www.tidyverse.org/blog/2018/06/conflicted/">here</a></li>
-<li>Filtering using <code>grepl()</code> is better done using stringr’s <code>str_detect()</code> (introduced tomorrow)</li>
-<li><code>stringr</code> (tomorrow) combined with <code>dplyr</code> (more tomorrow) and <code>maggritr</code> will cover a lot of your everyday needs</li>
+<li>Filtering text with <code>grepl()</code> can also be done with stringr’s <code>str_detect()</code> — see the <a href="../10_resources/02_reference/strings_and_regex.html">strings reference page</a></li>
+<li><code>dplyr</code> and the pipe will cover a lot of your everyday needs</li>
 </ul>
 </section>
 <section id="should-we-always-use-dplyr" class="level2" data-number="4.3">
@@ -1384,7 +1233,6 @@ replacement element 3 has 1 row to replace 0 rows</code></pre>
 <h2 data-number="4.4" class="anchored" data-anchor-id="homework"><span class="header-section-number">4.4</span> Homework</h2>
 <ul>
 <li>Quarto file</li>
-<li><a href="https://regexone.com/">Regex practice before tomorrow</a></li>
 </ul>
 <p><strong>Suggested Reading</strong></p>
 <ul>

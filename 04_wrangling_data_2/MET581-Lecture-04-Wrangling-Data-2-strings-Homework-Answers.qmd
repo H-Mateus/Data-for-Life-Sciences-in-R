@@ -182,16 +182,70 @@ c(rows = nrow(long), if_complete = 2400 * 6)
 
 `r format(nrow(long), big.mark = ",")` rather than 14,400, because the study has attrition: participants miss visits, withdraw, or die, so most people do not have all six measurements. `values_drop_na = TRUE` discards those empty cells.
 
-## 6. `across()`
+## 6. Grouped means, with a count
 
-### 6a.
+```{r}
+#| message: false
+sleep <- read_csv('https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv')
+data(starwars)
+```
+
+after removing those missing conservation status, show the mean for all columns beginning with 'sleep', grouped by order. Include a count of the number of animals in each grouping.
+
+```{r}
+# writing each summary out by hand is fine, if a bit more work
+sleep |>
+  filter(!is.na(conservation)) |>
+  group_by(order) |>
+  summarise(N_Animals = n(),
+            Mean_Sleep = mean(sleep_total, na.rm = TRUE),
+            Mean_REM = mean(sleep_rem, na.rm = TRUE),
+            Mean_Cycle = mean(sleep_cycle, na.rm = TRUE))
+```
+
+```{r}
+# or, more concisely, with across() - which is covered later this session
+sleep |>
+  filter(!is.na(conservation)) |>
+  group_by(order) |>
+  summarise(across(starts_with('sleep'), list(count = ~n(), mean = ~mean(., na.rm = TRUE))))
+```
+
+## 7. `coalesce()`, `between()` and distinct counts
+
+use `dplyr::coalesce` to replace all missing values in the column 'conservation' with the string 'unknown'. Then use dplyr's `between` function to filter for rows with sleep_rem between 1 and 2.5 and show the total number of animals and number of distinct genera, using `summarise()`, `n()` and `n_distinct()`, after grouping by conservation status. Name the new summary columns 'animals' and 'genera'.
+
+```{r}
+# need to use between() and coalesce()
+sleep |>
+  mutate(conservation = coalesce(conservation, 'unknown')) |>
+  filter(dplyr::between(sleep_rem, 1, 2.5)) |>
+  group_by(conservation) |>
+  summarise(animals = n(),
+            genera = n_distinct(genus))
+```
+
+## 8. Missing values by species
+
+how many rows are missing information for each column? Break it down by species by using `group_by()` and `summarise_all()`
+
+```{r}
+# summarise_all() is superseded; across() is the current way
+starwars |>
+  group_by(species) |>
+  summarise(across(everything(), ~ sum(is.na(.))))
+```
+
+## 9. `across()`
+
+### 9a.
 
 ```{r}
 baseline |>
   summarise(across(c(bmi_kg_m2, systolic_bp_mmHg), ~ mean(.x, na.rm = TRUE)))
 ```
 
-### 6b.
+### 9b.
 
 ```{r}
 baseline |>
@@ -203,7 +257,7 @@ baseline |>
   )
 ```
 
-### 6c.
+### 9c.
 
 ```{r}
 baseline |>

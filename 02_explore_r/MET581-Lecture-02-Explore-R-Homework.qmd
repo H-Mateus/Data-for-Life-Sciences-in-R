@@ -1,54 +1,94 @@
 ---
 title: "Introduction to R Homework"
-author: "Matthew Bracher-Smith"
-date: "2024-10-15"
-format: html
+author:
+  - "Gabriel Mateus Bernardo Harrington"
+  - "Matthew Bracher-Smith"
+date: "2026-10-01"
+format:
+  html:
+    number-sections: true
 editor: source
 ---
 
-# Exploring Data in R - Exercises
+This document contains all questions for **Introduction to R**. Answer them in an
+R script, with a comment above each answer saying which question it is, so that
+someone else could run the script from top to bottom and get your answers.
 
-## Overview
+From next session onwards you will hand homework in as a Quarto document instead,
+which keeps the code, its output and your explanation together.
 
-Quarto is a document format that allows you to create and render documents in multiple formats including HTML, PDF, and MS Word. For more details on using Quarto, see [the Quarto website](https://quarto.org). When you render this document, it will generate output that includes both the content and the results of any embedded R code chunks. You can embed an R code chunk like this:
+## R basics
 
-```{r}
-#| eval: false
-summary(cars)
-```
+1.  Perform these calculations in R:
 
-This will display a summary of the cars dataset like shown below:
+    -   $\sqrt{6 \times 2}$
+    -   $4 + 3 - 2$
+    -   $1046 \times 934$
 
-```{r}
-#| echo: false
-summary(cars)
-```
+2.  R comes with some example datasets built in. `women` holds the average
+    heights and weights of a group of American women.
 
-For your homework, you will answer the questions below using Quarto. Make sure to include both the code and results in your knitted PDF or html file.
+    -   2a. Load it with `data(women)`.
+    -   2b. Use `nrow()` to count the rows, and `colnames()` to show the column
+        headers.
+    -   2c. Add a column called `ages`, giving each woman any age you like. Print
+        the new data frame.
+    -   2d. What are the mean and the sum of each column?
+    -   2e. Now run `summary(women)`. What does it give you that 2d did not?
 
-## Questions
+3.  Read in the dataset at <http://tbb.bio.uu.nl/BDA/fig4.tsv> and store it in a
+    variable called `cohort`.
 
-1.  Use Quarto to write a paragraph explaining the tidyverse concept. Your paragraph should include:
+    -   3a. Read it once with base R's `read.table()` and once with readr's
+        `read_tsv()`. What is different about the two results?
+    -   3b. Make a subset containing only women (`Gender == "F"`), and store it in
+        a variable called `females`.
+    -   3c. Write `females` to a file called `fig4-females.csv`, using
+        `write_csv()`.
 
-   - Example code
-   - Inline code
-   - Blockquotes
-   - Lists
-   - Bold or italic text
+## Data types and structures
 
-2. Create a tibble with columns labeled: name, age, height, gender. Your tibble should contain at least 13 rows of data.
+4.  R has several types of data, and several ways of holding them.
 
-   -  2a: Use tibble code to select the data for row 4. 
-   -  2b: Retrieve the height of a person based on their name. 
-   -  2c: Calculate the ratio of men to women. 
-   -  2d: Calculate the average age and the standard deviation. 
-  
-3. Turn the dataset iris into a tibble.
+    -   4a. What types of data can R handle?
+    -   4b. Print these three vectors. How would you select the first and third
+        element of `c`?
 
-4. Why might tibbles be preferable to traditional R data frames for data scientists?
+    ```{r}
+    #| eval: false
+    a <- c(1, 2, 5.3, 6, -2, 4) # numeric vector
+    b <- c("one", "two", "three") # character vector
+    c <- c(TRUE, TRUE, TRUE, FALSE, TRUE, FALSE) # logical vector
+    ```
 
-5. List some of the most important options provided by the readr package.
+    -   4c. Make a matrix with four rows and four columns, with both row and
+        column names. Look up the `dimnames` argument in `?matrix` and explain
+        how it works.
+    -   4d. Make your own data frame with at least three rows and three columns.
+    -   4e. Change its column names to something else.
 
-6. Import the pheno_unclean.txt file (find it [here](https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno_unclean.txt) using readr.
+5.  Find a package on [CRAN](https://cran.r-project.org/web/packages/available_packages_by_name.html)
+    or [METACRAN](https://r-pkg.org), install it, and say in a sentence or two
+    what it does.
 
-7. Identify any errors in the pheno_unclean.txt file using R code.
+## Tibbles and readr
+
+6.  Create a tibble with the columns `name`, `age`, `height` and `gender`, and at
+    least 13 rows of data.
+
+    -   6a. Select the data for row 4.
+    -   6b. Retrieve the height of a person based on their name.
+    -   6c. Calculate the ratio of men to women.
+    -   6d. Calculate the average age and its standard deviation.
+
+7.  Turn the dataset `iris` into a tibble.
+
+8.  Why might tibbles be preferable to traditional R data frames for data
+    scientists?
+
+9.  List some of the most important options provided by the readr package.
+
+10. Import the [pheno_unclean.txt](https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/blob/main/data/pheno_unclean.txt)
+    file using readr.
+
+11. Identify any errors in the `pheno_unclean.txt` file using R code.

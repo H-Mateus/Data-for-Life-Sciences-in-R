@@ -836,7 +836,13 @@ ggstatsplot::ggscatterstats(mtcars, x = hp, y = qsec)
 
 ## That's all folks! {.center}
 
--   These slides can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
+:::: {.columns}
+::: {.column width="60%"}
+-   These slides can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+:::
 
-![](/./10_resources/00_images/website_qrcode.svg){fig-align="center"}
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::
 

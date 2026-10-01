@@ -512,7 +512,7 @@ If you had gone straight to a test, `Very good` (136 people) and `very good`
 
 . . .
 
-Repairing these is a job for `case_when()` and `forcats` — session 5, and the
+Repairing these is a job for `case_when()`, which you used in session 4, and the
 [factors reference page](../10_resources/02_reference/factors_with_forcats.qmd).
 
 ## Binary variables {.smaller}
@@ -757,6 +757,14 @@ marked on the pipeline as much as the result.
 
 That file is your cleaned cohort. Use it for the report.
 
+## One more thing: AI assistants
+
+You have spent today finding data that was quietly wrong. AI assistants produce
+*code* that is quietly wrong, in exactly the same way — and you now know enough R
+to spot it.
+
+[Working with AI assistants — slides](../00_llm_use/met581_llm_demo_slides.qmd)
+
 ## Additional Resources
 
 - [R for Data Science 2e — Exploratory Data Analysis](https://r4ds.hadley.nz/eda)
@@ -764,3 +772,15 @@ That file is your cleaned cohort. Use it for the report.
   whole data frame
 - [`naniar`](https://naniar.njtierney.com/) — tools for exploring missing data
 - Next session: doing all of this **properly**, with `ggplot2`
+
+## Slides and code
+
+:::: {.columns}
+::: {.column width="60%"}
+-   These slides, the homework and everything else for the module are on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+:::
+
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::

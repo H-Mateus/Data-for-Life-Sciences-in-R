@@ -8,7 +8,7 @@ for Life Sciences I*. Staff-facing notes here; student-facing content is the
 
 | File | Audience | Purpose |
 |---|---|---|
-| `met581_llm_demo_slides.qmd` | students, live | ~15–20 min segment at the end of **session 5**. Seven verified examples of fluent, non-erroring, wrong R, then the prompting guidance. |
+| `met581_llm_demo_slides.qmd` | students, live | ~15–20 min segment at the end of **session 7**. Seven verified examples of fluent, non-erroring, wrong R, then the prompting guidance. |
 | `using_ai_assistants.qmd` | students, reference | Website page: the norms, the prompting guide, what's fine in assessed work, links to the tutor prompt. |
 | `r_tutor_prompt.md` | students | Tool-agnostic paste-in tutor prompt (Claude, ChatGPT, Gemini, Copilot…). |
 | `skills/r-tutor/SKILL.md` | students | Claude Code skill version. Drops into `~/.claude/skills/r-tutor/`. |
@@ -25,7 +25,7 @@ one of three:
    debug-the-generated-code items in `assessment_wording_draft.md`. Assesses the
    evaluative skill directly instead of prohibiting the tool. MLO-5 already
    requires students to *defend* analytical choices, which is the mandate.
-2. **The session 5 demo** (most persuasive) — the employability argument lands
+2. **The session 7 demo** (most persuasive) — the employability argument lands
    far harder *after* students watch a model produce confidently wrong R than
    before. Run the code live; don't read the output off the slide.
 3. **The tutor prompt** (a gift, not a fence) — framed as something that makes
@@ -63,12 +63,15 @@ single most transferable thing in the segment.
 
 ## Placement
 
-Put the segment at the end of **session 5 (Data Wrangling in R II)**, straight
-after joins. It was first planned for session 3, but the exhibits use `filter()`,
-`mutate()`, `left_join()` and `ifelse()`, none of which students can read on
-their first day of R. By session 5 they can read all but two (`sapply()` and
-`ifelse()`, which session 6 teaches), and the join exhibit lands right after they
-have been taught to avoid it.
+Put the segment at the end of **session 7 (Exploratory Data Analysis)**. It was
+first planned for session 3, but the exhibits use `filter()`, `mutate()`,
+`left_join()`, `sapply()` and `ifelse()`, none of which students can read on their
+first day of R. It then sat briefly at the end of session 5, after joins, but that
+left two exhibits (`sapply()`, `ifelse()`) ahead of session 6, and made session 5
+the longest in the module once grouping moved there.
+
+By session 7 students can read every exhibit, and EDA's theme — data that is
+quietly wrong, and nothing warns you — is the segment's theme applied to code.
 
 The cost is timing: the Programming in R assessment is set in week 1, before the
 segment. Session 3 keeps a short LLM slide that points students at the "What's

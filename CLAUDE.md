@@ -81,20 +81,41 @@ renamed, because renaming churns `docs/` and every sidebar href. The mapping:
 
 | Dir | Becomes | Content |
 |-----|---------|---------|
-| `01_intro_to_r` | **Session 3** Introduction to R | R basics, data types, IDE, packages, help, import/export, tibbles, readr, Quarto. The old `02_explore_r` deck is merged into this file; `02_explore_r/` now holds only the session 3 homework |
-| `03_wrangling_data_1` | **Session 4** Data Wrangling in R I | dplyr verbs, the pipe, grouping |
-| `04_wrangling_data_2` | **Session 5** Data Wrangling in R II | `across`/`pick`, tidyr reshaping, joins, then the AI-assistant segment (`00_llm_use/met581_llm_demo_slides.qmd`, a separate deck) |
+| `01_intro_to_r` | **Session 3** Introduction to R | R basics, data types, IDE, packages, help, import/export, tibbles, readr. The old `02_explore_r` deck was merged into this file; `02_explore_r/` now holds only the session 3 homework |
+| `03_wrangling_data_1` | **Session 4** Data Wrangling in R I | **Quarto** (opens the session), then select/filter/arrange/mutate, the pipe, and the first cohort repair (`case_when()` on `sex_at_birth`/`smoking_status`) |
+| `04_wrangling_data_2` | **Session 5** Data Wrangling in R II | **`group_by`/`summarise`**, `across`/`pick`, tidyr reshaping, joins |
 | `06_Programming_in_R` | **Session 6** Programming in R | writing functions (from old `05`), conditionals, `switch`, arguments and constraints, purrr, loops, modularising and unit testing (from old `05`) |
-| `08_exploratory_data_analysis` | **Session 7** Exploratory Data Analysis | new authoring, built on the simulated cohort |
+| `08_exploratory_data_analysis` | **Session 7** Exploratory Data Analysis | new authoring, built on the simulated cohort, then the AI-assistant segment (`00_llm_use/met581_llm_demo_slides.qmd`, a separate deck) |
 | `07_Data_Visualisation_in_R` | **Session 8** Data Visualisation in R | ggplot2, largely as-is |
 
 Old `05_wrangling_data_3` was dissolved: forcats and lubridate are reference pages,
 functions went to session 6, and the deck itself is in `archive/`.
 
-**Session 3 is the densest** (about 70 slides; it absorbed two old lectures). If it
-overruns, the first candidate to move is the tibbles block (about 6 slides) into the
-opening of session 4, next to the tidy-data slides. Quarto cannot move later: the
-session 4 homework is submitted as a Quarto file.
+**Sessions 3–5 were rebalanced (2026-10-01)** after session 3 came out at ~74
+slides against 50–60 elsewhere. Each session handed its heaviest block forward:
+Quarto from 3 to the start of 4, grouping/summarise from 4 to the start of 5, and
+the AI segment from 5 to the end of 7. Now 56 / 67 / 45 / 61 / 48 + 34 (AI) / 57
+slides now, but session 4's Quarto block is hands-on and its slides are mostly
+`{.smaller}`, so slide count overstates it.
+
+Why this split, so it isn't undone by accident:
+
+- **Quarto opens session 4 because the cleaning thread starts there.** Students
+  create `cleaning.qmd` in their project folder (*not* in `my_work/`: a `.qmd`
+  renders with its own folder as working directory, which would make the
+  `my_work/...` save paths write to `my_work/my_work/`). The record of repairs is
+  what the 50% report wants.
+- **Grouping opens session 5** because `summarise()` leads straight into
+  `summarise(across(...))`.
+- **Session 4's repair is now actually taught.** The checkpoint had always applied a
+  `case_when()` repair that no slide showed. The slides use the exact-match form
+  (`"female"` → `"Female"`, `"Currnt"` → `"Current"`), which was verified to give a
+  baseline table `identical()` to `cohort_after_s4.rds`.
+- **Homework moved with the content.** Session 3's homework is the old lecture 1
+  exercises (modernised; `women` is in `datasets`, not MASS) plus the tibble and
+  readr questions, answered in an R script. Its Quarto question became Q1 of session
+  4's. Session 4's three grouping questions (msleep/starwars) became Q6–8 of session
+  5's, with the deprecated `funs()` answers dropped.
 
 Decisions behind it:
 
@@ -114,11 +135,13 @@ Decisions behind it:
   functions, when not to write one, modularising, or unit testing — which is
   exactly the syllabus's "explicit constraints to ensure input validity" and
   MLO-4's reproducible-code requirement.
-- **The AI segment moved from session 3 to the end of session 5.** Its exhibits use
-  `filter`, `mutate`, `left_join`, `sapply` and `ifelse`, none of which students can
-  read on day one. Session 3 keeps a short LLM slide that links to the "What's fine
-  and what isn't" section of the AI guide, because the Programming in R assessment
-  is set in week 1, before session 5.
+- **The AI segment sits at the end of session 7.** Its exhibits use `filter`,
+  `mutate`, `left_join`, `sapply` and `ifelse`, none of which students can read on
+  day one; by session 7 they have met all of them, and EDA's theme (data that is
+  quietly wrong) is the segment's theme applied to code. Session 3 keeps a short LLM
+  slide that links to the "What's fine and what isn't" section of the AI guide,
+  because the Programming in R assessment is set in week 1. Session 6 must not
+  refer to the exhibits by letter: students have not seen them yet.
 
 ### Session 7 (EDA) — drafted on the simulated cohort
 
@@ -169,11 +192,11 @@ where a neutral phrasing would do.
 Directories are numbered by the *old* lecture order:
 
 ```
-00_llm_use/               AI-assistant strand (see below) → segment at end of session 5
-01_intro_to_r/            session 3 deck (Intro to R + Quarto, tibbles, readr)
+00_llm_use/               AI-assistant strand (see below) → segment at end of session 7
+01_intro_to_r/            session 3 deck (Intro to R, import/export, tibbles, readr)
 02_explore_r/             session 3 homework only
-03_wrangling_data_1/      session 4: dplyr verbs, pipe, grouping
-04_wrangling_data_2/      session 5: across, tidyr, joins
+03_wrangling_data_1/      session 4: Quarto, dplyr verbs, pipe, first repair
+04_wrangling_data_2/      session 5: grouping, across, tidyr, joins
 06_Programming_in_R/      session 6: functions, conditionals, purrr, loops, testing
 07_Data_Visualisation_in_R/ session 8: ggplot2
 08_exploratory_data_analysis/ session 7: EDA
@@ -195,7 +218,7 @@ _extensions/r-wasm/drop/  webr plugin for in-browser code cells
 A three-layer response to student LLM use — the stance is *use them well*, not
 *don't use them*. See `00_llm_use/README.md` for the rationale and placement.
 
-- `met581_llm_demo_slides.qmd` — ~15–20 min segment at the end of session 5: seven
+- `met581_llm_demo_slides.qmd` — ~15–20 min segment at the end of session 7: seven
   examples of fluent, non-erroring, **wrong** R, then prompting guidance.
 - `using_ai_assistants.qmd` — student reference page on the site.
 - `r_tutor_prompt.md`, `skills/r-tutor/SKILL.md`, `CLAUDE.md.example` — tutor-mode
@@ -253,7 +276,9 @@ affiliation YAML block, `logo: /10_resources/00_images/combined_logos.png`, and 
 
 **Inherited from Matthew Bracher-Smith** (`03`, `04`, `05`) — three files per
 lecture: `*-Slides.qmd` (revealjs, `embed-resources`/`self-contained`, `theme:
-dark`), `*-Lecture-Notes.qmd` (html, `theme: united`, prose version of the same
+[dark, ../styles.scss, brand]` — the shared `styles.scss` was added in 2026-10 so
+these decks get the same 30px root font as the rest; without it reveal's 40px
+default made the Quarto slides overflow), `*-Lecture-Notes.qmd` (html, `theme: united`, prose version of the same
 content), `*-Homework.qmd`. Different YAML idiom, hand-rolled HTML `<div>`
 blocks for image layout, and heavy use of `## Topic - Practice!` slides.
 
@@ -317,6 +342,13 @@ Outstanding:
   which does not exist, rather than `10_resources/00_images/` — now fixed. **If
   you ever change the URL again, regenerate the QR**: nothing checks it, and a
   stale QR fails silently and embarrassingly, in front of a room.
+- ~~QR codes too small to scan~~ — every QR slide now uses a 60/40 `.columns`
+  layout with the QR at `width="100%"` of its column (~440px on the canvas). A bare
+  centred image shrinks to whatever space the text leaves (01's was a thumbnail
+  behind the footer) or runs into the footer and loses its white border, which
+  scanners need. Session 3 also has a "Follow along" QR slide near the start.
+  The R version on 01's install slide is inline R (`getRversion()`), so it is the
+  version **on the rendering machine**: render with a current R before teaching.
 - Directory names and `.qmd` **filenames** still use the old `MET581`/lecture-NN
   scheme. Only the rendered titles were changed. Renaming files would churn
   `docs/`, `_freeze/` and every sidebar href for no student-visible gain.

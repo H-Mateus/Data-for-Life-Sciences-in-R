@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling in R II: across, reshaping and joins"
+title: "Data Wrangling in R II: grouping, reshaping and joins"
 author: "Matthew Bracher-Smith"
 date: "2024-10-18"
 editor: source
@@ -47,12 +47,15 @@ data('starwars')
 
 Today we're going to cover some more ground on using the tidyverse to get data into the required format. The aims are to work through:
 
+- Grouping and summarising data with dplyr
+- Applying a function across many columns
 - Reshaping data with the tidyr package
-- Data wrangling using the dplyr package
 - Joining tables together
 
 ## Learning Objectives
 
+- group and summarise data
+- apply a function across many columns at once
 - introduce wide and long formats
 - begin converting between wide and long data
 - join data frames together with dplyr
@@ -65,6 +68,95 @@ Today we're going to cover some more ground on using the tidyverse to get data i
 - This might be R scripts or literate programming (Quarto files)
 - It's worth creating a new project for each class, and a new .qmd file for each homework
 - Test in the console to build up parts of a query and transfer to the .qmd file
+
+# Grouping and summarising
+
+## dplyr::group_by() and dplyr::summarise()
+
+`group_by()` doesn't do much on its own, but by combining group_by() and summarise() we get so much more power! We can start to show summary statistics broken down by different groups, like the mean life expectancy per continent, all after applying whatever filters we want.
+
+```{r}
+# e.g.
+gapminder |>
+  select(-pop) |>
+  filter(continent == 'Oceania', year > 1980L) |>
+  arrange(desc(gdpPercap)) |>
+  group_by(country) |>
+  summarise(
+    n_years = n(),
+    Mean_Life_Exp = mean(lifeExp),
+    SD_Life_Exp = sd(lifeExp),
+    Max_GDP = max(gdpPercap)
+  )
+```
+
+### practice
+**Using gapminder**
+
+- Get the median and standard deviation for gdpPercap
+```{r, echo=TRUE, results='hide'}
+summarise(gapminder, mean_GDP = mean(gdpPercap), sd_GDP = sd(gdpPercap))
+```
+
+**Using airquality** - load with data("airquality")
+
+- Convert to tibble, remove Month and Day, keep Temperatures above 60, then summarise Solar.R with number, mean, median and standard deviation
+
+```{r}
+# the airquality dataset is built-in to R, and can be loaded with data('airquality')
+data("airquality")
+airquality |>
+  as_tibble() |>
+  select(-Month, -Day) |>
+  filter(Temp > 60L) |>
+  summarise(
+    n_obvs = n(),
+    Mean_solar = mean(Solar.R, na.rm = TRUE),
+    Median_solar = median(Solar.R, na.rm = TRUE),
+    SD_solar = sd(Solar.R, na.rm = TRUE)
+  )
+```
+
+### extra practice
+**Using airquality**
+
+- Summarise the mean values for integer columns only using `summarise_if()` and `is.integer`
+
+```{r}
+airquality |>
+  as_tibble() |>
+  summarise_if(is.integer, mean, na.rm = TRUE)
+```
+
+**Using starwars**
+
+- What is the mean height and weight of all Droids? Include a count of how many droids there are
+
+```{r}
+starwars |>
+  filter(species == 'Droid') |>
+  summarise(
+    N_droid = n(),
+    Mean_height = mean(height, na.rm = TRUE),
+    Mean_weight = mean(mass, na.rm = TRUE)
+  )
+```
+
+- We want to compare Humans from different planets. Show the number of people and their mean height and mass, broken down by homeworld then gender. Make sure you show *all* rows when printing by piping the last line into `print(n = x)`, where `x` is a suitably high number of rows
+
+```{r}
+starwars |>
+  filter(species == 'Human') |>
+  group_by(homeworld, gender) |>
+  summarise(
+    N_people = n(),
+    Mean_height = mean(height, na.rm = TRUE),
+    Mean_weight = mean(mass, na.rm = TRUE)
+  ) |>
+  print(n = 21)
+```
+
+# Applying functions across columns
 
 ## Scoped verbs vs. pick and across
 
@@ -88,7 +180,7 @@ gapminder |>
 
 ## `across` for applying functions
 
-- You will cover functional programming in detail with `purrr` in later lectures
+- You will cover functional programming in detail with `purrr` next session
 - Functional programming refers to functions which can take other functions as arguments for iteration
 - `across` can be used in this way to apply functions to multiple columns
 - see [the R4DS book, ch. 26](https://r4ds.hadley.nz/iteration) for more

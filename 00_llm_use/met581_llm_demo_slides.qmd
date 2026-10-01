@@ -47,9 +47,9 @@ execute:
 - Set out what's fine and what isn't in assessed work
 
 ::: {.notes}
-~15-20 minutes, at the end of session 5, straight after joins. By then students
-can read every exhibit, and Exhibit D is the join mistake they have just been
-taught to avoid. Run the code live rather than reading the
+~15-20 minutes, at the end of session 7 (EDA). By then students have met every
+function in the exhibits, including `sapply()` and `ifelse()` from session 6, and
+the session's theme (data that is quietly wrong) is the same as the segment's. Run the code live rather than reading the
 output off the slide — the reveal is the whole point.
 :::
 
@@ -566,3 +566,15 @@ October.
 - [R for Data Science (2e)](https://r4ds.hadley.nz/) — still the best answer to
   most R questions
 - `?function_name` — faster than asking, and always correct
+
+## Slides and code
+
+:::: {.columns}
+::: {.column width="60%"}
+-   These slides, the homework and everything else for the module are on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+:::
+
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::

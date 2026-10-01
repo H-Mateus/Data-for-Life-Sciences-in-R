@@ -422,12 +422,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides: working with AI assistants</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture notes</span></a>
   </div>
@@ -488,6 +482,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides: working with AI assistants</span></a>
   </div>
 </li>
       </ul>
@@ -585,11 +585,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#d.-1" id="toc-d.-1" class="nav-link" data-scroll-target="#d.-1"><span class="header-section-number">4.4</span> 4d.</a></li>
   </ul></li>
   <li><a href="#back-to-long-format" id="toc-back-to-long-format" class="nav-link" data-scroll-target="#back-to-long-format"><span class="header-section-number">5</span> 5. Back to long format</a></li>
-  <li><a href="#across" id="toc-across" class="nav-link" data-scroll-target="#across"><span class="header-section-number">6</span> 6. <code>across()</code></a>
+  <li><a href="#grouped-means-with-a-count" id="toc-grouped-means-with-a-count" class="nav-link" data-scroll-target="#grouped-means-with-a-count"><span class="header-section-number">6</span> 6. Grouped means, with a count</a></li>
+  <li><a href="#coalesce-between-and-distinct-counts" id="toc-coalesce-between-and-distinct-counts" class="nav-link" data-scroll-target="#coalesce-between-and-distinct-counts"><span class="header-section-number">7</span> 7. <code>coalesce()</code>, <code>between()</code> and distinct counts</a></li>
+  <li><a href="#missing-values-by-species" id="toc-missing-values-by-species" class="nav-link" data-scroll-target="#missing-values-by-species"><span class="header-section-number">8</span> 8. Missing values by species</a></li>
+  <li><a href="#across" id="toc-across" class="nav-link" data-scroll-target="#across"><span class="header-section-number">9</span> 9. <code>across()</code></a>
   <ul class="collapse">
-  <li><a href="#a.-2" id="toc-a.-2" class="nav-link" data-scroll-target="#a.-2"><span class="header-section-number">6.1</span> 6a.</a></li>
-  <li><a href="#b.-2" id="toc-b.-2" class="nav-link" data-scroll-target="#b.-2"><span class="header-section-number">6.2</span> 6b.</a></li>
-  <li><a href="#c.-2" id="toc-c.-2" class="nav-link" data-scroll-target="#c.-2"><span class="header-section-number">6.3</span> 6c.</a></li>
+  <li><a href="#a.-2" id="toc-a.-2" class="nav-link" data-scroll-target="#a.-2"><span class="header-section-number">9.1</span> 9a.</a></li>
+  <li><a href="#b.-2" id="toc-b.-2" class="nav-link" data-scroll-target="#b.-2"><span class="header-section-number">9.2</span> 9b.</a></li>
+  <li><a href="#c.-2" id="toc-c.-2" class="nav-link" data-scroll-target="#c.-2"><span class="header-section-number">9.3</span> 9c.</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Homework-Answers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -828,13 +831,128 @@ list-cols.
 </div>
 <p>10,730 rather than 14,400, because the study has attrition: participants miss visits, withdraw, or die, so most people do not have all six measurements. <code>values_drop_na = TRUE</code> discards those empty cells.</p>
 </section>
-<section id="across" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="across"><span class="header-section-number">6</span> 6. <code>across()</code></h2>
-<section id="a.-2" class="level3" data-number="6.1">
-<h3 data-number="6.1" class="anchored" data-anchor-id="a.-2"><span class="header-section-number">6.1</span> 6a.</h3>
+<section id="grouped-means-with-a-count" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="grouped-means-with-a-count"><span class="header-section-number">6</span> 6. Grouped means, with a count</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg), <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(starwars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>after removing those missing conservation status, show the mean for all columns beginning with ‘sleep’, grouped by order. Include a count of the number of animals in each grouping.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># writing each summary out by hand is fine, if a bit more work</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sleep <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(conservation)) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(order) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N_Animals =</span> <span class="fu">n</span>(),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">Mean_Sleep =</span> <span class="fu">mean</span>(sleep_total, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">Mean_REM =</span> <span class="fu">mean</span>(sleep_rem, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">Mean_Cycle =</span> <span class="fu">mean</span>(sleep_cycle, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 5
+   order           N_Animals Mean_Sleep Mean_REM Mean_Cycle
+   &lt;chr&gt;               &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1 Artiodactyla            6       4.52    0.94       0.583
+ 2 Carnivora               9      10.3     1.88       0.378
+ 3 Cetacea                 2       4.15    0.1      NaN    
+ 4 Chiroptera              1      19.7     3.9        0.117
+ 5 Cingulata               2      17.8     4.6        0.383
+ 6 Didelphimorphia         2      18.7     5.75       0.333
+ 7 Erinaceomorpha          2      10.2     3.1        0.283
+ 8 Hyracoidea              3       5.67    0.533    NaN    
+ 9 Lagomorpha              1       8.4     0.9        0.417
+10 Perissodactyla          3       3.47    0.667      0.95 
+11 Primates                4      10.4     0.9      NaN    
+12 Proboscidea             2       3.6   NaN        NaN    
+13 Rodentia               13      13.3     2.08       0.186
+14 Soricomorpha            4      10.7     2          0.15 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or, more concisely, with across() - which is covered later this session</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sleep <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(conservation)) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(order) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">'sleep'</span>), <span class="fu">list</span>(<span class="at">count =</span> <span class="sc">~</span><span class="fu">n</span>(), <span class="at">mean =</span> <span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 7
+   order       sleep_total_count sleep_total_mean sleep_rem_count sleep_rem_mean
+   &lt;chr&gt;                   &lt;int&gt;            &lt;dbl&gt;           &lt;int&gt;          &lt;dbl&gt;
+ 1 Artiodacty…                 6             4.52               6          0.94 
+ 2 Carnivora                   9            10.3                9          1.88 
+ 3 Cetacea                     2             4.15               2          0.1  
+ 4 Chiroptera                  1            19.7                1          3.9  
+ 5 Cingulata                   2            17.8                2          4.6  
+ 6 Didelphimo…                 2            18.7                2          5.75 
+ 7 Erinaceomo…                 2            10.2                2          3.1  
+ 8 Hyracoidea                  3             5.67               3          0.533
+ 9 Lagomorpha                  1             8.4                1          0.9  
+10 Perissodac…                 3             3.47               3          0.667
+11 Primates                    4            10.4                4          0.9  
+12 Proboscidea                 2             3.6                2        NaN    
+13 Rodentia                   13            13.3               13          2.08 
+14 Soricomorp…                 4            10.7                4          2    
+# ℹ 2 more variables: sleep_cycle_count &lt;int&gt;, sleep_cycle_mean &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="coalesce-between-and-distinct-counts" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="coalesce-between-and-distinct-counts"><span class="header-section-number">7</span> 7. <code>coalesce()</code>, <code>between()</code> and distinct counts</h2>
+<p>use <code>dplyr::coalesce</code> to replace all missing values in the column ‘conservation’ with the string ‘unknown’. Then use dplyr’s <code>between</code> function to filter for rows with sleep_rem between 1 and 2.5 and show the total number of animals and number of distinct genera, using <code>summarise()</code>, <code>n()</code> and <code>n_distinct()</code>, after grouping by conservation status. Name the new summary columns ‘animals’ and ‘genera’.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># need to use between() and coalesce()</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sleep <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">conservation =</span> <span class="fu">coalesce</span>(conservation, <span class="st">'unknown'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dplyr<span class="sc">::</span><span class="fu">between</span>(sleep_rem, <span class="dv">1</span>, <span class="fl">2.5</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(conservation) <span class="sc">|&gt;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">animals =</span> <span class="fu">n</span>(),</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">genera =</span> <span class="fu">n_distinct</span>(genus))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  conservation animals genera
+  &lt;chr&gt;          &lt;int&gt;  &lt;int&gt;
+1 domesticated       2      2
+2 lc                 8      8
+3 nt                 2      2
+4 unknown           18     18
+5 vu                 2      2</code></pre>
+</div>
+</div>
+</section>
+<section id="missing-values-by-species" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="missing-values-by-species"><span class="header-section-number">8</span> 8. Missing values by species</h2>
+<p>how many rows are missing information for each column? Break it down by species by using <code>group_by()</code> and <code>summarise_all()</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarise_all() is superseded; across() is the current way</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38 × 14
+   species    name height  mass hair_color skin_color eye_color birth_year   sex
+   &lt;chr&gt;     &lt;int&gt;  &lt;int&gt; &lt;int&gt;      &lt;int&gt;      &lt;int&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;
+ 1 Aleena        0      0     0          0          0         0          1     0
+ 2 Besalisk      0      0     0          0          0         0          1     0
+ 3 Cerean        0      0     0          0          0         0          0     0
+ 4 Chagrian      0      0     1          0          0         0          1     0
+ 5 Clawdite      0      0     0          0          0         0          1     0
+ 6 Droid         0      1     2          3          0         0          3     0
+ 7 Dug           0      0     0          0          0         0          1     0
+ 8 Ewok          0      0     0          0          0         0          0     0
+ 9 Geonosian     0      0     0          0          0         0          1     0
+10 Gungan        0      0     1          0          0         0          2     0
+# ℹ 28 more rows
+# ℹ 5 more variables: gender &lt;int&gt;, homeworld &lt;int&gt;, films &lt;int&gt;,
+#   vehicles &lt;int&gt;, starships &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="across" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="across"><span class="header-section-number">9</span> 9. <code>across()</code></h2>
+<section id="a.-2" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="a.-2"><span class="header-section-number">9.1</span> 9a.</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg), <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   bmi_kg_m2 systolic_bp_mmHg
@@ -843,16 +961,16 @@ list-cols.
 </div>
 </div>
 </section>
-<section id="b.-2" class="level3" data-number="6.2">
-<h3 data-number="6.2" class="anchored" data-anchor-id="b.-2"><span class="header-section-number">6.2</span> 6b.</h3>
+<section id="b.-2" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="b.-2"><span class="header-section-number">9.2</span> 9b.</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg),</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">median =</span> <span class="sc">~</span> <span class="fu">median</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
   bmi_kg_m2_mean bmi_kg_m2_median systolic_bp_mmHg_mean systolic_bp_mmHg_median
@@ -861,15 +979,15 @@ list-cols.
 </div>
 </div>
 </section>
-<section id="c.-2" class="level3" data-number="6.3">
-<h3 data-number="6.3" class="anchored" data-anchor-id="c.-2"><span class="header-section-number">6.3</span> 6c.</h3>
+<section id="c.-2" class="level3" data-number="9.3">
+<h3 data-number="9.3" class="anchored" data-anchor-id="c.-2"><span class="header-section-number">9.3</span> 9c.</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(imd_quintile) <span class="sc">|&gt;</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg), <span class="sc">~</span> <span class="fu">round</span>(<span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>)),</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(imd_quintile) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(bmi_kg_m2, systolic_bp_mmHg), <span class="sc">~</span> <span class="fu">round</span>(<span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>)),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   imd_quintile bmi_kg_m2 systolic_bp_mmHg     n

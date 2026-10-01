@@ -450,7 +450,7 @@ Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</code></pre>
 <section id="conditional-execution-vectorised" class="slide level2 smaller">
 <h2>Conditional Execution | vectorised</h2>
 <ul>
-<li><code>ifelse()</code> lets us use vectorised if-else statements, but <code>dplyr::if_else()</code> is stricter and keeps types — remember Exhibit F from last session, where <code>ifelse()</code> turned dates into numbers</li>
+<li><code>ifelse()</code> lets us use vectorised if-else statements, but <code>dplyr::if_else()</code> is stricter and keeps types — <code>ifelse()</code> will quietly turn dates into plain numbers</li>
 <li>if you have a lot of <code>if</code> statements, <code>switch()</code> is next</li>
 <li><code>dplyr::case_when()</code> handles multiple vectorised <code>if_else()</code> statements</li>
 </ul>
@@ -760,7 +760,7 @@ Missing values: 573</code></pre>
 <span id="cb43-3"><a aria-label="3"></a>  means[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(df[[i]])</span>
 <span id="cb43-4"><a aria-label="4"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><code>map_dbl()</code> says only the <em>what</em>, and guarantees you get numbers back (it errors otherwise — remember Exhibit E from last session)</p>
+<p><code>map_dbl()</code> says only the <em>what</em>, and guarantees you get numbers back (it errors otherwise)</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-label="1"></a>means <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(df, mean)</span>
 <span id="cb44-2"><a aria-label="2"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), rescale)) <span class="co"># and the rescale loop, with across()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -809,18 +809,18 @@ Missing values: 573</code></pre>
 <span id="cb45-2"><a aria-label="2"></a><span class="fu">map_dbl</span>(df, mean) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.45 0.56 0.55 0.58 </code></pre>
+0.63 0.57 0.32 0.56 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(df, sd) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.34 0.32 0.39 0.28 </code></pre>
+0.30 0.33 0.39 0.28 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a><span class="co"># And here's the native R sapply equivalent</span></span>
 <span id="cb49-2"><a aria-label="2"></a><span class="fu">sapply</span>(df, mean) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.45 0.56 0.55 0.58 </code></pre>
+0.63 0.57 0.32 0.56 </code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -831,7 +831,7 @@ Missing values: 573</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(df, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   a    b    c    d 
-0.45 0.56 0.55 0.58 </code></pre>
+0.63 0.57 0.32 0.56 </code></pre>
 </div>
 </div>
 </div>
@@ -985,9 +985,9 @@ Missing values: 573</code></pre>
 <span id="cb66-6"><a aria-label="6"></a>  <span class="fu">str</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num [1:5] 5.36 5.7 4.38 4.15 5.21
- $ : num [1:5] 12.53 7.82 15.29 11.58 7.82
- $ : num [1:5] -15.8 -8.4 9.12 -4.35 -6.62</code></pre>
+ $ : num [1:5] 4.01 4.12 6.19 4.56 3.57
+ $ : num [1:5] 6.29 13.1 9.09 10.11 3.35
+ $ : num [1:5] -10.06 -1.22 -1.95 -17.32 2.36</code></pre>
 </div>
 </div>
 </section>
@@ -1014,9 +1014,9 @@ Missing values: 573</code></pre>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num 5.16
- $ : num [1:3] 14.77 7.84 7.92
- $ : num [1:5] 14.816 -6.722 -16.806 -0.339 5.182</code></pre>
+ $ : num 2.77
+ $ : num [1:3] 4.12 12.02 12.45
+ $ : num [1:5] -6.462 3.773 12.194 -2.636 -0.274</code></pre>
 </div>
 </div></div>
 <ul>
@@ -1030,9 +1030,9 @@ Missing values: 573</code></pre>
 <span id="cb70-5"><a aria-label="5"></a>  <span class="fu">str</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
- $ : num [1:5] -0.874 -0.348 -0.628 0.978 0.521
- $ : num [1:5] -1.17 -2.77 12.91 2.12 -10.68
- $ : int [1:5] 5 9 10 10 12</code></pre>
+ $ : num [1:5] 0.999 -0.872 0.837 -0.897 -0.706
+ $ : num [1:5] 2.94 3.67 -3.47 -12.71 -7.3
+ $ : int [1:5] 9 10 18 11 8</code></pre>
 </div>
 </div>
 </section>
@@ -1095,9 +1095,9 @@ Missing values: 573</code></pre>
 <span id="cb75-13"><a aria-label="13"></a>  <span class="fu">select</span>(model, am, mpg) <span class="sc">|&gt;</span></span>
 <span id="cb75-14"><a aria-label="14"></a>  <span class="fu">pwalk</span>(<span class="at">.l =</span> _, <span class="at">.f =</span> foo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The Duster 360 has a auto transmission and gets 14.3 mpgs."
-[1] "The Datsun 710 has a manual transmission and gets 22.8 mpgs."
-[1] "The Camaro Z28 has a auto transmission and gets 13.3 mpgs."</code></pre>
+<pre><code>[1] "The Mazda RX4 has a manual transmission and gets 21 mpgs."
+[1] "The Duster 360 has a auto transmission and gets 14.3 mpgs."
+[1] "The Dodge Challenger has a auto transmission and gets 15.5 mpgs."</code></pre>
 </div>
 </div>
 </section>
@@ -1125,7 +1125,7 @@ Missing values: 573</code></pre>
 <span id="cb77-14"><a aria-label="14"></a><span class="fu">cat</span>(<span class="st">"Number of flips to get 3 heads in a row: "</span>, numFlips)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of flips to get 3 heads in a row:  9</code></pre>
+<pre><code>Number of flips to get 3 heads in a row:  6</code></pre>
 </div>
 </div></div>
 <ul>
@@ -1251,13 +1251,17 @@ Missing values: 573</code></pre>
 </section>
 <section id="workshop-time" class="slide level2 center">
 <h2>Workshop time!</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
 <ul>
-<li>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a>:</li>
+<li>These slides and the workshop can be found on the website <a href="https://h-mateus.github.io/Data-for-Life-Sciences-in-R/">here</a></li>
 </ul>
+</div><div class="column" style="width:40%;">
+<p><img data-src="../10_resources/00_images/website_qrcode.svg" style="width:100.0%" alt="QR code linking to the course website"></p>
+</div></div>
 
 
-
-<img data-src=".././10_resources/00_images/website_qrcode.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src=".././10_resources/00_images/combined_logos.png" class="slide-logo"></p>

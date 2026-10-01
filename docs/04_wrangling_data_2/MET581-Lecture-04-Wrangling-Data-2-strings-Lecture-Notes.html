@@ -9,7 +9,7 @@
 <meta name="author" content="Matthew Bracher-Smith">
 <meta name="dcterms.date" content="2024-10-18">
 
-<title>Data Wrangling in R II: across, reshaping and joins – Data for Life Sciences 1</title>
+<title>Data Wrangling in R II: grouping, reshaping and joins – Data for Life Sciences 1</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -423,12 +423,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides: working with AI assistants</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture notes</span></a>
   </div>
@@ -489,6 +483,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides: working with AI assistants</span></a>
   </div>
 </li>
       </ul>
@@ -570,34 +570,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-few-notes-on-the-homework" id="toc-a-few-notes-on-the-homework" class="nav-link" data-scroll-target="#a-few-notes-on-the-homework"><span class="header-section-number">2</span> A few notes on the homework</a>
   <ul class="collapse">
   <li><a href="#basic-organisation" id="toc-basic-organisation" class="nav-link" data-scroll-target="#basic-organisation"><span class="header-section-number">2.1</span> Basic organisation</a></li>
-  <li><a href="#scoped-verbs-vs.-pick-and-across" id="toc-scoped-verbs-vs.-pick-and-across" class="nav-link" data-scroll-target="#scoped-verbs-vs.-pick-and-across"><span class="header-section-number">2.2</span> Scoped verbs vs.&nbsp;pick and across</a></li>
-  <li><a href="#pick-in-masked-environments" id="toc-pick-in-masked-environments" class="nav-link" data-scroll-target="#pick-in-masked-environments"><span class="header-section-number">2.3</span> <code>pick()</code> in masked environments</a></li>
-  <li><a href="#across-for-applying-functions" id="toc-across-for-applying-functions" class="nav-link" data-scroll-target="#across-for-applying-functions"><span class="header-section-number">2.4</span> <code>across</code> for applying functions</a></li>
-  <li><a href="#across-for-applying-functions-1" id="toc-across-for-applying-functions-1" class="nav-link" data-scroll-target="#across-for-applying-functions-1"><span class="header-section-number">2.5</span> <code>across</code> for applying functions</a></li>
-  <li><a href="#across-for-applying-functions-2" id="toc-across-for-applying-functions-2" class="nav-link" data-scroll-target="#across-for-applying-functions-2"><span class="header-section-number">2.6</span> <code>across</code> for applying functions</a></li>
-  <li><a href="#how-to-plan-a-query" id="toc-how-to-plan-a-query" class="nav-link" data-scroll-target="#how-to-plan-a-query"><span class="header-section-number">2.7</span> How to plan a query</a></li>
   </ul></li>
-  <li><a href="#wide-and-long-data" id="toc-wide-and-long-data" class="nav-link" data-scroll-target="#wide-and-long-data"><span class="header-section-number">3</span> Wide and long data</a>
+  <li><a href="#grouping-and-summarising" id="toc-grouping-and-summarising" class="nav-link" data-scroll-target="#grouping-and-summarising"><span class="header-section-number">3</span> Grouping and summarising</a>
   <ul class="collapse">
-  <li><a href="#wide-to-long" id="toc-wide-to-long" class="nav-link" data-scroll-target="#wide-to-long"><span class="header-section-number">3.1</span> wide to long</a></li>
-  <li><a href="#long-to-wide" id="toc-long-to-wide" class="nav-link" data-scroll-target="#long-to-wide"><span class="header-section-number">3.2</span> long to wide</a></li>
-  <li><a href="#tidyrpractice" id="toc-tidyrpractice" class="nav-link" data-scroll-target="#tidyrpractice"><span class="header-section-number">3.3</span> tidyr::practice()</a></li>
-  <li><a href="#tidyrpractice_more" id="toc-tidyrpractice_more" class="nav-link" data-scroll-target="#tidyrpractice_more"><span class="header-section-number">3.4</span> tidyr::practice_more()</a></li>
-  </ul></li>
-  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins"><span class="header-section-number">4</span> Joins</a>
+  <li><a href="#dplyrgroup_by-and-dplyrsummarise" id="toc-dplyrgroup_by-and-dplyrsummarise" class="nav-link" data-scroll-target="#dplyrgroup_by-and-dplyrsummarise"><span class="header-section-number">3.1</span> dplyr::group_by() and dplyr::summarise()</a>
   <ul class="collapse">
-  <li><a href="#relational-data" id="toc-relational-data" class="nav-link" data-scroll-target="#relational-data"><span class="header-section-number">4.1</span> Relational data</a></li>
-  <li><a href="#keys" id="toc-keys" class="nav-link" data-scroll-target="#keys"><span class="header-section-number">4.2</span> Keys</a></li>
-  <li><a href="#joining-data" id="toc-joining-data" class="nav-link" data-scroll-target="#joining-data"><span class="header-section-number">4.3</span> Joining data</a></li>
-  <li><a href="#inner-join" id="toc-inner-join" class="nav-link" data-scroll-target="#inner-join"><span class="header-section-number">4.4</span> Inner join</a></li>
-  <li><a href="#left-join" id="toc-left-join" class="nav-link" data-scroll-target="#left-join"><span class="header-section-number">4.5</span> Left join</a></li>
-  <li><a href="#joins---practice" id="toc-joins---practice" class="nav-link" data-scroll-target="#joins---practice"><span class="header-section-number">4.6</span> Joins - Practice</a></li>
-  <li><a href="#full-join" id="toc-full-join" class="nav-link" data-scroll-target="#full-join"><span class="header-section-number">4.7</span> Full join</a></li>
-  <li><a href="#right-join" id="toc-right-join" class="nav-link" data-scroll-target="#right-join"><span class="header-section-number">4.8</span> Right join</a></li>
-  <li><a href="#joins---more-practice" id="toc-joins---more-practice" class="nav-link" data-scroll-target="#joins---more-practice"><span class="header-section-number">4.9</span> Joins - More Practice</a></li>
-  <li><a href="#final-tips-on-joins" id="toc-final-tips-on-joins" class="nav-link" data-scroll-target="#final-tips-on-joins"><span class="header-section-number">4.10</span> Final Tips on Joins</a></li>
+  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice"><span class="header-section-number">3.1.1</span> practice</a></li>
+  <li><a href="#extra-practice" id="toc-extra-practice" class="nav-link" data-scroll-target="#extra-practice"><span class="header-section-number">3.1.2</span> extra practice</a></li>
   </ul></li>
-  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="header-section-number">5</span> Homework</a></li>
+  </ul></li>
+  <li><a href="#applying-functions-across-columns" id="toc-applying-functions-across-columns" class="nav-link" data-scroll-target="#applying-functions-across-columns"><span class="header-section-number">4</span> Applying functions across columns</a>
+  <ul class="collapse">
+  <li><a href="#scoped-verbs-vs.-pick-and-across" id="toc-scoped-verbs-vs.-pick-and-across" class="nav-link" data-scroll-target="#scoped-verbs-vs.-pick-and-across"><span class="header-section-number">4.1</span> Scoped verbs vs.&nbsp;pick and across</a></li>
+  <li><a href="#pick-in-masked-environments" id="toc-pick-in-masked-environments" class="nav-link" data-scroll-target="#pick-in-masked-environments"><span class="header-section-number">4.2</span> <code>pick()</code> in masked environments</a></li>
+  <li><a href="#across-for-applying-functions" id="toc-across-for-applying-functions" class="nav-link" data-scroll-target="#across-for-applying-functions"><span class="header-section-number">4.3</span> <code>across</code> for applying functions</a></li>
+  <li><a href="#across-for-applying-functions-1" id="toc-across-for-applying-functions-1" class="nav-link" data-scroll-target="#across-for-applying-functions-1"><span class="header-section-number">4.4</span> <code>across</code> for applying functions</a></li>
+  <li><a href="#across-for-applying-functions-2" id="toc-across-for-applying-functions-2" class="nav-link" data-scroll-target="#across-for-applying-functions-2"><span class="header-section-number">4.5</span> <code>across</code> for applying functions</a></li>
+  <li><a href="#how-to-plan-a-query" id="toc-how-to-plan-a-query" class="nav-link" data-scroll-target="#how-to-plan-a-query"><span class="header-section-number">4.6</span> How to plan a query</a></li>
+  </ul></li>
+  <li><a href="#wide-and-long-data" id="toc-wide-and-long-data" class="nav-link" data-scroll-target="#wide-and-long-data"><span class="header-section-number">5</span> Wide and long data</a>
+  <ul class="collapse">
+  <li><a href="#wide-to-long" id="toc-wide-to-long" class="nav-link" data-scroll-target="#wide-to-long"><span class="header-section-number">5.1</span> wide to long</a></li>
+  <li><a href="#long-to-wide" id="toc-long-to-wide" class="nav-link" data-scroll-target="#long-to-wide"><span class="header-section-number">5.2</span> long to wide</a></li>
+  <li><a href="#tidyrpractice" id="toc-tidyrpractice" class="nav-link" data-scroll-target="#tidyrpractice"><span class="header-section-number">5.3</span> tidyr::practice()</a></li>
+  <li><a href="#tidyrpractice_more" id="toc-tidyrpractice_more" class="nav-link" data-scroll-target="#tidyrpractice_more"><span class="header-section-number">5.4</span> tidyr::practice_more()</a></li>
+  </ul></li>
+  <li><a href="#joins" id="toc-joins" class="nav-link" data-scroll-target="#joins"><span class="header-section-number">6</span> Joins</a>
+  <ul class="collapse">
+  <li><a href="#relational-data" id="toc-relational-data" class="nav-link" data-scroll-target="#relational-data"><span class="header-section-number">6.1</span> Relational data</a></li>
+  <li><a href="#keys" id="toc-keys" class="nav-link" data-scroll-target="#keys"><span class="header-section-number">6.2</span> Keys</a></li>
+  <li><a href="#joining-data" id="toc-joining-data" class="nav-link" data-scroll-target="#joining-data"><span class="header-section-number">6.3</span> Joining data</a></li>
+  <li><a href="#inner-join" id="toc-inner-join" class="nav-link" data-scroll-target="#inner-join"><span class="header-section-number">6.4</span> Inner join</a></li>
+  <li><a href="#left-join" id="toc-left-join" class="nav-link" data-scroll-target="#left-join"><span class="header-section-number">6.5</span> Left join</a></li>
+  <li><a href="#joins---practice" id="toc-joins---practice" class="nav-link" data-scroll-target="#joins---practice"><span class="header-section-number">6.6</span> Joins - Practice</a></li>
+  <li><a href="#full-join" id="toc-full-join" class="nav-link" data-scroll-target="#full-join"><span class="header-section-number">6.7</span> Full join</a></li>
+  <li><a href="#right-join" id="toc-right-join" class="nav-link" data-scroll-target="#right-join"><span class="header-section-number">6.8</span> Right join</a></li>
+  <li><a href="#joins---more-practice" id="toc-joins---more-practice" class="nav-link" data-scroll-target="#joins---more-practice"><span class="header-section-number">6.9</span> Joins - More Practice</a></li>
+  <li><a href="#final-tips-on-joins" id="toc-final-tips-on-joins" class="nav-link" data-scroll-target="#final-tips-on-joins"><span class="header-section-number">6.10</span> Final Tips on Joins</a></li>
+  </ul></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="header-section-number">7</span> Homework</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
 </nav>
@@ -611,7 +622,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-slides.html">Session 5: Data Wrangling in R II</a></li><li class="breadcrumb-item"><a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html">Lecture notes</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Data Wrangling in R II: across, reshaping and joins</h1>
+<h1 class="title">Data Wrangling in R II: grouping, reshaping and joins</h1>
 </div>
 
 
@@ -656,14 +667,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.1" class="anchored" data-anchor-id="aim-of-the-lecture"><span class="header-section-number">1.1</span> Aim of the lecture</h2>
 <p>Today we’re going to cover some more ground on using the tidyverse to get data into the required format. The aims are to work through:</p>
 <ul>
+<li>Grouping and summarising data with dplyr</li>
+<li>Applying a function across many columns</li>
 <li>Reshaping data with the tidyr package</li>
-<li>Data wrangling using the dplyr package</li>
 <li>Joining tables together</li>
 </ul>
 </section>
 <section id="learning-objectives" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">1.2</span> Learning Objectives</h2>
 <ul>
+<li>group and summarise data</li>
+<li>apply a function across many columns at once</li>
 <li>introduce wide and long formats</li>
 <li>begin converting between wide and long data</li>
 <li>join data frames together with dplyr</li>
@@ -681,8 +695,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Test in the console to build up parts of a query and transfer to the .qmd file</li>
 </ul>
 </section>
-<section id="scoped-verbs-vs.-pick-and-across" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="scoped-verbs-vs.-pick-and-across"><span class="header-section-number">2.2</span> Scoped verbs vs.&nbsp;pick and across</h2>
+</section>
+<section id="grouping-and-summarising" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Grouping and summarising</h1>
+<section id="dplyrgroup_by-and-dplyrsummarise" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="dplyrgroup_by-and-dplyrsummarise"><span class="header-section-number">3.1</span> dplyr::group_by() and dplyr::summarise()</h2>
+<p><code>group_by()</code> doesn’t do much on its own, but by combining group_by() and summarise() we get so much more power! We can start to show summary statistics broken down by different groups, like the mean life expectancy per continent, all after applying whatever filters we want.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># e.g.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>pop) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">'Oceania'</span>, year <span class="sc">&gt;</span> <span class="dv">1980</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(gdpPercap)) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_years =</span> <span class="fu">n</span>(),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_Life_Exp =</span> <span class="fu">mean</span>(lifeExp),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD_Life_Exp =</span> <span class="fu">sd</span>(lifeExp),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max_GDP =</span> <span class="fu">max</span>(gdpPercap)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["country"],"name":[1],"type":["fct"],"align":["left"]},{"label":["n_years"],"name":[2],"type":["int"],"align":["right"]},{"label":["Mean_Life_Exp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SD_Life_Exp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Max_GDP"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Australia","2":"6","3":"78.1758333333","4":"2.45882576989","5":"34435.36744"},{"1":"New Zealand","2":"6","3":"76.8923333333","4":"2.55215843291","5":"25185.00911"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<section id="practice" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="practice"><span class="header-section-number">3.1.1</span> practice</h3>
+<p><strong>Using gapminder</strong></p>
+<ul>
+<li>Get the median and standard deviation for gdpPercap</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(gapminder, <span class="at">mean_GDP =</span> <span class="fu">mean</span>(gdpPercap), <span class="at">sd_GDP =</span> <span class="fu">sd</span>(gdpPercap))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Using airquality</strong> - load with data(“airquality”)</p>
+<ul>
+<li>Convert to tibble, remove Month and Day, keep Temperatures above 60, then summarise Solar.R with number, mean, median and standard deviation</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the airquality dataset is built-in to R, and can be loaded with data('airquality')</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"airquality"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Month, <span class="sc">-</span>Day) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Temp <span class="sc">&gt;</span> <span class="dv">60</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_obvs =</span> <span class="fu">n</span>(),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_solar =</span> <span class="fu">mean</span>(Solar.R, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Median_solar =</span> <span class="fu">median</span>(Solar.R, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD_solar =</span> <span class="fu">sd</span>(Solar.R, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["n_obvs"],"name":[1],"type":["int"],"align":["right"]},{"label":["Mean_solar"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Median_solar"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SD_solar"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"145","2":"189.742857143","3":"212.5","4":"88.4603208556"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="extra-practice" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="extra-practice"><span class="header-section-number">3.1.2</span> extra practice</h3>
+<p><strong>Using airquality</strong></p>
+<ul>
+<li>Summarise the mean values for integer columns only using <code>summarise_if()</code> and <code>is.integer</code></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_if</span>(is.integer, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Ozone"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Solar.R"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Temp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Month"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Day"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"42.1293103448","2":"185.931506849","3":"77.8823529412","4":"6.99346405229","5":"15.8039215686"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p><strong>Using starwars</strong></p>
+<ul>
+<li>What is the mean height and weight of all Droids? Include a count of how many droids there are</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Droid'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">N_droid =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_height =</span> <span class="fu">mean</span>(height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_weight =</span> <span class="fu">mean</span>(mass, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["N_droid"],"name":[1],"type":["int"],"align":["right"]},{"label":["Mean_height"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean_weight"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"131.2","3":"69.75"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<ul>
+<li>We want to compare Humans from different planets. Show the number of people and their mean height and mass, broken down by homeworld then gender. Make sure you show <em>all</em> rows when printing by piping the last line into <code>print(n = x)</code>, where <code>x</code> is a suitably high number of rows</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Human'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(homeworld, gender) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">N_people =</span> <span class="fu">n</span>(),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_height =</span> <span class="fu">mean</span>(height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean_weight =</span> <span class="fu">mean</span>(mass, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">21</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has regrouped the output.
+ℹ Summaries were computed grouped by homeworld and gender.
+ℹ Output is grouped by homeworld.
+ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+ℹ Use `summarise(.by = c(homeworld, gender))` for per-operation grouping
+  (`?dplyr::dplyr_by`) instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 5
+# Groups:   homeworld [15]
+   homeworld    gender    N_people Mean_height Mean_weight
+   &lt;chr&gt;        &lt;chr&gt;        &lt;int&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Alderaan     feminine         1        150         49  
+ 2 Alderaan     masculine        2        190.        79  
+ 3 Bespin       masculine        1        175         79  
+ 4 Chandrila    feminine         1        150        NaN  
+ 5 Concord Dawn masculine        1        183         79  
+ 6 Corellia     masculine        2        175         78.5
+ 7 Coruscant    feminine         1        167        NaN  
+ 8 Coruscant    masculine        1        170        NaN  
+ 9 Eriadu       masculine        1        180        NaN  
+10 Haruun Kal   masculine        1        188         84  
+11 Kamino       masculine        1        183         78.2
+12 Naboo        feminine         2        175         45  
+13 Naboo        masculine        3        179.        75  
+14 Serenno      masculine        1        193         80  
+15 Socorro      masculine        1        177         79  
+16 Stewjon      masculine        1        182         77  
+17 Tatooine     feminine         2        164         75  
+18 Tatooine     masculine        6        184.       100. 
+19 &lt;NA&gt;         feminine         2        NaN        NaN  
+20 &lt;NA&gt;         masculine        4        193         89  </code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="applying-functions-across-columns" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Applying functions across columns</h1>
+<section id="scoped-verbs-vs.-pick-and-across" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="scoped-verbs-vs.-pick-and-across"><span class="header-section-number">4.1</span> Scoped verbs vs.&nbsp;pick and across</h2>
 <ul>
 <li>We mainly talked about applying functions to individual columns</li>
 <li>But we often want to apply functions to multiple columns</li>
@@ -690,8 +857,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The scoped variants of dplyr verbs like <code>select_if()</code> have been <a href="https://lifecycle.r-lib.org/articles/stages.html#superseded">superseded</a> (but you will see them everywhere!)</li>
 </ul>
 </section>
-<section id="pick-in-masked-environments" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="pick-in-masked-environments"><span class="header-section-number">2.3</span> <code>pick()</code> in masked environments</h2>
+<section id="pick-in-masked-environments" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="pick-in-masked-environments"><span class="header-section-number">4.2</span> <code>pick()</code> in masked environments</h2>
 <ul>
 <li>in functions like <code>mutate()</code>, <code>summarise()</code>, and <code>group_by()</code> we can refer to columns directly by their names instead of needing quotation marks - why is this?</li>
 <li>they “mask” the overall data frame, meaning they provide direct access to column names without needing to explicitly reference the full data frame.</li>
@@ -699,50 +866,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>pick()</code> is like <code>select()</code>, but can refer to columns directly in a masked environment, e.g.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">dense_rank</span>(<span class="fu">pick</span>(lifeExp, gdpPercap)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">dense_rank</span>(<span class="fu">pick</span>(lifeExp, gdpPercap)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="across-for-applying-functions" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="across-for-applying-functions"><span class="header-section-number">2.4</span> <code>across</code> for applying functions</h2>
+<section id="across-for-applying-functions" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="across-for-applying-functions"><span class="header-section-number">4.3</span> <code>across</code> for applying functions</h2>
 <ul>
-<li>You will cover functional programming in detail with <code>purrr</code> in later lectures</li>
+<li>You will cover functional programming in detail with <code>purrr</code> next session</li>
 <li>Functional programming refers to functions which can take other functions as arguments for iteration</li>
 <li><code>across</code> can be used in this way to apply functions to multiple columns</li>
 <li>see <a href="https://r4ds.hadley.nz/iteration">the R4DS book, ch.&nbsp;26</a> for more</li>
 </ul>
 </section>
-<section id="across-for-applying-functions-1" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="across-for-applying-functions-1"><span class="header-section-number">2.5</span> <code>across</code> for applying functions</h2>
+<section id="across-for-applying-functions-1" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="across-for-applying-functions-1"><span class="header-section-number">4.4</span> <code>across</code> for applying functions</h2>
 <ul>
 <li>for example, we can apply a function to every column that’s an integer</li>
 <li>with the more recent <code>across</code> syntax, this looks like:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), round))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>this is equivalent to the now superseded “scoped variant” syntax:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, round)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, round)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="across-for-applying-functions-2" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="across-for-applying-functions-2"><span class="header-section-number">2.6</span> <code>across</code> for applying functions</h2>
+<section id="across-for-applying-functions-2" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="across-for-applying-functions-2"><span class="header-section-number">4.5</span> <code>across</code> for applying functions</h2>
 <ul>
 <li>one of the more frustrating things is manually writing out calls to summarise</li>
 <li>with <code>across</code>, the code fo doing something manual, like:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_lifeExp =</span> <span class="fu">mean</span>(lifeExp),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_pop =</span> <span class="fu">mean</span>(pop),</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_gdpPercap =</span> <span class="fu">mean</span>(gdpPercap)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_lifeExp =</span> <span class="fu">mean</span>(lifeExp),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_pop =</span> <span class="fu">mean</span>(pop),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_gdpPercap =</span> <span class="fu">mean</span>(gdpPercap)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -755,8 +922,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>can now be simplified to:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(lifeExp, pop, gdpPercap), mean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(lifeExp, pop, gdpPercap), mean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -766,8 +933,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="how-to-plan-a-query" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="how-to-plan-a-query"><span class="header-section-number">2.7</span> How to plan a query</h2>
+<section id="how-to-plan-a-query" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="how-to-plan-a-query"><span class="header-section-number">4.6</span> How to plan a query</h2>
 <p><strong>For smaller queries:</strong></p>
 <ul>
 <li>sketch out the the “bones” of the query with dplyr verbs</li>
@@ -782,8 +949,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="wide-and-long-data" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Wide and long data</h1>
+<section id="wide-and-long-data" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Wide and long data</h1>
 <p>One way of thinking about the conversion between tidy and untidy data is the move from wide-to-long format, and vice versa. What we mean by this is that when we have all of our variables in columns, our data typically appears “longer” or “thinner” and stretches downwards along the page. By contrast, if we spread a variable across several columns, the data appears shorter and wider. A common example fo this might be years: storing a single column titled “year” would make the data appear “long”, while moving each year to have its own column would naturally stretch the data out to look “wide”.</p>
 <p>The image below shows us an example of this:</p>
 <p><img src="../10_resources/00_images/wide_long.png" class="img-fluid"></p>
@@ -798,12 +965,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>the terms ‘wide’ and ‘long’ are commonplace but sometimes debated, as a dataset may be small enough that it’s in the ‘wide’ style but doesn’t look wide visually, which can be misleading. What’s ‘wide’ and ‘long’ will depend on the dataset. People in the R stats community sometimes prefer to simple saying a dataset has been converted to be ‘wider’ to ‘longer’ as this emphasises that these are relative terms</li>
 <li>the functions we’re about to use replace the older functions <code>spread()</code> and <code>gather()</code> from the tidyr package. If you’ve never seen these before don’t worry - this is just to make you aware that you will still see these used in the wild. When you do, you can translate <code>spread()</code> as <code>pivot_wider()</code> and <code>gather()</code> as <code>pivot_longer()</code>. If you already use <code>spread()</code> and <code>gather()</code> you can continue to do so, but note they’re no longer under active development.</li>
 </ul>
-<section id="wide-to-long" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="wide-to-long"><span class="header-section-number">3.1</span> wide to long</h2>
+<section id="wide-to-long" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="wide-to-long"><span class="header-section-number">5.1</span> wide to long</h2>
 <p>To solve the ‘variables as columns’ problem, we use <code>tidyr::pivot_longer()</code></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">`</span><span class="at">1999</span><span class="st">`</span>, <span class="st">`</span><span class="at">2000</span><span class="st">`</span>), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">`</span><span class="at">1999</span><span class="st">`</span>, <span class="st">`</span><span class="at">2000</span><span class="st">`</span>), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -814,8 +981,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This is particularly useful as we can also make use of <code>dplyr::select()</code> style notation:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>country, <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>country, <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -825,12 +992,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="long-to-wide" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="long-to-wide"><span class="header-section-number">3.2</span> long to wide</h2>
+<section id="long-to-wide" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="long-to-wide"><span class="header-section-number">5.2</span> long to wide</h2>
 <p>By contrast, <code>tidyr::pivot_wider()</code> solves the ‘observations over rows’ problem:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table2 <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> count)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table2 <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> count)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -840,82 +1007,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="tidyrpractice" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="tidyrpractice"><span class="header-section-number">3.3</span> tidyr::practice()</h2>
+<section id="tidyrpractice" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="tidyrpractice"><span class="header-section-number">5.3</span> tidyr::practice()</h2>
 <p><strong>Using fish_encounters</strong></p>
 <ul>
 <li>change the variable ‘station’ to be column names, and populate with values from ‘seen’</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fish_encounters <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> station, <span class="at">values_from =</span> seen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fish_encounters <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> station, <span class="at">values_from =</span> seen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Using starwars</strong> - load with <code>data("starwars")</code></p>
 <ul>
 <li>pivot all columns ending with ‘color’ to long format as new columns ‘attribute’ and ‘colour’</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">'color'</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'attribute'</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'colour'</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">'color'</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'attribute'</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'colour'</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Using flights</strong> - load with library(nycflights13)</p>
 <ul>
 <li>pivot all columns ending with ‘time’ to long format as new columns ‘time_type’ and ‘time_value’ then select only columns beginning with ‘time’</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">'time'</span>),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'time_type'</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'time_value'</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">'time'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">ends_with</span>(<span class="st">'time'</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'time_type'</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'time_value'</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">'time'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="tidyrpractice_more" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="tidyrpractice_more"><span class="header-section-number">3.4</span> tidyr::practice_more()</h2>
+<section id="tidyrpractice_more" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="tidyrpractice_more"><span class="header-section-number">5.4</span> tidyr::practice_more()</h2>
 <p><strong>Using starwars</strong></p>
 <ul>
 <li>replace <code>tidyr::function()</code> with the correct call to convert the height and mass columns into ‘characteristic’ and ‘measurement’ columns for plotting below</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(height, mass),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'characteristic'</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'measurement'</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(characteristic, measurement)) <span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(height, mass),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'characteristic'</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'measurement'</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(characteristic, measurement)) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Using weather</strong></p>
 <ul>
 <li>replace <code>tidyr::function()</code> with the correct call to convert the temp, dewp and humid columns into ‘condition’ and ‘measurement’ columns for plotting below</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(temp, dewp, humid),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'condition'</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'measurement'</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(measurement, condition)) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(temp, dewp, humid),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">'condition'</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">'measurement'</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(measurement, condition)) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
-<section id="joins" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Joins</h1>
-<section id="relational-data" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="relational-data"><span class="header-section-number">4.1</span> Relational data</h2>
+<section id="joins" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Joins</h1>
+<section id="relational-data" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="relational-data"><span class="header-section-number">6.1</span> Relational data</h2>
 <p>We’ve been introduced to tidy data already, but what of relational data? When our data is spread over several tables, we have relational data. Often this happens is we’re following tidy principles, i.e.&nbsp;we stored different types of observational units in separate tables. Doing this allows for easy storage and data entry, but at analysis time, we often need all the data together. A good example of this is in the <code>nycflights13</code> package. This contains many tables which are connected. For example, take the tables below:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>flights</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flights</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -923,7 +1090,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>planes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>planes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -938,8 +1105,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We don’t need to remember any of these, but just be aware that such situations do indeed occur in everyday datasets. It may be that the relations between your tables are one-to-one, one-to-many, many-to-one, or many-to-many, depending on whether one or more observations in one table match up with one or more in another. This will become more clear in practice.</p>
 <p>To work with these relations between tables, we need to think about <em>keys</em>.</p>
 </section>
-<section id="keys" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="keys"><span class="header-section-number">4.2</span> Keys</h2>
+<section id="keys" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="keys"><span class="header-section-number">6.2</span> Keys</h2>
 <p>A key is a variable (or set of variables) that uniquely identifies an observation. It is the backbone of each dataset or set of datasets.</p>
 <p>You generally have two types of key:</p>
 <ul>
@@ -948,27 +1115,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>It is generally good idea to test whether or not you do have a unique primary key for the data frames you are working with, and may help you eliminate duplications in your data:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tailnum) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tailnum) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>A final point to note on keys is that a table may not have a unique key! If this happens to you, it’s a good idea to make a <strong>surrogate key</strong> yourself using the row numbers.</p>
 </section>
-<section id="joining-data" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="joining-data"><span class="header-section-number">4.3</span> Joining data</h2>
+<section id="joining-data" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="joining-data"><span class="header-section-number">6.3</span> Joining data</h2>
 <p>Data sets must share at least one column with the same/similar information that you want to join them together on, called a key.</p>
 <p>This can be one or multiple columns, but most important is the the key or keys uniquely identify each row.</p>
 <p>If not, and there are multiple matches, all combination of the matches will occur.</p>
 <p>There are a variety of different joins.</p>
 <p><img src="../10_resources/00_images/joins.png" class="img-fluid"></p>
 </section>
-<section id="inner-join" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="inner-join"><span class="header-section-number">4.4</span> Inner join</h2>
+<section id="inner-join" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="inner-join"><span class="header-section-number">6.4</span> Inner join</h2>
 <p>Syntax:</p>
 <pre><code>inner_join(dataset1, dataset2, by = "key")</code></pre>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(airlines, flights, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(airlines, flights, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -983,14 +1150,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><img src="../10_resources/00_images/inner_join.gif" class="img-fluid"></p>
 </section>
-<section id="left-join" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="left-join"><span class="header-section-number">4.5</span> Left join</h2>
+<section id="left-join" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="left-join"><span class="header-section-number">6.5</span> Left join</h2>
 <p>Syntax:</p>
 <pre><code>left_join(dataset1, dataset2, by = "key")
 left_join(dataset1, dataset2, by = c("key1", "key2"))</code></pre>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(flights, airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(flights, airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -1011,39 +1178,39 @@ left_join(dataset1, dataset2, by = c("key1", "key2"))</code></pre>
 </ul>
 <p><img src="../10_resources/00_images/left_join_two.gif" class="img-fluid"></p>
 </section>
-<section id="joins---practice" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="joins---practice"><span class="header-section-number">4.6</span> Joins - Practice</h2>
+<section id="joins---practice" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="joins---practice"><span class="header-section-number">6.6</span> Joins - Practice</h2>
 <ul>
 <li>Use a left_join to join the flights and planes datasets together</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(planes, <span class="at">by =</span> <span class="st">"tailnum"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(planes, <span class="at">by =</span> <span class="st">"tailnum"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Combine the airline information from the “airlines” dataset with the flights dataset using left_join, filter for flights from 2013 and select only the columns to do with arrivals</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(airlines, <span class="at">by =</span> <span class="st">"carrier"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2013</span>L) <span class="sc">|&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">contains</span>(<span class="st">'arr_'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(airlines, <span class="at">by =</span> <span class="st">"carrier"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2013</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">contains</span>(<span class="st">'arr_'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Join the band_members and band_instruments datasets keep all columns and only those people in both</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>band_members <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">inner_join</span>(band_instruments, <span class="at">by =</span> <span class="st">'name'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>band_members <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">inner_join</span>(band_instruments, <span class="at">by =</span> <span class="st">'name'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="full-join" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="full-join"><span class="header-section-number">4.7</span> Full join</h2>
+<section id="full-join" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="full-join"><span class="header-section-number">6.7</span> Full join</h2>
 <p>Syntax:</p>
 <pre><code>full_join(dataset1, dataset2, by = "key")  </code></pre>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">full_join</span>(flights, airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">full_join</span>(flights, airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -1060,14 +1227,14 @@ left_join(dataset1, dataset2, by = c("key1", "key2"))</code></pre>
 </ul>
 <p><img src="../10_resources/00_images/full_join.gif" class="img-fluid"></p>
 </section>
-<section id="right-join" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="right-join"><span class="header-section-number">4.8</span> Right join</h2>
+<section id="right-join" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="right-join"><span class="header-section-number">6.8</span> Right join</h2>
 <p>This is the same as a left join but with the order of datasets switched. In practice, this is very rarely used - you will almost almost use a left, inner or full join.</p>
 <p>Syntax:</p>
 <pre><code>right_join(dataset1, dataset2, by = "key")  </code></pre>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">right_join</span>(airlines, flights, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">right_join</span>(airlines, flights, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -1078,7 +1245,7 @@ left_join(dataset1, dataset2, by = c("key1", "key2"))</code></pre>
 </div>
 <p>This is equivalent to (but with the columns in a different order):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">left_join</span>(flights, airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">left_join</span>(flights, airlines, <span class="at">by =</span> <span class="st">"carrier"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -1089,32 +1256,32 @@ left_join(dataset1, dataset2, by = c("key1", "key2"))</code></pre>
 </div>
 <p>Returns: - All rows from dataset2 - All columns from dataset1 and dataset2 <img src="../10_resources/00_images/right_join.gif" class="img-fluid"></p>
 </section>
-<section id="joins---more-practice" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="joins---more-practice"><span class="header-section-number">4.9</span> Joins - More Practice</h2>
+<section id="joins---more-practice" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="joins---more-practice"><span class="header-section-number">6.9</span> Joins - More Practice</h2>
 <ul>
 <li>Add data from the weather dataset to flights with a left_join</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(weather)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(weather)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Join the band_members and band_instruments datasets; keep only the people in the right-hand dataset (band_instruments)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>band_members <span class="sc">|&gt;</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">right_join</span>(band_instruments, <span class="at">by =</span> <span class="st">'name'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>band_members <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">right_join</span>(band_instruments, <span class="at">by =</span> <span class="st">'name'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Join the band_members and band_instruments datasets; keep everything</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>band_members <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">full_join</span>(band_instruments, <span class="at">by =</span> <span class="st">'name'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>band_members <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">full_join</span>(band_instruments, <span class="at">by =</span> <span class="st">'name'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="final-tips-on-joins" class="level2" data-number="4.10">
-<h2 data-number="4.10" class="anchored" data-anchor-id="final-tips-on-joins"><span class="header-section-number">4.10</span> Final Tips on Joins</h2>
+<section id="final-tips-on-joins" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="final-tips-on-joins"><span class="header-section-number">6.10</span> Final Tips on Joins</h2>
 <ul>
 <li>take the time to learn the different types of joins and choose carefully each time</li>
 <li>anti-joins can be useful to find rows that don’t match between datasets, e.g.&nbsp;to exclude rows with IDs that aren’t in an expected ID list</li>
@@ -1122,8 +1289,8 @@ left_join(dataset1, dataset2, by = c("key1", "key2"))</code></pre>
 </ul>
 </section>
 </section>
-<section id="homework" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Homework</h1>
+<section id="homework" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Homework</h1>
 <ul>
 <li>Quarto file</li>
 </ul>

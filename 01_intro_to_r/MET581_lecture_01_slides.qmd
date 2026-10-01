@@ -47,7 +47,6 @@ execute:
 -   Working with R packages
 -   Importing and exporting data, in base R and with readr
 -   Tibbles, the tidyverse's data frame
--   Writing reproducible documents with Quarto
 
 ## Learning Objectives
 
@@ -57,7 +56,21 @@ execute:
 -   Explore data types and structures
 -   Find help and install packages
 -   Import and export data
--   Create and render a Quarto document
+
+## Follow along
+
+:::: {.columns}
+::: {.column width="60%"}
+-   These slides, the homework and everything else for the module are on the course website:
+    -   [https://h-mateus.github.io/Data-for-Life-Sciences-in-R/](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+-   The slides run R in your browser, so you can try the code as we go
+
+:::
+
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::
 
 
 ------------------------------------------------------------------------
@@ -85,7 +98,7 @@ This course will follow **R for Data Science** (2nd Edition):
 
 ## Install R and RStudio
 
-1.  **R**: Current version (4.5.1 "Great Square Root")
+1.  **R**: Current version (`{r} as.character(getRversion())` "`{r} R.version$nickname`")
     -   [Download for Windows](https://cran.rstudio.com)
     -   [MacOS](https://cran.rstudio.com) (use ARM64 for M1 Macs)
     -   Ubuntu Linux: `sudo apt install r-base`
@@ -251,7 +264,7 @@ help(mean)
     -   They can be handy tools, but try to be very intentional about how you use them whilst learning!
     -   You'll be using R throughout this course, so it's important you actually build confidence using R, not just pass the assessments
     -   If you use them, make sure you understand the output they give you (try asking it to explain parts you don't understand and comment any code it writes well)
--   We come back to this properly in session 5, once you can read the kind of code they get wrong
+-   We come back to this properly in session 7, once you can read the kind of code they get wrong
 -   Before you start any assessed work, read [what's fine and what isn't](../00_llm_use/using_ai_assistants.qmd#whats-fine-and-what-isnt)
 
 ## Variables 
@@ -887,236 +900,27 @@ my_data <- read_rds("results/cleaned_pheno.rds")
 
 4.    Never write output into the same folder as your raw data. Why not?
 
-## Quarto
+## Homework
 
-Last up today is [Quarto](https://quarto.org/), which we can use to make pdf and html files (and much more!) that integrate plain language, code and output (images etc.). 
-This is excellent because it’s a dynamic document (and so more reproducible), and hugely flexible - various languages and engines, and outputs are supported.
+-   The [Introduction to R homework](../02_explore_r/MET581-Lecture-02-Explore-R-Homework.qmd) is on the website
+-   Answer it in an R script, with a comment above each answer
+-   Next session: Quarto, which is how you will write up all homework after this one — and your report
 
-![](MET581_lecture_02-Explore-R-img/250619-145634.avif){fig-align="center" height="100px"}
-
-##
-
-But before Quarto, there was Rmarkdown...
-
-## Some background on Rmarkdown
+## Additional Resources {.smaller}
 
 :::: {.columns}
-
 ::: {.column width="60%"}
-Today we will be working on a .qmd (Quarto) file, but first, we need to talk about `.rmd` files.
-
-This (an `.rmd` file) is an Rmarkdown file. 
-You may have met markdown already; if not, it takes about ten minutes to learn.
-Your homework is written in its successor, Quarto, so let's have a look at both.
-
-RMarkdown is a way to make documents which include R code. 
-You can use this to write html documents, pdf’s and PowerPoints to show answers to coding problems, or the code themselves.
-
-Can you think of any reasons for using this?
-:::
-
-::: {.column width="40%"}
-![](MET581_lecture_02-Explore-R-img/250619-145914.avif){fig-align="center" height="400px"}
-:::
-
-::::
-
-## Some background on Quarto
-
--   Announced in 2022 and becoming more widely adopted only last year, based on [pandoc](https://pandoc.org/)
--   Actually a separate software that we run within RStudio
--   The successor to Rmarkdown in many ways (made by the same devs), using `.qmd` files, made to support more languages (Python, Julia, etc.) and be more consistent in formatting
--   Can be used to make documents in Rstudio, or Jupyter notebooks or elsewhere (i.e. it’s both multi-language and multi-engine)
-
-![](MET581_lecture_02-Explore-R-img/250619-150153.avif){fig-align="center" height="200px"}
-
-::: {.notes}
--   Combines R Markdown, `bookdown`, `distill`, `xaringian`, and others "into a single consistent system"
-:::
-
-## Some background on Quarto
-
-![](MET581_lecture_02-Explore-R-img/250619-150717.avif)
-
-## A note on Quarto
-
--   Fundamental usage for reports is the same as creating in Rmarkdown
--   It's also what's used to make many of the R books you may read online (including R for Data Science 2nd edition!)
--   Recommended that you use Quarto by default, because:
-    -   You will be easily be able to swap-in other languages besides R
-    -   You will more easily be able to use other Quarto features like those for making blogs and journal articles if you’re already familiar
-    -   It’s highly compatible - you can render most Rmarkdown or jupyter notebooks in Quarto easily, so you can still make normal Rmarkdown documents with your knowledge if needed.
-    -   You’re up to date with the latest in reproducible research
-    -   Newest features will likely be added to Quarto over Rmarkdown
-
-## Making your first .qmd file
-
-:::: {.columns}
-
-::: {.column width="80%"}
--   Use the menu bar to create a new Quarto document, we will focus on html today
-
--   Notice that the file contains three types of content:
-    -   A YAML header surrounded by `- - -`
-    -   R code chunks surrounded by ```
-    -   Text mixed with simple markdown formatting
-
-What do each of the bits of your new file do?
-
--   Let's work through these now and create a knitted document!
--   Create your own with code/data you have, or download an example file from quarto from [here](https://quarto.org/docs/get-started/computations/_computations.qmd)
-
-:::
-
-::: {.column width="20%"}
-![](MET581_lecture_02-Explore-R-img/250619-151102.avif){fig-align="center" height="500px"}
-:::
-::::
-
-## Elements of Quarto | The YAML header
-
--   Quarto documents start with a YAML header that sets metadata and configurations for the document.
--   YAML is a data serialisation language which aims to be useful for computers (often config files) and humans (it's relatively easy to read)
--   Typical YAML options:
-    -   title: Title of the document
-    -   author: Author’s name
-    -   date: Document date
-    -   format: Specifies the output format (html, pdf, etc.)
-    -   theme: Defines a theme for visual style
-
-There are [a lot](https://quarto.org/docs/reference/formats/html.html) of options we won’t cover today and they differ by document type!
-
-## Elements of Quarto | Code chunks
-
-When you open the file in the RStudio IDE, it becomes a notebook interface for R. 
-You can run each code chunk by clicking the green arrow icon. 
-RStudio executes the code and display the results in line with your file.
-
-There are three ways to insert R code into the file:
-
-1.    The keyboard shortcut Ctrl + Alt + I (OS X: Cmd + Option + I)
-1.    The +option in the menu bar
-1.    Or by typing the chunk delimiters \``` {r} ```
-
-![](MET581_lecture_02-Explore-R-img/250619-152627.avif)
-
-## Elements of Quarto | Code chunks
-
-In Quarto, chunk output can be customized with options prefixed by `#|` inside the chunk header. 
-Here are some common options:
-
-:::: {.columns}
-
-::: {.column width="50%"}
--   #| include: false
-    -   Excludes code and results from the rendered document but runs the code.
--   #| echo: false
-    -   Excludes code but displays results. Useful for embedding figures.
-:::
-
-::: {.column width="50%"}
--   #| message: false
-    -   Suppresses messages generated by code.
--   #| warning: false
-    -   Suppresses warnings generated by code.
--   #| fig-cap: “This is a caption”
-    -   Adds a caption to figures.
-:::
-::::
-
-In html documents, adding code-tools and using code-folding are usually preferred over include/echo
-
-## Elements of Quarto | Inline code
-
-Code results can be inserted directly into the text of a .qmd file by enclosing the code using single \` like so:
-
--   The mean of the data was `{{r}} mean(mtcars$gear)`
-    -   Which renders as:
-    -   The mean of the data was `{r} mean(mtcars$gear)`
-
-## Elements of Quarto | Multiple languages
-
-Quarto allows the use of multiple languages in code chunks. 
-Specify the language using `{}` after the chunk delimiter, like python, julia, or r.
-
-![](MET581_lecture_02-Explore-R-img/250619-154055.avif)
-
-## Elements of Quarto | Text Options
-
--   Do you remember your markdown formatting?
--   The main body is just normal markdown, so all the same stuff works
--   Examples on the website [here](https://quarto.org/docs/authoring/markdown-basics.html)
-
-## Creating documents | Previewing and Rendering
-
--   In RStudio, you can preview and render Quarto documents easily
-    -   Render by clicking the 'Render' button
-    -   Preview by toggling the visual button
-
-![](MET581_lecture_02-Explore-R-img/250619-160005.avif)
-
--   Quarto provides a command-line interface as well, which allows rendering with: `quarto render myfile.qmd`
--   You can specify output formats in the YAML header or when rendering
-
-## Creating documents | Quarto output formats
-
--   Quarto supports various output formats:
-    -   `html`: Web format with dynamic features
-    -   `pdf`: Portable document format for printing
-    -   `docx`: Microsoft Word format
-    -   `revealjs`: HTML presentations (for slides, this is what these slide are made with!)
-    -   `beamer`: PDF presentations (for slides)
--   Specify these in the YAML or use them with the quarto render command, more details [here](https://quarto.org/docs/output-formats/all-formats.html)
-
-## Creating documents | Practice
-
--   [Here](https://quarto.org/docs/get-started/computations/_computations-complete.qmd) is a version of the document with other elements added
--   See if you can make an ordered list with sub items that contain at least one example of bold, italic, superscript and strikethrough text, as well as a 2x2 table with headers
-
-## Now make an .rmd file
-
-:::: {.columns}
-
-::: {.column width="50%"}
--   Compare it to a `.rmd` document
--   What do you notice that's different?
-:::
-
-::: {.column width="50%"}
-![](MET581_lecture_02-Explore-R-img/250619-160623.avif)
-:::
-::::
-
-## Quarto (.qmd) and Rmarkdown (.rmd): Differences you need to know
-
--   It's pretty much mainly the syntax of the YAML options (`html` VS `html_document`), code chunk option formats (although Quarto is compatible with the rmd format), and the language support
--   Rmarkdown is wedded to R, even if you use other languages like Python, it's still actually being run through R (via the `reticulate` package in the case of Python)
--   Quarto is language and engine agnostic, and thus more more versatile
-
-## Final Quarto links
-
--   The Quarto site, is very good: [https://quarto.org/](https://quarto.org/)
--   Cheatsheet [here](https://rstudio.github.io/cheatsheets/quarto.pdf)
-
-For PDFs:
-
--   You'll need latex installed to create pdfs
-    -   See options [here](https://quarto.org/docs/output-formats/pdf-engine.html) (TinyTex is probably best bet)
-    -   The pdf YAML reference is [here](https://quarto.org/docs/reference/formats/pdf.html)
--   You can output to multiple formats and use the quarto package directly
-    -   See tutorial on authoring [here](https://quarto.org/docs/get-started/authoring/rstudio.html)
-
-## Additional Resources
-
 -   [Posit Cheatsheets](https://posit.co/resources/cheatsheets/)
     -   Cheatsheets for various packages and RStudio itself (by developers of RStudio)
 -   Free online book [R for Data Science](https://r4ds.hadley.nz/):
     -   Chapter 8: Data import
-    -   Chapter 29: Quarto
-    -   Chapter 30: Quarto formats
 -   Advanced reading:
     -   Chapter 21-25 (importing data)
 
--   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
+-   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+:::
 
-![](/10_resources/00_images/website_qrcode.svg){fig-align="center"}
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::

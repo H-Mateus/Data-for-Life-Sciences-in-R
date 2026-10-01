@@ -421,12 +421,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides: working with AI assistants</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../04_wrangling_data_2/MET581-Lecture-04-Wrangling-Data-2-strings-Lecture-Notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture notes</span></a>
   </div>
@@ -487,6 +481,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../08_exploratory_data_analysis/met581_08_exploratory_data_analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_llm_use/met581_llm_demo_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Slides: working with AI assistants</span></a>
   </div>
 </li>
       </ul>
@@ -564,8 +564,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link active" data-scroll-target="#tidy-data"><span class="header-section-number">1</span> Tidy Data</a></li>
-  <li><a href="#dplyr" id="toc-dplyr" class="nav-link" data-scroll-target="#dplyr"><span class="header-section-number">2</span> dplyr</a></li>
+  <li><a href="#quarto" id="toc-quarto" class="nav-link active" data-scroll-target="#quarto"><span class="header-section-number">1</span> Quarto</a></li>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">2</span> Tidy Data</a></li>
+  <li><a href="#dplyr" id="toc-dplyr" class="nav-link" data-scroll-target="#dplyr"><span class="header-section-number">3</span> dplyr</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/edit/main/03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Homework.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/H-Mateus/Data-for-Life-Sciences-in-R/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -605,40 +606,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This document contains all questions for the session ‘Data Wrangling in R I’. Please create a Quarto document containing all text, code and output used to answer the questions.</p>
-<section id="tidy-data" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">1</span> Tidy Data</h2>
+<section id="quarto" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="quarto"><span class="header-section-number">1</span> Quarto</h2>
 <ol type="1">
+<li><p>Hand this homework in as a Quarto document, rendered to html. Before the dplyr questions, write a paragraph explaining the tidyverse concept. Your paragraph should include:</p>
+<ul>
+<li>Example code</li>
+<li>Inline code</li>
+<li>A blockquote</li>
+<li>A list</li>
+<li>Bold or italic text</li>
+</ul></li>
+</ol>
+</section>
+<section id="tidy-data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">2</span> Tidy Data</h2>
+<ol start="2" type="1">
 <li>What 3 main rules do we need to follow for data to be in tidy format?</li>
 <li>Load <code>readr</code> and use it to read in the dataset at “http://stat405.had.co.nz/data/pew.txt”. You should have a tibble with 18 rows and 11 columns showing data on the relationship between religion and income in the US. Is the data in tidy format? Explain why.</li>
 <li>Look at <a href="https://www.jstatsoft.org/article/view/v059i10/">the paper by Hadley Wickham</a> describing tidy data. Section 3 outlines how to turn messy datasets into tidy ones. Briefly state the 5 most common problems that make a dataset messy and the solutions Hadley proposes.</li>
 </ol>
 </section>
-<section id="dplyr" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="dplyr"><span class="header-section-number">2</span> dplyr</h2>
+<section id="dplyr" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="dplyr"><span class="header-section-number">3</span> dplyr</h2>
 <p>These exercises require use of the dplyr verbs we have learned so far. Some questions will require small variations on these that you need to look up; you may find it especially useful to check the documentation on <a href="https://dplyr.tidyverse.org/reference/scoped.html"><strong>scoped variants of the standard verbs</strong></a>, or the recent equivalents in <a href="https://dplyr.tidyverse.org/reference/pick.html"><strong>pick</strong></a> and <a href="https://dplyr.tidyverse.org/reference/across.html"><strong>across</strong></a> (we will review both options in the next session). All tasks that require use of more than one verb should be done using the pipe. Show the output from each question in a new cell, where a single paragraph of pipes is used to answer each question.</p>
-<p>If you’re struggling with a question that requires a lot of steps, try to sketch out the bones of the code before filling in the details. For instance, if you’re asked to shown the mean of GDP in 1990, you might first write out the basic order of things, like so:</p>
+<p>If you’re struggling with a question that requires a lot of steps, try to sketch out the bones of the code before filling in the details. For instance, if you’re asked to show the European countries in 1990, sorted by life expectancy, you might first write out the basic order of things, like so:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>read in the dataset at ‘http://stat405.had.co.nz/data/weather.txt’ using <code>readr</code></strong></p>
-<ol start="4" type="1">
+<ol start="5" type="1">
 <li><p>convert all column names to title case, except ‘id’, which should be all capitals</p></li>
 <li><p>choose columns ID, Year, Month and d1 to d10. Use <code>num_range</code> to select the columns d1:d10</p></li>
 </ol>
 <p><strong>read in the dataset at ‘https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/msleep_ggplot2.csv’ using <code>read_csv()</code>. This data contains weights and sleep times for mammals. You should have 11 columns and 83 rows</strong></p>
-<ol start="6" type="1">
+<ol start="7" type="1">
 <li><p>select the name and genus columns, and all columns ending with ‘wt’. Remove all rows with missing values,then print the first 20 rows from the final dataframe.</p></li>
 <li><p>show the columns name, order, sleep_total and awake for all animals in the order ‘Artiodactyla’, sorted by descending sleep time.</p></li>
-<li><p>after removing those missing conservation status, show the mean for all columns beginning with ‘sleep’, grouped by order. Include a count of the number of animals in each grouping.</p></li>
 <li><p>doubles should never be compared using <code>==</code>. Instead, use <code>dplyr::near()</code> to keep rows with ‘sleep_total’ equal to 9.4 and select columns containing the string ‘or’ anywhere in their names</p></li>
-<li><p>use <code>dplyr::coalesce</code> to replace all missing values in the column ‘conservation’ with the string ‘unknown’. Then use dplyr’s <code>between</code> function to filter for rows with sleep_rem between 1 and 2.5 and show the total number of animals and number of distinct genera, using <code>summarise()</code>, <code>n()</code> and <code>n_distinct()</code>, after grouping by conservation status. Name the new summary columns ‘animals’ and ‘genera’.</p></li>
 </ol>
 <p><strong>Load the starwars dataset</strong></p>
-<ol start="11" type="1">
-<li><p>filter hair_color to keep those rows <em>containing</em> brown (including combinations like ‘brown, grey’) <strong>or</strong> eye_color that is brown <em>only</em>, then select the column range from ‘name’ to ‘eye_color’, and the columns ‘gender’, ‘homeworld’ and ‘species.’ Next, create a new boolean column called ‘male_brunette’, which is TRUE only for males with exclusively brown hair. Sort by descending height and re-order the columns, using <code>select()</code> and <code>everything()</code>, to put ‘male_brunette’ directly after the ‘name’ column. Finally, replace underscores in the column names with spaces, change all instances of ‘color’ to ‘colour’, and make all column names title case using <code>str_to_title()</code>. Print the top 5 rows only.</p></li>
-<li><p>how many rows are missing information for each column? Break it down by species by using <code>group_by()</code> and <code>summarise_all()</code></p></li>
+<ol start="10" type="1">
+<li>filter hair_color to keep those rows <em>containing</em> brown (including combinations like ‘brown, grey’) <strong>or</strong> eye_color that is brown <em>only</em>, then select the column range from ‘name’ to ‘eye_color’, and the columns ‘gender’, ‘homeworld’ and ‘species.’ Next, create a new boolean column called ‘male_brunette’, which is TRUE only for males with exclusively brown hair. Sort by descending height and re-order the columns, using <code>select()</code> and <code>everything()</code>, to put ‘male_brunette’ directly after the ‘name’ column. Finally, replace underscores in the column names with spaces, change all instances of ‘color’ to ‘colour’, and make all column names title case using <code>str_to_title()</code>. Print the top 5 rows only.</li>
 </ol>
 
 

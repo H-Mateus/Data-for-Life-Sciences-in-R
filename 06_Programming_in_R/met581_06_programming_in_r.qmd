@@ -234,7 +234,7 @@ if (x > 0) {
 ```
 
 ## Conditional Execution | vectorised {.smaller}
-- `ifelse()` lets us use vectorised if-else statements, but `dplyr::if_else()` is stricter and keeps types — remember Exhibit F from last session, where `ifelse()` turned dates into numbers
+- `ifelse()` lets us use vectorised if-else statements, but `dplyr::if_else()` is stricter and keeps types — `ifelse()` will quietly turn dates into plain numbers
 - if you have a lot of `if` statements, `switch()` is next
 - `dplyr::case_when()` handles multiple vectorised `if_else()` statements
 
@@ -499,7 +499,7 @@ for (i in seq_along(df)) {
 ```
 
 `map_dbl()` says only the *what*, and guarantees you get numbers back (it errors
-otherwise — remember Exhibit E from last session)
+otherwise)
 
 ```{r}
 means <- map_dbl(df, mean)
@@ -873,8 +873,6 @@ Next session: exploratory data analysis, where we find what is still wrong.
 
 ## Workshop time! {.center}
 
--   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/):
-
 ```{r}
 #| eval: false
 #| include: false
@@ -882,5 +880,13 @@ qr <- qrcode::qr_code("https://h-mateus.github.io/Data-for-Life-Sciences-in-R/")
 qrcode::generate_svg(qr, here::here("10_resources/00_images/website_qrcode.svg"))
 ```
 
-![](/./10_resources/00_images/website_qrcode.svg){fig-align="center"}
+:::: {.columns}
+::: {.column width="60%"}
+-   These slides and the workshop can be found on the website [here](https://h-mateus.github.io/Data-for-Life-Sciences-in-R/)
+:::
+
+::: {.column width="40%"}
+![](/10_resources/00_images/website_qrcode.svg){width="100%" fig-alt="QR code linking to the course website"}
+:::
+::::
 

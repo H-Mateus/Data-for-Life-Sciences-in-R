@@ -40,6 +40,8 @@ There are 6 main verbs that you need to know to use dplyr effectively:
 5. group_by() → return grouping of variables
 6. summarise() → reduces multiple values down to a single value 
 
+This session covers the first four, and the pipe. Grouping and summarising are in Data Wrangling in R II.
+
 The important thing to remember is that all verbs follow the same format:
 - verb(dataset, options)
 
@@ -331,91 +333,6 @@ flights |>
   select(carrier, flight)
 ```
 
-## dplyr::group_by() and dplyr::summarise()
-
-`group_by()` doesn't do much on its own, but by combining group_by() and summarise() we get so much more power! We can start to show summary statistics broken down by different groups, like the mean life expectancy per continent, all after applying whatever filters we want.
-
-```{r}
-# e.g.
-gapminder |>
-  select(-pop) |>
-  filter(continent == 'Oceania', year > 1980L) |>
-  arrange(desc(gdpPercap)) |>
-  group_by(country) |>
-  summarise(
-    n_years = n(),
-    Mean_Life_Exp = mean(lifeExp),
-    SD_Life_Exp = sd(lifeExp),
-    Max_GDP = max(gdpPercap)
-  )
-```
-
-### practice
-**Using gapminder**
-
-- Get the median and standard deviation for gdpPercap
-```{r, echo=TRUE, results='hide'}
-summarise(gapminder, mean_GDP = mean(gdpPercap), sd_GDP = sd(gdpPercap))
-```
-
-**Using airquality** - load with data("airquality")
-
-- Convert to tibble, remove Month and Day, keep Temperatures above 60, then summarise Solar.R with number, mean, median and standard deviation
-
-```{r}
-# the airquality dataset is built-in to R, and can be loaded with data('airquality')
-data("airquality")
-airquality |>
-  as_tibble() |>
-  select(-Month, -Day) |>
-  filter(Temp > 60L) |>
-  summarise(
-    n_obvs = n(),
-    Mean_solar = mean(Solar.R, na.rm = TRUE),
-    Median_solar = median(Solar.R, na.rm = TRUE),
-    SD_solar = sd(Solar.R, na.rm = TRUE)
-  )
-```
-
-### extra practice
-**Using airquality**
-
-- Summarise the mean values for integer columns only using `summarise_if()` and `is.integer`
-
-```{r}
-airquality |>
-  as_tibble() |>
-  summarise_if(is.integer, mean, na.rm = TRUE)
-```
-
-**Using starwars**
-
-- What is the mean height and weight of all Droids? Include a count of how many droids there are
-
-```{r}
-starwars |>
-  filter(species == 'Droid') |>
-  summarise(
-    N_droid = n(),
-    Mean_height = mean(height, na.rm = TRUE),
-    Mean_weight = mean(mass, na.rm = TRUE)
-  )
-```
-
-- We want to compare Humans from different planets. Show the number of people and their mean height and mass, broken down by homeworld then gender. Make sure you show *all* rows when printing by piping the last line into `print(n = x)`, where `x` is a suitably high number of rows
-
-```{r}
-starwars |>
-  filter(species == 'Human') |>
-  group_by(homeworld, gender) |>
-  summarise(
-    N_people = n(),
-    Mean_height = mean(height, na.rm = TRUE),
-    Mean_weight = mean(mass, na.rm = TRUE)
-  ) |>
-  print(n = 21)
-```
-
 # Closing notes
 ## Other *really* useful verbs and tools
 
@@ -451,8 +368,8 @@ starwars |>
 *e.g. `dplyr::select()`*
 - We can now used the conflicted package to be more explicit about this!
 - See the introductory blog post from Hadley [here](https://www.tidyverse.org/blog/2018/06/conflicted/)
-- Filtering using `grepl()` is better done using stringr's `str_detect()` (introduced tomorrow)
-- `stringr` (tomorrow) combined with `dplyr` (more tomorrow) and `maggritr` will cover a lot of your everyday needs
+- Filtering text with `grepl()` can also be done with stringr's `str_detect()` — see the [strings reference page](../10_resources/02_reference/strings_and_regex.qmd)
+- `dplyr` and the pipe will cover a lot of your everyday needs
 
 ## Should we always use dplyr?
 
@@ -475,7 +392,6 @@ Base R should also not be ignored. Some simple operations are shorter/cleaner in
 
 ## Homework
 - Quarto file
-- [Regex practice before tomorrow](https://regexone.com/)
 
 **Suggested Reading**
 
