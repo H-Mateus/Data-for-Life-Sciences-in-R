@@ -464,7 +464,7 @@ country_names <- c(
 filter(
   gapminder,
   year == 1997L,
-  continent != "asia",
+  continent != "Asia",
   pop >= 1000000L,
   country %in% country_names
 ) |>

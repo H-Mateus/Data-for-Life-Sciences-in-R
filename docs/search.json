@@ -3803,7 +3803,7 @@
     "href": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#filter-1",
     "title": "Data Wrangling in R I: Quarto and dplyr",
     "section": "Filter",
-    "text": "Filter\nreturn rows with matching conditions\n\n##| output: false\n# combining multiple filters in a single statement\ncountry_names &lt;- c(\n  'Afghanistan', 'Angola', 'Belgium', 'China', 'Mauritania', 'Mauritius',\n  'Mongolia', 'Korea, Rep.', 'Sri Lanka', 'Saudi Arabia', 'Vietnam', 'Yemen, Rep.'\n)\nfilter(\n  gapminder,\n  year == 1997L,\n  continent != \"asia\",\n  pop &gt;= 1000000L,\n  country %in% country_names\n) |&gt;\n  head()",
+    "text": "Filter\nreturn rows with matching conditions\n\n##| output: false\n# combining multiple filters in a single statement\ncountry_names &lt;- c(\n  'Afghanistan', 'Angola', 'Belgium', 'China', 'Mauritania', 'Mauritius',\n  'Mongolia', 'Korea, Rep.', 'Sri Lanka', 'Saudi Arabia', 'Vietnam', 'Yemen, Rep.'\n)\nfilter(\n  gapminder,\n  year == 1997L,\n  continent != \"Asia\",\n  pop &gt;= 1000000L,\n  country %in% country_names\n) |&gt;\n  head()",
     "crumbs": [
       "Home",
       "Session 4: Data Wrangling in R I",
@@ -3815,7 +3815,7 @@
     "href": "03_wrangling_data_1/MET581-Lecture-03-Wrangling-Data-1-dplyr-Slides.html#filter-1-output",
     "title": "Data Wrangling in R I: Quarto and dplyr",
     "section": "Filter",
-    "text": "Filter\n\n\n\n\n\ncountry\ncontinent\nyear\nlifeExp\npop\ngdpPercap\n\n\n\n\nAfghanistan\nAsia\n1997\n41.763\n22227415\n635.341351\n\n\nAngola\nAfrica\n1997\n40.963\n9875024\n2277.140884\n\n\nBelgium\nEurope\n1997\n77.530\n10199787\n27561.196630\n\n\nChina\nAsia\n1997\n70.426\n1230075000\n2289.234136\n\n\nKorea, Rep.\nAsia\n1997\n74.647\n46173816\n15993.527960\n\n\nMauritania\nAfrica\n1997\n60.430\n2444741\n1483.136136",
+    "text": "Filter\n\n\n\n\n\ncountry\ncontinent\nyear\nlifeExp\npop\ngdpPercap\n\n\n\n\nAngola\nAfrica\n1997\n40.963\n9875024\n2277.140884\n\n\nBelgium\nEurope\n1997\n77.530\n10199787\n27561.196630\n\n\nMauritania\nAfrica\n1997\n60.430\n2444741\n1483.136136\n\n\nMauritius\nAfrica\n1997\n70.736\n1149818\n7425.705295",
     "crumbs": [
       "Home",
       "Session 4: Data Wrangling in R I",
